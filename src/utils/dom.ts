@@ -14,9 +14,18 @@ export function getElementTheme(el: HTMLElement): CalciteTheme {
   return getElementProp(el, "theme", "light") as CalciteTheme;
 }
 
-export function getElementProp(el: HTMLElement, prop: string, value: any): any {
-  const closestWithProp = el.closest(`[${prop}]`);
-  return closestWithProp ? closestWithProp.getAttribute(prop) : value;
+export function propToAttr(name: string): string {
+  return name.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+}
+
+export function getElementProp<T>(el: HTMLElement, propName: string, fallbackValue: T): T {
+  const closestWithProp = el.closest(`[${propToAttr(propName)}]`);
+  return closestWithProp ? closestWithProp[propName] : fallbackValue;
+}
+
+export function getElementAttr(el: HTMLElement, attrName: string, fallbackValue: string): string {
+  const closestWithProp = el.closest(`[${attrName}]`);
+  return closestWithProp ? closestWithProp.getAttribute(attrName) : fallbackValue;
 }
 
 export interface CalciteFocusableElement extends HTMLElement {

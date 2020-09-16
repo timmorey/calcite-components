@@ -3,6 +3,7 @@ import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
+import { propToAttr } from "../utils/dom";
 
 expect.extend(toHaveNoViolations);
 
@@ -89,10 +90,6 @@ export async function reflects(
       expect(await page.find(componentAttributeSelector)).toBeTruthy();
     }
   }
-}
-
-function propToAttr(name: string): string {
-  return name.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 }
 
 export async function defaults(
