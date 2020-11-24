@@ -1,4 +1,5 @@
-import { getElementProp, getSlotted, setRequestedIcon } from "./dom";
+import { findTabbableElements, getElementProp, getSlotted, setRequestedIcon } from "./dom";
+import dedent from "dedent";
 
 describe("dom", () => {
   describe("getElementProp()", () => {
@@ -258,5 +259,78 @@ describe("dom", () => {
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
         "exampleReturnedValue"
       ));
+  });
+
+  describe("getTabbableElements()", () => {
+    beforeAll(() => {
+      const testGlobal: any = global;
+
+      // stubbing element instances, used by @a11y/focus-trap, that are missing from the spec test environment
+      testGlobal.HTMLAreaElement = window.HTMLElement;
+      testGlobal.HTMLTextAreaElement = window.HTMLElement;
+      testGlobal.HTMLSelectElement = window.HTMLElement;
+      testGlobal.HTMLIFrameElement = window.HTMLElement;
+      testGlobal.HTMLSlotElement = window.HTMLElement;
+    });
+
+    it("returns all tabbable elements from an element (light DOM)", async () => {
+      document.body.innerHTML = `
+        <div id="parent">
+          ${testContent}
+        </div>
+      `;
+
+      const focusableElementIds = findTabbableElements(document.getElementById("parent")).map(({ id }) => id);
+
+      expect(focusableElementIds).toEqual(["focusable-input", "focusable-div", "focusable-button"]);
+    });
+
+    const testContent = dedent`
+      <div id="non-focusable-div"></div>
+      <input id="focusable-input" />
+      <input hidden id="non-focusable-input"/>
+      <div id="focusable-div" tabindex="0">
+        <button id="focusable-button"></button>
+        <button disabled id="non-focusable-button"></button>
+      </div>
+    `;
+
+    it("returns all tabbable elements from an element (shadow DOM)", async () => {
+      class TestComponent extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+        }
+
+        connectedCallback(): void {
+          this.shadowRoot.innerHTML = dedent`
+            ${testContent}
+            <!-- can't test slotted content because of spec test environment -->
+            <!--<slot></slot>-->
+          `;
+        }
+      }
+
+      customElements.define("test-component", TestComponent);
+
+      document.body.innerHTML = `
+        <test-component id="parent">
+          <!-- can't test slotted content because of spec test environment -->
+<!--          <div id="focusable-child-div" tabindex="0"></div>-->
+<!--          <div id="non-focusable-child-div"></div>-->
+
+          <div id="focusable-child-div" tabindex="0"></div>
+          <div id="non-focusable-child-div"></div>
+        </test-component>
+      `;
+
+      const parent = document.getElementById("parent");
+
+      let focusableElementIds = findTabbableElements(parent).map(({ id }) => id);
+      expect(focusableElementIds).toEqual(["focusable-child-div"]);
+
+      focusableElementIds = findTabbableElements(parent.shadowRoot).map(({ id }) => id);
+      expect(focusableElementIds).toEqual(["focusable-input", "focusable-div", "focusable-button"]);
+    });
   });
 });

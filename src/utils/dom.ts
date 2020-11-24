@@ -1,4 +1,6 @@
 import { CalciteTheme } from "../components/interfaces";
+import { queryShadowRoot } from "@a11y/focus-trap/shadow";
+import { isDisabled, isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
@@ -130,4 +132,17 @@ export function setRequestedIcon(
   } else if (iconValue === "") {
     return iconObject[matchedValue];
   }
+}
+
+/**
+ * Helper to find tabbable elements within a DOM tree.
+ *
+ * @param {HTMLElement} element
+ */
+export function findTabbableElements(element: Parameters<typeof queryShadowRoot>[0]): HTMLElement[] {
+  return queryShadowRoot(element, skipTabbableCheck, isFocusable);
+}
+
+function skipTabbableCheck(element: HTMLElement): boolean {
+  return isHidden(element) || isDisabled(element);
 }

@@ -97,7 +97,11 @@ export const create: () => Config = () => ({
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
     },
-    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"]
+    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
+    transform: {
+      "^.+\\.(ts|tsx|js|jsx|css)$": "<rootDir>/node_modules/@stencil/core/testing/jest-preprocessor.js"
+    },
+    transformIgnorePatterns: ["node_modules/?!(@a11y/focus-trap/)"]
   },
   hydratedFlag: {
     selector: "attribute",
