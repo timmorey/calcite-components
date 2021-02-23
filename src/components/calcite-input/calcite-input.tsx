@@ -44,6 +44,13 @@ export class CalciteInput {
   /** should the input autofocus */
   @Prop() autofocus = false;
 
+  /**
+   * **read-only** The child element.
+   *
+   * @readonly
+   */
+  @Prop() element: HTMLInputElement | HTMLTextAreaElement = null;
+
   /** optionally display a clear button that displays when field has a value
    * shows by default for search, time, date
    * will not display for type="textarea" */
@@ -146,7 +153,7 @@ export class CalciteInput {
   @Watch("value")
   valueWatcher(): void {
     this.calciteInputInput.emit({
-      element: this.childEl,
+      element: this.element,
       value: this.value
     });
   }
@@ -292,7 +299,7 @@ export class CalciteInput {
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
         placeholder={this.placeholder || ""}
-        ref={(el) => (this.childEl = el)}
+        ref={(el) => (this.element = el)}
         required={this.required ? true : null}
         step={this.stepString}
         tabIndex={this.disabled ? -1 : null}
@@ -370,7 +377,7 @@ export class CalciteInput {
   /** focus the rendered child element */
   @Method()
   async setFocus(): Promise<void> {
-    this.childEl?.focus();
+    this.element?.focus();
   }
   //--------------------------------------------------------------------------
   //
@@ -385,9 +392,6 @@ export class CalciteInput {
 
   /** keep track of the rendered child type */
   private childElType?: "input" | "textarea" = "input";
-
-  /** keep track of the rendered child type */
-  private childEl?: HTMLInputElement | HTMLTextAreaElement;
 
   /** determine if there is a slotted action for styling purposes */
   private slottedActionEl?: HTMLSlotElement;
@@ -417,7 +421,7 @@ export class CalciteInput {
 
   private inputBlurHandler = () => {
     this.calciteInputBlur.emit({
-      element: this.childEl,
+      element: this.element,
       value: this.value
     });
   };
@@ -425,7 +429,7 @@ export class CalciteInput {
   private inputFocusHandler = (e) => {
     if (e.target !== this.slottedActionEl) this.setFocus();
     this.calciteInputFocus.emit({
-      element: this.childEl,
+      element: this.element,
       value: this.value
     });
   };
@@ -451,15 +455,15 @@ export class CalciteInput {
       switch (e.target.dataset.adjustment) {
         case "up":
           if ((!inputMax && inputMax !== 0) || inputVal < inputMax)
-            this.childEl.value = (inputVal += inputStep).toString();
+            this.element.value = (inputVal += inputStep).toString();
           break;
         case "down":
           if ((!inputMin && inputMin !== 0) || inputVal > inputMin)
-            this.childEl.value = (inputVal -= inputStep).toString();
+            this.element.value = (inputVal -= inputStep).toString();
           break;
       }
 
-      this.value = this.childEl.value.toString();
+      this.value = this.element.value.toString();
     }
   };
 }
