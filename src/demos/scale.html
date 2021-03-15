@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Type Sizes</title>
+    <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+    <link rel="stylesheet" href="../build/calcite.css" />
+    <link rel="stylesheet" href="./_assets/tailwind.css" />
+    <script type="module" src="../build/calcite.esm.js"></script>
+    <script nomodule src="../build/calcite.js"></script>
+  </head>
+  <style>
+    .boxes-on .bg {
+      background: rgba(0, 0, 255, 0.125);
+    }
+    .grid-on .grid-overlay {
+      opacity: .35;
+    }
+    .grid-overlay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 100%;
+      min-height: 100vh;
+      z-index: 200;
+      background-image: url(./_assets/grid.svg);
+      background-repeat: repeat;
+      background-position: top left;
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+  <body class="m-4 grid-on boxes-on">
+    <div class="grid-overlay"></div>
+    <div class="flex">
+      <h1 class="flex-1 font-bold text-4h mb-4">Spacing</h1>
+      <div class="flex-0 mt-1 mr-8">
+        <calcite-switch id="grid" switched></calcite-switch><label for="grid">Grid</label>
+      </div>
+      <div class="flex-0 mt-1">
+        <calcite-switch id="boxes" switched></calcite-switch><label for="boxes">Boxes</label>
+      </div>
+    </div>
+
+    <h2 class="font-bold text-3h mb-2">Small</h2>
+    <div class="flex items-start">
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-button icon-start="apps" width="full" scale="s">Button</calcite-button>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-input value="input" scale="s"></calcite-input>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-select>
+          <calcite-option selected scale="s">select</calcite-option>
+        </calcite-select>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-tab-nav scale="s">
+          <calcite-tab-title active>TAB 1</calcite-tab-title>
+          <calcite-tab-title active>TAB 2</calcite-tab-title>
+          <calcite-tab-title active>TAB 3</calcite-tab-title>
+        </calcite-tab-nav>
+      </div>
+    </div>
+    <div class="flex items-start mt-4">
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-input-date-picker scale="s" id="basic-date-picker">-picker</calcite-input-date-picker>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-inline-editable scale="s">
+          <calcite-input prefix-text="pre" suffix-text="suf" type="number" placeholder="Inline edit"/>
+        </calcite-inline-editable>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-accordion scale="s">
+          <calcite-accordion-item icon="banana" item-title="Accordion"><img
+              src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+        </calcite-accordion>
+      </div>
+      <div class="w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-radio-group scale="s">
+          <calcite-radio-group-item value="react" checked>Calcite</calcite-radio-group-item>
+          <calcite-radio-group-item value="ember">Radio</calcite-radio-group-item>
+          <calcite-radio-group-item value="angular">Group</calcite-radio-group-item>
+        </calcite-radio-group>
+      </div>
+    </div>
+    <div class="flex items-start mt-4">
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-pagination scale="s" total="46" num="10"></calcite-pagination>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-chip  scale="s"value="calcite chip" active>
+          <img slot="chip-image" src="https://placekitten.com/50/50" />
+          Siamese Cat
+        </calcite-chip>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-avatar scale="s" user-id="e85f7f72aa51b34f81660a0f4c6a4d80" username="tn"></calcite-avatar>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-rating scale="s" average=3.65></calcite-rating>
+      </div>
+    </div>
+
+    <h2 class="font-bold text-3h mb-2 mt-8">Medium</h2>
+    <div class="flex items-start">
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-button icon-start="apps" width="full">Button</calcite-button>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-input value="input"></calcite-input>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-select>
+          <calcite-option selected>select</calcite-option>
+        </calcite-select>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-tab-nav>
+          <calcite-tab-title active>TAB 1</calcite-tab-title>
+          <calcite-tab-title active>TAB 2</calcite-tab-title>
+          <calcite-tab-title active>TAB 3</calcite-tab-title>
+        </calcite-tab-nav>
+      </div>
+    </div>
+    <div class="flex items-start mt-4">
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-input-date-picker id="basic-date-picker">-picker</calcite-input-date-picker>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-inline-editable>
+          <calcite-input prefix-text="pre" suffix-text="suf" type="number" placeholder="Inline edit"/>
+        </calcite-inline-editable>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-accordion>
+          <calcite-accordion-item icon="banana" item-title="Accordion"><img
+              src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+        </calcite-accordion>
+      </div>
+      <div class="w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-radio-group>
+          <calcite-radio-group-item value="react" checked>Calcite</calcite-radio-group-item>
+          <calcite-radio-group-item value="ember">Radio</calcite-radio-group-item>
+          <calcite-radio-group-item value="angular">Group</calcite-radio-group-item>
+        </calcite-radio-group>
+      </div>
+    </div>
+    <div class="flex items-start mt-4">
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-pagination total="46" num="10"></calcite-pagination>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-chip value="calcite chip" active>
+          <img slot="chip-image" src="https://placekitten.com/50/50" />
+          Siamese Cat
+        </calcite-chip>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-avatar user-id="e85f7f72aa51b34f81660a0f4c6a4d80" username="tn"></calcite-avatar>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-rating average=3.65></calcite-rating>
+      </div>
+    </div>
+
+    <h2 class="font-bold text-3h mb-2 mt-8">Large</h2>
+    <div class="flex items-start">
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-button icon-start="apps" width="full" scale="l">Button</calcite-button>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-input value="input" scale="l"></calcite-input>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-select>
+          <calcite-option selected scale="l">select</calcite-option>
+        </calcite-select>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-tab-nav scale="l">
+          <calcite-tab-title active>TAB 1</calcite-tab-title>
+          <calcite-tab-title active>TAB 2</calcite-tab-title>
+          <calcite-tab-title active>TAB 3</calcite-tab-title>
+        </calcite-tab-nav>
+      </div>
+    </div>
+    <div class="flex items-start mt-4">
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-input-date-picker scale="l" id="basic-date-picker">-picker</calcite-input-date-picker>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-inline-editable scale="l">
+          <calcite-input prefix-text="pre" suffix-text="suf" type="number" placeholder="Inline edit"/>
+        </calcite-inline-editable>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-accordion scale="l">
+          <calcite-accordion-item icon="banana" item-title="Accordion"><img
+              src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+        </calcite-accordion>
+      </div>
+      <div class="w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-radio-group scale="l">
+          <calcite-radio-group-item value="react" checked>Calcite</calcite-radio-group-item>
+          <calcite-radio-group-item value="ember">Radio</calcite-radio-group-item>
+          <calcite-radio-group-item value="angular">Group</calcite-radio-group-item>
+        </calcite-radio-group>
+      </div>
+    </div>
+    <div class="flex items-start mt-4">
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-pagination scale="l" total="46" num="10"></calcite-pagination>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-chip  scale="l"value="calcite chip" active>
+          <img slot="chip-image" src="https://placekitten.com/50/50" />
+          Siamese Cat
+        </calcite-chip>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-avatar scale="l" user-id="e85f7f72aa51b34f81660a0f4c6a4d80" username="tn"></calcite-avatar>
+      </div>
+      <div class="bg w-64 mr-4 flex-grow-0 flex-shrink-0">
+        <calcite-rating scale="l" average=3.65></calcite-rating>
+      </div>
+    </div>
+    <script>
+      document.querySelector("#grid").addEventListener("calciteSwitchChange", function (e) {
+        document.body.classList[e.detail.switched ? "add" : "remove"]("grid-on")
+      })
+      document.querySelector("#boxes").addEventListener("calciteSwitchChange", function (e) {
+        document.body.classList[e.detail.switched ? "add" : "remove"]("boxes-on")
+      })
+    </script>
+  </body>
+</html>

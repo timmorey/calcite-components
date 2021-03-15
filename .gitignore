@@ -9,6 +9,9 @@ support/output-targets/custom-elements/bundles/
 src/**/components.d.ts
 src/**/*.js
 __docs-temp__/*
+!src/demos/_assets/postcss.config.js
+!src/demos/_assets/tailwind.config.js
+src/demos/_assets/tailwind.css
 
 # User Settings, Caches & Temp Files
 *~
