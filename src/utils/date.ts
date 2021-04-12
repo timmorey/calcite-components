@@ -1,4 +1,4 @@
-import { DateLocaleData } from "../components/calcite-date-picker/utils";
+import { DateLocaleData, NUMERALS } from "../components/calcite-date-picker/utils";
 
 /**
  * Check if date is within a min and max
@@ -105,7 +105,7 @@ export function nextMonth(date: Date): Date {
 }
 
 /**
- * Translate a number into a given locals numeral system
+ * Translate a number into a given locales numeral system
  */
 export function localizeNumber(num: number, localeData: DateLocaleData): string {
   return String(num)
@@ -118,11 +118,10 @@ export function localizeNumber(num: number, localeData: DateLocaleData): string 
  * Calculate actual number from localized string
  */
 export function parseNumber(str: string, localeData: DateLocaleData): number {
-  const numerals = "0123456789";
   return parseInt(
     str
       .split("")
-      .map((i) => numerals[localeData.numerals.indexOf(i)])
+      .map((i) => NUMERALS[localeData.numerals.indexOf(i)])
       .filter((num) => num)
       .join("")
   );
@@ -133,9 +132,16 @@ export function parseNumber(str: string, localeData: DateLocaleData): number {
  * month starts at 0 (can pass to date constructor)
  */
 export function parseDateString(str: string, localeData: DateLocaleData): { day: number; month: number; year: number } {
-  const { separator, unitOrder } = localeData;
+  const { separator, unitOrder, numerals } = localeData;
   const order = getOrder(unitOrder);
-  const values = replaceArabicNumerals(str).split(separator);
+
+  const values = str.split(separator).map((number) =>
+    translateNumerals({
+      number: number.trim(),
+      from: numerals,
+      to: NUMERALS
+    })
+  );
   return {
     day: parseInt(values[order.indexOf("d")]),
     month: parseInt(values[order.indexOf("m")]) - 1,
@@ -143,13 +149,51 @@ export function parseDateString(str: string, localeData: DateLocaleData): { day:
   };
 }
 
+interface TranslateNumberalsOptions {
+  number: string;
+  to?: string;
+  from?: string;
+}
+
 /**
- * Convert eastern arbic numerals
+ * Given a number and two numeral sets, translate the number from one to the other
  */
-export function replaceArabicNumerals(str = ""): string {
-  return str
-    .replace(/[\u0660-\u0669]/g, (c) => (c.charCodeAt(0) - 0x0660) as any)
-    .replace(/[\u06f0-\u06f9]/g, (c) => (c.charCodeAt(0) - 0x06f0) as any);
+export function translateNumerals({ number, from, to }: TranslateNumberalsOptions): string {
+  const destinationNumerals = (to || NUMERALS).split("");
+  const sourceNumerals = (from || NUMERALS).split("");
+  const dictionary: Record<string, string> = sourceNumerals.reduce((acc, numeral, i) => {
+    acc[numeral] = destinationNumerals[i];
+    return acc;
+  }, {});
+  return [...`${number}`].reduce((acc, numeral) => {
+    return `${acc}${dictionary[numeral]}`;
+  }, "");
+}
+
+/**
+ * Given a date and a locale, return a correctly formatted string
+ */
+export function formatDate(date: Date, localeData: DateLocaleData): string {
+  if (!date || !localeData) {
+    return "";
+  }
+  const { unitOrder, numerals } = localeData;
+
+  const lookup = {
+    DD: date.getDate(),
+    MM: date.getMonth() + 1,
+    YYYY: date.getFullYear()
+  };
+  let formattedDate = unitOrder;
+
+  Object.keys(lookup).forEach((key) => {
+    const number = translateNumerals({
+      number: lookup[key],
+      to: numerals
+    });
+    formattedDate = formattedDate.replace(key, number);
+  });
+  return formattedDate;
 }
 
 type unitOrderSignifier = "m" | "d" | "y";

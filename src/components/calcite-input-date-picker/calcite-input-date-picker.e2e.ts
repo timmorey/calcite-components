@@ -53,4 +53,13 @@ describe("calcite-input-date-picker", () => {
 
     expect(await calendar.isVisible()).toBe(true);
   });
+
+  it("formats arabic dates correctly", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-input-date-picker value='2000-11-27' locale='ar' dir='rtl'></calcite-input-date-picker>"
+    });
+    await page.waitForChanges();
+    const input = await page.find(`calcite-input-date-picker >>> input`);
+    expect(await input.getProperty("value")).toBe("٢٧/١١/٢٠٠٠");
+  });
 });

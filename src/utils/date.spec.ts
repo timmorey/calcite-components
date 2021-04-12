@@ -1,4 +1,4 @@
-import { DateLocaleData } from "../components/calcite-date-picker/utils";
+import { DateLocaleData, NUMERALS } from "../components/calcite-date-picker/utils";
 import {
   inRange,
   dateFromRange,
@@ -9,7 +9,9 @@ import {
   localizeNumber,
   parseNumber,
   parseDateString,
-  getOrder
+  getOrder,
+  formatDate,
+  translateNumerals
 } from "./date";
 
 import arabic from "../components/calcite-date-picker/assets/calcite-date-picker/nls/ar.json";
@@ -162,6 +164,33 @@ describe("parseDateString", () => {
     expect(parsed.day).toEqual(27);
     expect(parsed.month).toEqual(10);
     expect(parsed.year).toEqual(2000);
+  });
+});
+
+describe("formatDate", () => {
+  it("formats arabic date", () => {
+    const date = new Date(2000, 10, 27);
+    const formatted = formatDate(date, arabic);
+    expect(formatted).toEqual("٢٧/١١/٢٠٠٠");
+  });
+  it("formats french date", () => {
+    const date = new Date(2000, 10, 27);
+    const formatted = formatDate(date, french);
+    expect(formatted).toEqual("27/11/2000");
+  });
+  it("formats korean date", () => {
+    const date = new Date(2000, 10, 27);
+    const formatted = formatDate(date, korean);
+    expect(formatted).toEqual("2000. 11. 27.");
+  });
+});
+
+describe("translateNumerals", () => {
+  it("translates arabic numbers", () => {
+    const translated = translateNumerals({ number: "20", to: arabic.numerals });
+    expect(translated).toEqual("٢٠");
+    const reverseTranslated = translateNumerals({ number: "٢٠", from: arabic.numerals });
+    expect(reverseTranslated).toEqual("20");
   });
 });
 

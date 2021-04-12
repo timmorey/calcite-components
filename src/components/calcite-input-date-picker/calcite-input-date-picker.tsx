@@ -15,7 +15,14 @@ import {
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
 import { getElementDir } from "../../utils/dom";
-import { dateFromRange, inRange, dateFromISO, parseDateString, sameDate } from "../../utils/date";
+import {
+  dateFromRange,
+  inRange,
+  dateFromISO,
+  parseDateString,
+  sameDate,
+  formatDate
+} from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
@@ -210,8 +217,8 @@ export class CalciteInputDatePicker {
     const endDate = this.range
       ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
       : null;
-    const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
-    const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
+    const formattedEndDate = formatDate(endDate, this.localeData);
+    const formattedDate = formatDate(date, this.localeData);
     const dir = getElementDir(this.el);
 
     return (

@@ -1,5 +1,7 @@
 import { getAssetPath } from "@stencil/core";
 
+export const NUMERALS = "0123456789";
+
 /**
  * Translation resource data structure
  * @private
