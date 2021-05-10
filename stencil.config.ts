@@ -62,7 +62,8 @@ export const create: () => Config = () => ({
     { components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"] },
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tooltip", "calcite-tooltip-manager"] },
-    { components: ["calcite-tree", "calcite-tree-item"] }
+    { components: ["calcite-tree", "calcite-tree-item"] },
+    { components: ["calcite-video"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
