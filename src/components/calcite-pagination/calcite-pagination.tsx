@@ -4,13 +4,13 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Prop,
   Method,
-  VNode
+  VNode,
+  Fragment
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
@@ -46,9 +46,6 @@ export class CalcitePagination {
 
   /** title of the previous button */
   @Prop() textLabelPrevious: string = TEXT.previousLabel;
-
-  /** specify the theme of accordion, defaults to light */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** The scale of the pagination */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -220,7 +217,7 @@ export class CalcitePagination {
     const prevDisabled = num === 1 ? start <= num : start < num;
     const nextDisabled = num === 1 ? start + num > total : start + num > total;
     return (
-      <Host>
+      <Fragment>
         <button
           aria-label={this.textLabelPrevious}
           class={{
@@ -248,7 +245,7 @@ export class CalcitePagination {
         >
           <calcite-icon dir={dir} flipRtl icon="chevronRight" scale={iconScale} />
         </button>
-      </Host>
+      </Fragment>
     );
   }
 }

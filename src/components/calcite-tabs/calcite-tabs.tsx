@@ -1,5 +1,4 @@
-import { Component, Prop, h, Host, Element, Listen, State, VNode } from "@stencil/core";
-import { Theme } from "../interfaces";
+import { Component, Prop, h, Element, Listen, State, VNode, Fragment } from "@stencil/core";
 import { TabLayout, TabPosition } from "./interfaces";
 
 @Component({
@@ -23,11 +22,6 @@ export class CalciteTabs {
   //--------------------------------------------------------------------------
 
   /**
-   * Select theme (light or dark)
-   */
-  @Prop({ reflect: true }) theme: Theme;
-
-  /**
    * Align tab titles to the edge or fully justify them across the tab nav ("center")
    */
   @Prop({ reflect: true }) layout: TabLayout = "inline";
@@ -45,12 +39,12 @@ export class CalciteTabs {
 
   render(): VNode {
     return (
-      <Host>
+      <Fragment>
         <slot name="tab-nav" />
         <section>
           <slot />
         </section>
-      </Host>
+      </Fragment>
     );
   }
 

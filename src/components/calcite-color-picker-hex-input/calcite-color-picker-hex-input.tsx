@@ -21,7 +21,7 @@ import {
 } from "../calcite-color-picker/utils";
 import Color from "color";
 import { CSS } from "./resources";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { RGB } from "../calcite-color-picker/interfaces";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { TEXT } from "../calcite-color-picker/resources";
@@ -98,11 +98,6 @@ export class CalciteColorPickerHexInput {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The component's theme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
-
-  /**
    * The hex value.
    */
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(DEFAULT_COLOR.hex());
@@ -161,7 +156,7 @@ export class CalciteColorPickerHexInput {
     node.value =
       this.allowEmpty && !this.internalColor
         ? ""
-        : this.formatForInternalInput(rgbToHex((this.internalColor.object() as any) as RGB));
+        : this.formatForInternalInput(rgbToHex(this.internalColor.object() as any as RGB));
   };
 
   private onInputChange = (event: Event): void => {

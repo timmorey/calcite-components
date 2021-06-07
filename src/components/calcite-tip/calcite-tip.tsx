@@ -1,5 +1,4 @@
-import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
-import { Theme } from "../interfaces";
+import { Component, Element, Event, EventEmitter, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
@@ -47,11 +46,6 @@ export class CalciteTip {
    * Alternate text for closing the tip.
    */
   @Prop() intlClose?: string;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
@@ -150,13 +144,13 @@ export class CalciteTip {
 
   render(): VNode {
     return (
-      <Host>
+      <Fragment>
         <article class={CSS.container}>
           {this.renderHeader()}
           {this.renderContent()}
         </article>
         {this.renderDismissButton()}
-      </Host>
+      </Fragment>
     );
   }
 }

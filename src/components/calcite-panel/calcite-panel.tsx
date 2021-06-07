@@ -3,17 +3,17 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
   Method,
   Prop,
   Watch,
   h,
-  VNode
+  VNode,
+  Fragment
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
@@ -101,12 +101,6 @@ export class CalcitePanel {
    * 'Options' text string for the actions menu.
    */
   @Prop() intlOptions?: string;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-
-  @Prop({ reflect: true }) theme: Theme;
 
   /**
    * Heading text.
@@ -432,10 +426,10 @@ export class CalcitePanel {
     );
 
     return (
-      <Host>
+      <Fragment>
         {loading || disabled ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
-      </Host>
+      </Fragment>
     );
   }
 }

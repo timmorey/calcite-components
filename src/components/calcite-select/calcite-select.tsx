@@ -3,15 +3,15 @@ import {
   Element,
   Event,
   EventEmitter,
+  Fragment,
   h,
-  Host,
   Listen,
   Method,
   Prop,
   VNode
 } from "@stencil/core";
 import { Direction, focusElement, getElementDir } from "../../utils/dom";
-import { Scale, Theme, Width } from "../interfaces";
+import { Scale, Width } from "../interfaces";
 import { CSS } from "./resources";
 import { FocusRequest } from "../calcite-label/interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -71,14 +71,6 @@ export class CalciteSelect {
    */
   @Prop({ mutable: true })
   selectedOption: HTMLCalciteOptionElement;
-
-  /**
-   * The component theme.
-   */
-  @Prop({
-    reflect: true
-  })
-  theme: Theme;
 
   /**
    * The component width.
@@ -311,7 +303,7 @@ export class CalciteSelect {
     const dir = getElementDir(this.el);
 
     return (
-      <Host>
+      <Fragment>
         <select
           aria-label={this.label}
           class={{ [CSS.select]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
@@ -322,7 +314,7 @@ export class CalciteSelect {
           <slot />
         </select>
         {this.renderChevron(dir)}
-      </Host>
+      </Fragment>
     );
   }
 }

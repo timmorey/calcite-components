@@ -1,5 +1,4 @@
-import { Component, Host, h, Prop, VNode } from "@stencil/core";
-import { Theme } from "../interfaces";
+import { Component, h, Prop, VNode, Fragment } from "@stencil/core";
 
 @Component({
   tag: "calcite-tile",
@@ -40,9 +39,6 @@ export class CalciteTile {
   /** The icon that appears at the top of the tile. */
   @Prop({ reflect: true }) icon?: string;
 
-  /** The theme of the tile. */
-  @Prop({ reflect: true }) theme: Theme;
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -72,15 +68,13 @@ export class CalciteTile {
 
   render(): VNode {
     return (
-      <Host>
+      <Fragment>
         {this.href ? (
-          <calcite-link href={this.href} theme={this.theme}>
-            {this.renderTile()}
-          </calcite-link>
+          <calcite-link href={this.href}>{this.renderTile()}</calcite-link>
         ) : (
           this.renderTile()
         )}
-      </Host>
+      </Fragment>
     );
   }
 }

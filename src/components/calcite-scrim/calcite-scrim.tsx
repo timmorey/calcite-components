@@ -1,5 +1,4 @@
-import { Component, Host, Prop, h, VNode } from "@stencil/core";
-import { Theme } from "../interfaces";
+import { Component, Prop, h, VNode } from "@stencil/core";
 
 import { CSS, TEXT } from "./resources";
 
@@ -24,9 +23,6 @@ export class CalciteScrim {
    */
   @Prop({ reflect: true }) loading = false;
 
-  /** specify the theme of scrim, defaults to light */
-  @Prop({ reflect: true }) theme: Theme;
-
   // --------------------------------------------------------------------------
   //
   //  Render Method
@@ -36,10 +32,6 @@ export class CalciteScrim {
   render(): VNode {
     const loaderNode = this.loading ? <calcite-loader active label={this.intlLoading} /> : null;
 
-    return (
-      <Host>
-        <div class={CSS.scrim}>{loaderNode}</div>
-      </Host>
-    );
+    return <div class={CSS.scrim}>{loaderNode}</div>;
   }
 }

@@ -24,7 +24,7 @@
 }
 :host([scale="l"]) {
   label {
-    @apply text-1h mb-4;
+    @apply text-0h mb-4;
   }
 }
 
@@ -47,6 +47,11 @@
 :host([layout="inline-space-between"]) {
   label {
     @apply flex items-center flex-row gap-2;
+  }
+}
+:host([layout="inline"][scale="l"]) {
+  label {
+    @apply gap-3;
   }
 }
 

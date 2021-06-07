@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
   Method,
   Prop,
   State,
@@ -13,7 +12,6 @@ import {
 } from "@stencil/core";
 import { CSS, ICONS, TEXT, HEADING_LEVEL } from "./resources";
 import { getElementDir } from "../../utils/dom";
-import { Theme } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
@@ -70,11 +68,6 @@ export class CalciteTipManager {
    * Alternate text for navigating to the previous tip.
    */
   @Prop() intlPrevious?: string;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
@@ -269,43 +262,42 @@ export class CalciteTipManager {
     const closeLabel = intlClose || TEXT.close;
 
     if (total === 0) {
-      return <Host />;
+      return null;
     }
+
     return (
-      <Host>
-        <section
-          aria-hidden={closed.toString()}
-          class={CSS.container}
-          hidden={closed}
-          onKeyUp={this.tipManagerKeyUpHandler}
-          ref={this.storeContainerRef}
+      <section
+        aria-hidden={closed.toString()}
+        class={CSS.container}
+        hidden={closed}
+        onKeyUp={this.tipManagerKeyUpHandler}
+        ref={this.storeContainerRef}
+        tabIndex={0}
+      >
+        <header class={CSS.header}>
+          <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+            {groupTitle}
+          </CalciteHeading>
+          <calcite-action
+            class={CSS.close}
+            icon={ICONS.close}
+            onClick={this.hideTipManager}
+            text={closeLabel}
+          />
+        </header>
+        <div
+          class={{
+            [CSS.tipContainer]: true,
+            [CSS.tipContainerAdvancing]: !closed && direction === "advancing",
+            [CSS.tipContainerRetreating]: !closed && direction === "retreating"
+          }}
+          key={selectedIndex}
           tabIndex={0}
         >
-          <header class={CSS.header}>
-            <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
-              {groupTitle}
-            </CalciteHeading>
-            <calcite-action
-              class={CSS.close}
-              icon={ICONS.close}
-              onClick={this.hideTipManager}
-              text={closeLabel}
-            />
-          </header>
-          <div
-            class={{
-              [CSS.tipContainer]: true,
-              [CSS.tipContainerAdvancing]: !closed && direction === "advancing",
-              [CSS.tipContainerRetreating]: !closed && direction === "retreating"
-            }}
-            key={selectedIndex}
-            tabIndex={0}
-          >
-            <slot />
-          </div>
-          {this.renderPagination()}
-        </section>
-      </Host>
+          <slot />
+        </div>
+        {this.renderPagination()}
+      </section>
     );
   }
 }

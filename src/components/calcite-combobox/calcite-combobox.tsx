@@ -1,7 +1,6 @@
 import {
   Component,
   h,
-  Host,
   Prop,
   State,
   Listen,
@@ -11,7 +10,8 @@ import {
   VNode,
   Build,
   Method,
-  Watch
+  Watch,
+  Fragment
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
@@ -25,7 +25,7 @@ import {
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
 import {
   ComboboxChildSelector,
@@ -121,9 +121,6 @@ export class CalciteCombobox {
   /** Specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
-
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -137,7 +134,8 @@ export class CalciteCombobox {
 
   @Listen("calciteComboboxItemChange")
   calciteComboboxItemChangeHandler(event: CustomEvent<HTMLCalciteComboboxItemElement>): void {
-    this.toggleSelection(event.detail);
+    const target = event.target as HTMLCalciteComboboxItemElement;
+    this.toggleSelection(target, target.selected);
   }
 
   @Listen("keydown")
@@ -183,7 +181,7 @@ export class CalciteCombobox {
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
         } else if (this.allowCustomValues && this.text) {
-          this.addCustomChip(this.text);
+          this.addCustomChip(this.text, true);
         }
         break;
       case "Delete":
@@ -511,22 +509,28 @@ export class CalciteCombobox {
     }, 100);
   })();
 
+  internalCalciteLookupChangeEvent = (): void => {
+    this.calciteLookupChange.emit(this.selectedItems);
+  };
+
+  emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
+
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     if (!item) {
       return;
     }
 
+    item.selected = value;
+
     if (this.isMulti()) {
-      item.selected = value;
       this.updateAncestors(item);
       this.selectedItems = this.getSelectedItems();
-      this.calciteLookupChange.emit(this.selectedItems);
+      this.emitCalciteLookupChange();
       this.resetText();
       this.textInput.focus();
       this.filterItems("");
     } else {
-      this.items.forEach((el) => el.toggleSelected(false));
-      item.toggleSelected(true);
+      this.items.filter((el) => el !== item).forEach((el) => (el.selected = false));
       this.selectedItem = item;
       this.textInput.value = item.textLabel;
       this.active = false;
@@ -621,7 +625,7 @@ export class CalciteCombobox {
     return Array.from(this.el.querySelectorAll(ComboboxItemGroup));
   }
 
-  addCustomChip(value: string): void {
+  addCustomChip(value: string, focus?: boolean): void {
     const existingItem = this.items.find((el) => el.textLabel === value);
     if (existingItem) {
       this.toggleSelection(existingItem, true);
@@ -633,7 +637,9 @@ export class CalciteCombobox {
       item.selected = true;
       this.el.appendChild(item);
       this.resetText();
-      this.setFocus();
+      if (focus) {
+        this.setFocus();
+      }
       this.updateItems();
       this.filterItems("");
     }
@@ -726,6 +732,9 @@ export class CalciteCombobox {
 
   comboboxBlurHandler = (event: FocusEvent): void => {
     this.setInactiveIfNotContained(event);
+    if (this.allowCustomValues && this.text) {
+      this.addCustomChip(this.text);
+    }
   };
 
   //--------------------------------------------------------------------------
@@ -878,7 +887,7 @@ export class CalciteCombobox {
     const single = this.selectionMode === "single";
     const labelId = `${guid}-label`;
     return (
-      <Host>
+      <Fragment>
         <div
           aria-autocomplete="list"
           aria-expanded={open.toString()}
@@ -913,7 +922,7 @@ export class CalciteCombobox {
           {this.renderListBoxOptions()}
         </ul>
         {this.renderPopperContainer()}
-      </Host>
+      </Fragment>
     );
   }
 }

@@ -1,10 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-  <title>Calcite Component Demos</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .nav {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+      }
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
+      .demo {
+        display: flex;
+        align-items: flex-start;
+        padding-bottom: 4rem;
+      }
+      .demo-column {
+        flex: 1;
+        margin: 0 2rem;
+      }
+      .demo-column > * {
+        margin-top: 2rem;
+      }
+    </style>
+    <script src="demos/_assets/head.js"></script>
+  </head>
 
   <style>
     body {
@@ -341,19 +368,24 @@
           <calcite-tab-title>Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
-        <calcite-tab active>
-          <calcite-loader active text="loading tab 1&hellip;" type="indeterminate"></calcite-loader>
-        </calcite-tab>
-        <calcite-tab>
-          <calcite-loader active text="loading tab 2&hellip;" type="indeterminate"></calcite-loader>
-        </calcite-tab>
-        <calcite-tab>
-          <calcite-loader active text="loading tab 3&hellip;" type="indeterminate"></calcite-loader>
-        </calcite-tab>
-        <calcite-tab>
-          <calcite-loader active text="loading tab 4&hellip;" type="indeterminate"></calcite-loader>
-        </calcite-tab>
-      </calcite-tabs>
+    <div class="demo demo-background-dark calcite-theme-dark">
+      <div class="demo-column">
+        <calcite-accordion>
+          <calcite-accordion-item item-title="Accordion Item"
+            ><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 2"
+            ><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 3 with a potentially two line title"
+            ><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 4"
+            ><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 5" active>
+            <calcite-tree lines>
+              <calcite-tree-item> Child 1 </calcite-tree-item>
 
       <label>
         <calcite-switch scale="m" switched color="red"> </calcite-switch>
@@ -485,24 +517,35 @@
           <calcite-tab-title>Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
-        <calcite-tab active>
-          <calcite-loader active text="loading tab 1&hellip;" type="indeterminate"></calcite-loader>
-        </calcite-tab>
-        <calcite-tab>
-          <calcite-loader active text="loading tab 2&hellip;" type="indeterminate"></calcite-loader>
-        </calcite-tab>
-        <calcite-tab>
-          <calcite-loader active text="loading tab 3&hellip;" type="indeterminate"></calcite-loader>
-        </calcite-tab>
-        <calcite-tab>
-          <calcite-loader active text="loading tab 4&hellip;" type="indeterminate"></calcite-loader>
-        </calcite-tab>
-      </calcite-tabs>
-
-      <label>
-        <calcite-switch scale="m" switched color="red"> </calcite-switch>
-        Red switch scale medium
-      </label>
+    <div class="demo demo-background-dark calcite-theme-dark">
+      <div class="demo-column">
+        <calcite-stepper numbered="zom" icon="zar">
+          <calcite-stepper-item item-title="Choose method" complete>
+            Something before a div
+            <calcite-notice active width="full">
+              <div slot="notice-message">Step 1 Content Goes Here</div>
+            </calcite-notice>
+            Something after a div
+            <div>a non calcite element div</div>
+            Something else
+          </calcite-stepper-item>
+          <calcite-stepper-item item-title="Compile member list" complete>
+            <calcite-notice active width="full">
+              <div slot="notice-message">Step 2 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+          <calcite-stepper-item item-title="Set member properties" item-subtitle="Some subtext" active>
+            <calcite-notice active width="full">
+              <div slot="notice-message">Step 3 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+          <calcite-stepper-item item-title="Confirm and complete">
+            <calcite-notice active width="full">
+              <div slot="notice-message">Step 4 Content Goes Here</div>
+            </calcite-notice>
+          </calcite-stepper-item>
+        </calcite-stepper>
+      </div>
     </div>
   </div>
 

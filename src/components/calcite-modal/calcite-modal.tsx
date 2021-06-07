@@ -13,11 +13,17 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { CalciteFocusableElement, focusElement, getElementDir } from "../../utils/dom";
+import {
+  CalciteFocusableElement,
+  ensureId,
+  focusElement,
+  getElementDir,
+  getSlotted
+} from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -48,7 +54,7 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   /** Add the active attribute to open the modal */
-  @Prop({ mutable: true }) active?: boolean;
+  @Prop({ mutable: true, reflect: true }) active?: boolean;
 
   /** Optionally pass a function to run before close */
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
@@ -80,9 +86,6 @@ export class CalciteModal {
   /** Adds a color bar at the top for visual impact,
    * Use color to add importance to destructive/workflow dialogs. */
   @Prop({ reflect: true }) color?: "red" | "blue";
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** Background color of modal content */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
@@ -120,9 +123,15 @@ export class CalciteModal {
 
   render(): VNode {
     const dir = getElementDir(this.el);
+
     return (
-      <Host aria-modal="true" is-active={this.isActive} role="dialog">
-        <calcite-scrim class="scrim" theme="dark" />
+      <Host
+        aria-describedby={this.contentId}
+        aria-labelledby={this.titleId}
+        aria-modal="true"
+        role="dialog"
+      >
+        <calcite-scrim class="scrim" />
         {this.renderStyle()}
         <div class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
@@ -174,7 +183,7 @@ export class CalciteModal {
         ref={(el) => (this.closeButtonEl = el)}
         title={this.intlClose}
       >
-        <calcite-icon icon="x" scale="l" />
+        <calcite-icon icon="x" scale={this.scale === "s" ? "s" : "l"} />
       </button>
     ) : null;
   }
@@ -211,19 +220,21 @@ export class CalciteModal {
   //  Variables
   //
   //--------------------------------------------------------------------------
-  @State() isActive: boolean;
-
   @State() hasFooter = true;
-
-  previousActiveElement: HTMLElement;
 
   closeButtonEl: HTMLButtonElement;
 
-  modalContent: HTMLDivElement;
+  contentId: string;
 
   focusTimeout: number;
 
+  modalContent: HTMLDivElement;
+
   private observer: MutationObserver = null;
+
+  previousActiveElement: HTMLElement;
+
+  titleId: string;
 
   //--------------------------------------------------------------------------
   //
@@ -313,7 +324,14 @@ export class CalciteModal {
   /** Open the modal */
   private open() {
     this.previousActiveElement = document.activeElement as HTMLElement;
-    this.isActive = true;
+    this.active = true;
+
+    const titleEl = getSlotted(this.el, "header");
+    const contentEl = getSlotted(this.el, "content");
+
+    this.titleId = ensureId(titleEl);
+    this.contentId = ensureId(contentEl);
+
     clearTimeout(this.focusTimeout);
     // wait for the modal to open, then handle focus.
     this.focusTimeout = window.setTimeout(() => {
@@ -327,7 +345,6 @@ export class CalciteModal {
   close = (): Promise<void> => {
     return this.beforeClose(this.el).then(() => {
       this.active = false;
-      this.isActive = false;
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
       setTimeout(() => this.calciteModalClose.emit(), 300);

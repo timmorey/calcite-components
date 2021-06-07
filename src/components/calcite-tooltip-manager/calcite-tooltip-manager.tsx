@@ -1,6 +1,6 @@
-import { Component, Host, h, Listen, Prop, VNode, Element } from "@stencil/core";
+import { Component, h, Listen, Prop, VNode, Element } from "@stencil/core";
 import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
-import { getElementById, getRootNode } from "../../utils/dom";
+import { queryElementRoots } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 /**
@@ -21,6 +21,8 @@ export class CalciteTooltipManager {
   tooltipEl: HTMLCalciteTooltipElement;
 
   hoverTimeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
+
+  clickedTooltip: HTMLCalciteTooltipElement;
 
   // --------------------------------------------------------------------------
   //
@@ -43,7 +45,7 @@ export class CalciteTooltipManager {
     const { selector, el } = this;
     const id = element.closest(selector)?.getAttribute(TOOLTIP_REFERENCE);
 
-    return getElementById(getRootNode(el), id) as HTMLCalciteTooltipElement;
+    return queryElementRoots(el, `#${id}`) as HTMLCalciteTooltipElement;
   };
 
   clearHoverTimeout = (tooltip: HTMLCalciteTooltipElement): void => {
@@ -152,7 +154,8 @@ export class CalciteTooltipManager {
   focusEvent = (event: FocusEvent, value: boolean): void => {
     const tooltip = this.queryTooltip(event.target as HTMLElement);
 
-    if (!tooltip) {
+    if (!tooltip || tooltip === this.clickedTooltip) {
+      this.clickedTooltip = null;
       return;
     }
 
@@ -166,11 +169,7 @@ export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    return (
-      <Host>
-        <slot />
-      </Host>
-    );
+    return <slot />;
   }
 
   //--------------------------------------------------------------------------
@@ -199,6 +198,11 @@ export class CalciteTooltipManager {
   @Listen("mouseleave", { capture: true })
   mouseLeaveHide(event: MouseEvent): void {
     this.hoverEvent(event, false);
+  }
+
+  @Listen("click", { capture: true })
+  clickHandler(event: MouseEvent): void {
+    this.clickedTooltip = this.queryTooltip(event.target as HTMLElement);
   }
 
   @Listen("focus", { capture: true })

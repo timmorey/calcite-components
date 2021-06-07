@@ -1,3 +1,22 @@
+import { Theme } from "../components/interfaces";
+import { CSS_UTILITY } from "./resources";
+import { guid } from "./guid";
+
+/**
+ * This helper will guarantee an ID on the provided element.
+ *
+ * If it already has an ID, it will be preserved, otherwise a unique one will be generated and assigned.
+ *
+ * @returns {string} The element's ID.
+ */
+export function ensureId(el: Element): string {
+  if (!el) {
+    return "";
+  }
+
+  return (el.id = el.id || `${el.tagName.toLowerCase()}-${guid()}`);
+}
+
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
 }
@@ -10,6 +29,10 @@ export function getAttributes(el: HTMLElement, blockList: string[]): Record<stri
     .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
 }
 
+export function getThemeName(el: HTMLElement): Theme {
+  return closestElementCrossShadowBoundary(`.${CSS_UTILITY.darkTheme}, [theme=dark]`, el) ? "dark" : "light";
+}
+
 export function getElementDir(el: HTMLElement): Direction {
   return getElementProp(el, "dir", "ltr", true) as Direction;
 }
@@ -18,6 +41,68 @@ export function getElementProp(el: Element, prop: string, fallbackValue: any, cr
   const selector = `[${prop}]`;
   const closest = crossShadowBoundary ? closestElementCrossShadowBoundary(selector, el) : el.closest(selector);
   return closest ? closest.getAttribute(prop) : fallbackValue;
+}
+
+export function getRootNode(el: Element): HTMLDocument | ShadowRoot {
+  return el.getRootNode() as HTMLDocument | ShadowRoot;
+}
+
+export function getHost(root: HTMLDocument | ShadowRoot): Element | null {
+  return (root as ShadowRoot).host || null;
+}
+
+// Queries an element's rootNode and any ancestor rootNodes.
+// based on https://stackoverflow.com/q/54520554/194216
+export function queryElementsRoots<T extends Element = Element>(element: Element, selector: string): T[] {
+  // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
+  function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
+    if (!el) {
+      return allResults;
+    }
+
+    if ((el as Slottable).assignedSlot) {
+      el = (el as Slottable).assignedSlot;
+    }
+
+    const rootNode = getRootNode(el);
+
+    const results = Array.from(rootNode.querySelectorAll(selector)) as T[];
+
+    const uniqueResults = results.filter((result) => !allResults.includes(result));
+
+    allResults = [...allResults, ...uniqueResults];
+
+    const host = getHost(rootNode);
+
+    return host ? queryFromAll(host, allResults) : allResults;
+  }
+
+  return queryFromAll(element, []);
+}
+
+// Queries an element's rootNode and any ancestor rootNodes.
+// based on https://stackoverflow.com/q/54520554/194216
+export function queryElementRoots<T extends Element = Element>(element: Element, selector: string): T | null {
+  // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
+  function queryFrom<T extends Element = Element>(el: Element): T | null {
+    if (!el) {
+      return null;
+    }
+
+    if ((el as Slottable).assignedSlot) {
+      el = (el as Slottable).assignedSlot;
+    }
+
+    const rootNode = getRootNode(el);
+
+    const found = rootNode.querySelector(selector) as T;
+
+    const host = getHost(rootNode);
+
+    return found ? found : host ? queryFrom(host) : null;
+  }
+
+  return queryFrom(element);
 }
 
 function closestElementCrossShadowBoundary<E extends Element = Element>(
@@ -109,18 +194,6 @@ function querySingle<T extends Element = Element>(
 
 export function filterDirectChildren<T extends Element>(el: Element, selector: string): T[] {
   return Array.from(el.children).filter((child): child is T => child.matches(selector));
-}
-
-export function getRootNode(element: HTMLElement): HTMLDocument | ShadowRoot {
-  return element.getRootNode() as HTMLDocument | ShadowRoot;
-}
-
-export function getElementById(rootNode: HTMLDocument | ShadowRoot, id: string): HTMLElement {
-  return id
-    ? rootNode instanceof ShadowRoot
-      ? rootNode.host.querySelector(`#${id}`)
-      : rootNode.getElementById(id)
-    : null;
 }
 
 export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {

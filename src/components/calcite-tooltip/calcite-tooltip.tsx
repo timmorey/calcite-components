@@ -10,8 +10,7 @@ import {
   CSS as PopperCSS,
   OverlayPositioning
 } from "../../utils/popper";
-import { Theme } from "../interfaces";
-import { getElementById, getRootNode } from "../../utils/dom";
+import { queryElementRoots } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip",
@@ -74,7 +73,7 @@ export class CalciteTooltip {
   /**
    * Reference HTMLElement used to position this component.
    */
-  @Prop() referenceElement!: HTMLElement | string;
+  @Prop() referenceElement: HTMLElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
@@ -83,9 +82,6 @@ export class CalciteTooltip {
     this.addReferences();
     this.createPopper();
   }
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
@@ -184,11 +180,10 @@ export class CalciteTooltip {
 
   getReferenceElement(): HTMLElement {
     const { referenceElement, el } = this;
-    const rootNode = getRootNode(el);
 
     return (
       (typeof referenceElement === "string"
-        ? getElementById(rootNode, referenceElement)
+        ? queryElementRoots(el, `#${referenceElement}`)
         : referenceElement) || null
     );
   }

@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Method,
   Prop,
   VNode,
@@ -12,7 +11,7 @@ import {
 } from "@stencil/core";
 
 import { SLOTS, TEXT } from "./calcite-notice.resources";
-import { Scale, Theme, Width } from "../interfaces";
+import { Scale, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -68,9 +67,6 @@ export class CalciteNotice {
   /** specify the scale of the notice, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
-
   /** specify the width of the notice, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
 
@@ -108,21 +104,19 @@ export class CalciteNotice {
     );
 
     return (
-      <Host active={this.active}>
-        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          {this.requestedIcon ? (
-            <div class="notice-icon">
-              <calcite-icon icon={this.requestedIcon} scale="m" />
-            </div>
-          ) : null}
-          <div class="notice-content">
-            <slot name={SLOTS.title} />
-            <slot name={SLOTS.message} />
-            <slot name={SLOTS.link} />
+      <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        {this.requestedIcon ? (
+          <div class="notice-icon">
+            <calcite-icon icon={this.requestedIcon} scale="m" />
           </div>
-          {this.dismissible ? closeButton : null}
+        ) : null}
+        <div class="notice-content">
+          <slot name={SLOTS.title} />
+          <slot name={SLOTS.message} />
+          <slot name={SLOTS.link} />
         </div>
-      </Host>
+        {this.dismissible ? closeButton : null}
+      </div>
     );
   }
 

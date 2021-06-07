@@ -5,7 +5,8 @@ import { html } from "../../tests/utils";
 describe("calcite-tile-select", () => {
   it("renders", async () => renders("calcite-tile-select"));
 
-  it("is accessible", async () => accessible(`<calcite-tile-select></calcite-tile-select>`));
+  it("is accessible", async () =>
+    accessible(`<calcite-label><calcite-tile-select></calcite-tile-select>Label</calcite-label>`));
 
   it("has defaults", async () =>
     defaults("calcite-tile-select", [
@@ -26,7 +27,6 @@ describe("calcite-tile-select", () => {
       { propertyName: "inputAlignment", value: "start" },
       { propertyName: "name", value: "my-tile-select" },
       { propertyName: "inputEnabled", value: true },
-      { propertyName: "theme", value: "light" },
       { propertyName: "type", value: "radio" },
       { propertyName: "width", value: "auto" }
     ]));

@@ -1,21 +1,7 @@
-// theme variables
-// light theme
-// todo add these transparent overlays to calcite-base
-:host {
-  --calcite-chip-transparent-hover: rgba(0, 0, 0, 0.05);
-  --calcite-chip-transparent-press: rgba(0, 0, 0, 0.08);
-}
-
-// dark theme
-:host([theme="dark"]) {
-  --calcite-chip-transparent-hover: rgba(255, 255, 255, 0.05);
-  --calcite-chip-transparent-press: rgba(255, 255, 255, 0.08);
-}
-
 // scale
 // todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
-  @apply h-5 text--3;
+  @apply h-6 text--2;
   --calcite-chip-spacing-unit-l: theme("spacing.2");
   --calcite-chip-spacing-unit-s: theme("spacing.1");
   .chip-image-container {
@@ -23,7 +9,7 @@
   }
 }
 :host([scale="m"]) {
-  @apply h-8 text--2;
+  @apply h-8 text--1;
   --calcite-chip-spacing-unit-l: theme("spacing.3");
   --calcite-chip-spacing-unit-s: 6px;
   .chip-image-container {
@@ -32,7 +18,7 @@
 }
 
 :host([scale="l"]) {
-  @apply h-10 text--1;
+  @apply h-11 text-0;
   --calcite-chip-spacing-unit-l: theme("spacing.4");
   --calcite-chip-spacing-unit-s: theme("spacing.2");
   .chip-image-container {
@@ -51,27 +37,19 @@
 :host {
   @apply inline-flex
     items-center
-    bg-foreground-2
     border
     border-solid
     border-color-1
     text-color-1
     font-medium
     cursor-default
-    rounded-full;
+    rounded-full
+    box-border;
   --calcite-chip-button-border-radius: 0 50px 50px 0;
 }
 
 .container {
   @apply inline-flex items-center h-full;
-}
-
-//focus
-:host button {
-  @apply focus-base;
-  &:focus {
-    @apply focus-inset;
-  }
 }
 
 .calcite--rtl {
@@ -80,31 +58,29 @@
 }
 
 :host span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l);
+  padding: 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host([dismissible]) span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-l);
+  padding: 0 var(--calcite-chip-spacing-unit-s) 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host([dismissible]) .calcite--rtl span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-s);
+  padding: 0 var(--calcite-chip-spacing-unit-l) 0 var(--calcite-chip-spacing-unit-s);
 }
 
 :host([icon]:not([dismissible])) span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-s);
+  padding: 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host([icon]:not([dismissible])) .calcite--rtl span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-l);
+  padding: 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host button {
   @apply m-0
+    bg-transparent
+    focus-base
     inline-flex
     min-h-full
     max-h-full
@@ -112,19 +88,25 @@
     items-center
     border-none
     cursor-pointer
-    bg-transparent
-    duration-150
-    ease-in-out
+    transition-default    
     text-color-1;
   -webkit-appearance: none;
   border-radius: var(--calcite-chip-button-border-radius);
-  padding: var(--calcite-chip-spacing-unit-s);
-  &:hover,
+  padding: 0 var(--calcite-chip-spacing-unit-s);
+  color: inherit;
+
+  // close button focus styles
+  --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
+  --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
+  &:hover {
+    background-color: var(--calcite-chip-transparent-hover);
+  }
   &:focus {
-    @apply bg-foreground-2 border-color-2;
+    background-color: var(--calcite-chip-transparent-hover);
+    @apply focus-inset;
   }
   &:active {
-    @apply bg-foreground-3;
+    background-color: var(--calcite-chip-transparent-press);
   }
 }
 
@@ -154,67 +136,73 @@
   margin-right: var(--calcite-chip-spacing-unit-l);
 }
 
-$chipColors: "blue" var(--calcite-ui-brand) var(--calcite-ui-brand-press) var(--calcite-ui-brand-hover)
-    var(--calcite-ui-foreground-1) var(--calcite-ui-brand-press),
-  "red" var(--calcite-ui-danger) var(--calcite-ui-danger-press) var(--calcite-ui-danger-hover)
-    var(--calcite-ui-foreground-1) var(--calcite-ui-danger-press),
-  "yellow" var(--calcite-ui-warning) var(--calcite-ui-warning) var(--calcite-ui-warning) var(--calcite-ui-text-1)
-    var(--calcite-ui-warning),
-  "green" var(--calcite-ui-success) var(--calcite-ui-success) var(--calcite-ui-success) var(--calcite-ui-text-1)
-    var(--calcite-ui-success),
-  "grey" var(--calcite-ui-foreground-2) var(--calcite-ui-border-1) var(--calcite-ui-text-3-dark)
-    var(--calcite-ui-text-1) var(--calcite-ui-text-1);
+// solid
+:host([color="blue"][appearance="solid"]) {
+  border-color: transparent;
+  background-color: var(--calcite-ui-info);
+  color: var(--calcite-ui-text-inverse);
+}
 
-@each $chipColor in $chipColors {
-  $name: nth($chipColor, 1);
-  $bgColor: nth($chipColor, 2);
-  $bgColorClearAppearance: nth($chipColor, 3);
-  $bgColorClearAppearanceDark: nth($chipColor, 4);
-  $color: nth($chipColor, 5);
-  $iconColor: nth($chipColor, 6);
+:host([color="red"][appearance="solid"]) {
+  border-color: transparent;
+  background-color: var(--calcite-ui-danger);
+  color: var(--calcite-ui-text-inverse);
+}
 
-  :host([color="#{$name}"][appearance="solid"]),
-  :host([color="#{$name}"][appearance="solid"]) button {
-    border-color: $bgColor;
-    background-color: $bgColor;
-    color: $color;
+:host([color="yellow"][appearance="solid"]) {
+  border-color: transparent;
+  background-color: var(--calcite-ui-warning);
+  color: $blk-220;
+}
+
+:host([color="green"][appearance="solid"]) {
+  border-color: transparent;
+  background-color: var(--calcite-ui-success);
+  color: $blk-220;
+}
+
+:host([color="grey"][appearance="solid"]) {
+  border-color: transparent;
+  background-color: var(--calcite-ui-foreground-2);
+  color: var(--calcite-ui-text-1);
+  button,
+  calcite-icon {
+    color: var(--calcite-ui-text-3);
   }
+}
 
-  :host([appearance="solid"]) button {
-    &:hover,
-    &:focus {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-    &:active {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
+// clear
+:host([color="blue"][appearance="clear"]) {
+  border-color: var(--calcite-ui-info);
+  .calcite-chip--icon {
+    color: var(--calcite-ui-info);
   }
+}
 
-  // handle dark theme text accessibility for solid
-  :host([theme="dark"][color="#{$name}"][appearance="solid"]:not([color="grey"])),
-  :host([theme="dark"][color="#{$name}"][appearance="solid"]:not([color="grey"])) button {
-    color: theme("backgroundColor.background");
+:host([color="red"][appearance="clear"]) {
+  border-color: var(--calcite-ui-danger);
+  .calcite-chip--icon {
+    color: var(--calcite-ui-danger);
   }
+}
 
-  :host([color="#{$name}"][appearance="clear"]) {
-    @apply text-color-1 bg-transparent;
-    border-color: $bgColorClearAppearance;
-    & .calcite-chip--icon {
-      color: $iconColor;
-    }
+:host([color="yellow"][appearance="clear"]) {
+  border-color: var(--calcite-ui-warning);
+  .calcite-chip--icon {
+    color: var(--calcite-ui-warning);
   }
+}
 
-  :host([theme="dark"][color="#{$name}"][appearance="clear"]) {
-    border-color: $bgColorClearAppearanceDark;
+:host([color="green"][appearance="clear"]) {
+  border-color: var(--calcite-ui-success);
+  .calcite-chip--icon {
+    color: var(--calcite-ui-success);
   }
+}
 
-  :host([color="#{$name}"][appearance="clear"]) button {
-    &:hover,
-    &:focus {
-      background-color: var(--calcite-chip-transparent-hover);
-    }
-    &:active {
-      background-color: var(--calcite-chip-transparent-press);
-    }
+:host([color="grey"][appearance="clear"]) {
+  border-color: var(--calcite-ui-border-1);
+  .calcite-chip--icon {
+    color: var(--calcite-ui-text-3);
   }
 }
