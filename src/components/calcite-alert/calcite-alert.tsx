@@ -75,7 +75,9 @@ export class CalciteAlert {
    * also pass a calcite-ui-icon name to this prop to display a requested icon */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /** string to override English close text */
+  /** string to override English close text
+   * @default "close"
+   */
   @Prop() intlClose: string = TEXT.intlClose;
 
   /** Accessible name for the component */
@@ -120,12 +122,15 @@ export class CalciteAlert {
         ref={(el) => (this.closeButton = el)}
         type="button"
       >
-        <calcite-icon icon="x" scale="m" />
+        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
+    const queueText = `+${this.queueLength > 2 ? this.queueLength - 1 : 1}`;
     const queueCount = (
       <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
-        +{this.queueLength > 2 ? this.queueLength - 1 : 1}
+        <calcite-chip scale={this.scale} value={queueText}>
+          {queueText}
+        </calcite-chip>
       </div>
     );
 
@@ -150,7 +155,7 @@ export class CalciteAlert {
         >
           {requestedIcon ? (
             <div class="alert-icon">
-              <calcite-icon icon={requestedIcon} scale="m" />
+              <calcite-icon icon={requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
             </div>
           ) : null}
           <div class="alert-content">

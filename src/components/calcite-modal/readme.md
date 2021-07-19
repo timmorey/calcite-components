@@ -11,7 +11,7 @@
 Customize the modal by passing your content into multiple named slots: `header` (title-area of the modal), `content` (main body of the modal), and up to three modal actions: primary, secondary, and back.
 
 ```html
-<calcite-modal aria-labelledby="modal-title">
+<calcite-modal aria-labelledby="modal-title" active>
   <h3 slot="header" id="modal-title">Title of the modal</h3>
   <div slot="content">The actual content of the modal</div>
   <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">
@@ -54,21 +54,22 @@ modal.beforeClose = beforeClose;
 
 ## Properties
 
-| Property             | Attribute              | Description                                                                                                 | Type                                 | Default                   |
-| -------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
-| `active`             | `active`               | Add the active attribute to open the modal                                                                  | `boolean`                            | `undefined`               |
-| `backgroundColor`    | `background-color`     | Background color of modal content                                                                           | `"grey" \| "white"`                  | `"white"`                 |
-| `beforeClose`        | --                     | Optionally pass a function to run before close                                                              | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
-| `color`              | `color`                | Adds a color bar at the top for visual impact, Use color to add importance to destructive/workflow dialogs. | `"blue" \| "red"`                    | `undefined`               |
-| `disableCloseButton` | `disable-close-button` | Disables the display a close button within the Modal                                                        | `boolean`                            | `undefined`               |
-| `disableEscape`      | `disable-escape`       | Flag to disable the default close on escape behavior                                                        | `boolean`                            | `undefined`               |
-| `docked`             | `docked`               | Prevent the modal from taking up the entire screen on mobile                                                | `boolean`                            | `undefined`               |
-| `firstFocus`         | --                     | Specify an element to focus when the modal is first opened                                                  | `HTMLElement`                        | `undefined`               |
-| `fullscreen`         | `fullscreen`           | Set the modal to always be fullscreen (overrides width)                                                     | `boolean`                            | `undefined`               |
-| `intlClose`          | `intl-close`           | Aria label for the close button                                                                             | `string`                             | `"Close"`                 |
-| `noPadding`          | `no-padding`           | Turn off spacing around the content area slot                                                               | `boolean`                            | `undefined`               |
-| `scale`              | `scale`                | specify the scale of modal, defaults to m                                                                   | `"l" \| "m" \| "s"`                  | `"m"`                     |
-| `width`              | `width`                | Set the width of the modal. Can use stock sizes or pass a number (in pixels)                                | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
+| Property              | Attribute               | Description                                                                                                 | Type                                 | Default                   |
+| --------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
+| `active`              | `active`                | Add the active attribute to open the modal                                                                  | `boolean`                            | `undefined`               |
+| `backgroundColor`     | `background-color`      | Background color of modal content                                                                           | `"grey" \| "white"`                  | `"white"`                 |
+| `beforeClose`         | --                      | Optionally pass a function to run before close                                                              | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
+| `color`               | `color`                 | Adds a color bar at the top for visual impact, Use color to add importance to destructive/workflow dialogs. | `"blue" \| "red"`                    | `undefined`               |
+| `disableCloseButton`  | `disable-close-button`  | Disables the display a close button within the Modal                                                        | `boolean`                            | `undefined`               |
+| `disableEscape`       | `disable-escape`        | Flag to disable the default close on escape behavior                                                        | `boolean`                            | `undefined`               |
+| `disableOutsideClose` | `disable-outside-close` | Disables the closing of the Modal when clicked outside.                                                     | `boolean`                            | `undefined`               |
+| `docked`              | `docked`                | Prevent the modal from taking up the entire screen on mobile                                                | `boolean`                            | `undefined`               |
+| `firstFocus`          | --                      | Specify an element to focus when the modal is first opened                                                  | `HTMLElement`                        | `undefined`               |
+| `fullscreen`          | `fullscreen`            | Set the modal to always be fullscreen (overrides width)                                                     | `boolean`                            | `undefined`               |
+| `intlClose`           | `intl-close`            | Aria label for the close button                                                                             | `string`                             | `"Close"`                 |
+| `noPadding`           | `no-padding`            | Turn off spacing around the content area slot                                                               | `boolean`                            | `undefined`               |
+| `scale`               | `scale`                 | specify the scale of modal, defaults to m                                                                   | `"l" \| "m" \| "s"`                  | `"m"`                     |
+| `width`               | `width`                 | Set the width of the modal. Can use stock sizes or pass a number (in pixels)                                | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
 
 ## Events
 
@@ -105,6 +106,16 @@ If you want to focus on the close button, you can use the `close-button` focus I
 #### Returns
 
 Type: `Promise<void>`
+
+## CSS Custom Properties
+
+| Name                            | Description                                        |
+| ------------------------------- | -------------------------------------------------- |
+| `--calcite-modal-content-text`  | the font-size of the modal content                 |
+| `--calcite-modal-padding`       | the top/bottom padding around items in the modal   |
+| `--calcite-modal-padding-large` | the left/right padding around items in the modal   |
+| `--calcite-modal-title-text`    | the font-size of the modal title                   |
+| `--calcite-scrim-background`    | the semi-transparent background color behind modal |
 
 ## Dependencies
 

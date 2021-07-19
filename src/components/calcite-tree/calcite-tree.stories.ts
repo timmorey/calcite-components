@@ -2,6 +2,7 @@ import { select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import treeItemReadme from "../calcite-tree-item/readme.md";
 import { html } from "../../tests/utils";
 
 const treeItems = `
@@ -44,7 +45,7 @@ export default {
   title: "Components/Tree",
 
   parameters: {
-    notes: readme
+    notes: [readme, treeItemReadme]
   }
 };
 
@@ -73,7 +74,7 @@ export const RTL = (): string => html`
 
 export const DarkMode = (): string => html`
   <calcite-tree
-    theme="dark"
+    class="calcite-theme-dark"
     ${boolean("lines", false)}
     selection-mode="${select("selection-mode", ["single", "multi", "children", "multi-children"], "single")}"
     size="${select("size", ["s", "m"], "m")}"

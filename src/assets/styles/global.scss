@@ -42,20 +42,18 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --calcite-border-radius: 3px;
+  --calcite-border-radius: 4px;
   --calcite-ui-opacity-disabled: 0.5;
   --calcite-panel-width-multiplier: 1;
 
   @apply font-sans;
 }
 
-.calcite-theme-dark,
-[theme="dark"] {
+.calcite-theme-dark {
   @include calcite-theme-dark-extended();
 }
 
-.calcite-theme-light,
-[theme="light"] {
+.calcite-theme-light {
   @include calcite-theme-light-extended();
 }
 

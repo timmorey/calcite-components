@@ -24,6 +24,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   return filterComponentAttributes(
     [
       {
+        name: "class",
+        commit(): Attribute {
+          this.value = select("class", theme.values, theme.defaultValue);
+          delete this.build;
+          return this;
+        }
+      },
+      {
         name: "dir",
         commit(): Attribute {
           this.value = select("dir", dir.values, dir.defaultValue);
@@ -72,9 +80,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "theme",
+        name: "selection-follows-focus",
         commit(): Attribute {
-          this.value = select("theme", theme.values, theme.defaultValue);
+          this.value = boolean("selection-follows-focus", false);
           delete this.build;
           return this;
         }
@@ -119,9 +127,9 @@ export const basic = (): string =>
 export const darkThemeRTL = (): string =>
   create(
     "calcite-value-list",
-    createAttributes({ exceptions: ["dir", "theme"] }).concat([
+    createAttributes({ exceptions: ["dir", "class"] }).concat([
       { name: "dir", value: "rtl" },
-      { name: "theme", value: "dark" }
+      { name: "class", value: "calcite-theme-dark" }
     ]),
     html`
       <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">

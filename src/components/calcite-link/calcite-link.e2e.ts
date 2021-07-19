@@ -89,22 +89,6 @@ describe("calcite-link", () => {
     expect(iconEnd).toBeNull();
   });
 
-  it("passes attributes to rendered child span", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-link name="myname" class="mycustomclass">Continue</calcite-link>`);
-    const elementAsSpan = await page.find("calcite-link >>> span");
-    const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
-
-    expect(elementAsLink).toBeNull();
-    expect(elementAsSpan).not.toBeNull();
-    expect(elementAsSpan).not.toHaveClass("mycustomclass");
-    expect(elementAsSpan).toEqualAttribute("name", "myname");
-    expect(iconStart).toBeNull();
-    expect(iconEnd).toBeNull();
-  });
-
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link icon-start='plus'>Continue</calcite-link>`);
@@ -217,7 +201,7 @@ describe("calcite-link", () => {
     describe("when theme attribute is dark", () => {
       it("should render link background with value tied to dark theme", async () => {
         page = await newE2EPage({
-          html: `<article theme="dark">${linkHtml}</article>`
+          html: `<article class="calcite-theme-dark">${linkHtml}</article>`
         });
         link = await page.find("calcite-link >>> a");
         linkStyles = await link.getComputedStyle();

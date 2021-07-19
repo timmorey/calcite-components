@@ -8,7 +8,6 @@ export const CSS = {
   header: "header",
   control: "control",
   splitSection: "section--split",
-  underlinedHeader: "header--underlined",
   colorModeContainer: "color-mode-container",
   colorMode: "color-mode",
   channels: "channels",
@@ -23,6 +22,8 @@ export const CSS = {
   colorFieldAndSliderInteractive: "color-field-and-slider--interactive",
   colorFieldAndSliderWrap: "color-field-and-slider-wrap",
   scope: "scope",
+  hueScope: "scope--hue",
+  colorFieldScope: "scope--color-field",
   savedColor: "saved-color"
 };
 

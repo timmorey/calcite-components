@@ -10,8 +10,8 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getAttributes, getElementDir, getElementProp } from "../../utils/dom";
-import { ItemKeyboardEvent, ItemRegistration } from "../calcite-dropdown/interfaces";
+import { getElementDir, getElementProp } from "../../utils/dom";
+import { ItemKeyboardEvent } from "../calcite-dropdown/interfaces";
 import { getKey } from "../../utils/key";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -51,6 +51,16 @@ export class CalciteDropdownItem {
 
   /** optionally pass a href - used to determine if the component should render as anchor */
   @Prop({ reflect: true }) href?: string;
+
+  /** Applies to the aria-label attribute on the button or hyperlink */
+  @Prop() label?: string;
+
+  /** The rel attribute to apply to the hyperlink */
+  @Prop() rel?: string;
+
+  /** The target attribute to apply to the hyperlink */
+  @Prop() target?: string;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -64,9 +74,6 @@ export class CalciteDropdownItem {
 
   /** @internal */
   @Event() calciteDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
-
-  /** @internal */
-  @Event() calciteDropdownItemRegister: EventEmitter<ItemRegistration>;
 
   /** @internal */
   @Event() calciteDropdownCloseRequest: EventEmitter;
@@ -96,33 +103,16 @@ export class CalciteDropdownItem {
     }
   }
 
-  componentWillLoad(): void {
-    this.itemPosition = this.getItemPosition();
-    this.calciteDropdownItemRegister.emit({
-      position: this.itemPosition
-    });
-  }
-
   render(): VNode {
-    const attributes = getAttributes(this.el, [
-      "icon-start",
-      "icon-end",
-      "active",
-      "has-text",
-      "is-link",
-      "dir",
-      "id"
-    ]);
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
-    const iconScale = scale === "l" ? "m" : "s";
     const iconStartEl = (
       <calcite-icon
         class="dropdown-item-icon-start"
         dir={dir}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={iconScale}
+        scale="s"
       />
     );
     const contentNode = (
@@ -136,7 +126,7 @@ export class CalciteDropdownItem {
         dir={dir}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={iconScale}
+        scale="s"
       />
     );
 
@@ -152,7 +142,14 @@ export class CalciteDropdownItem {
     const contentEl = !this.href ? (
       slottedContent
     ) : (
-      <a {...attributes} class="dropdown-link" ref={(el) => (this.childLink = el)}>
+      <a
+        aria-label={this.label}
+        class="dropdown-link"
+        href={this.href}
+        ref={(el) => (this.childLink = el)}
+        rel={this.rel}
+        target={this.target}
+      >
         {slottedContent}
       </a>
     );
@@ -182,8 +179,12 @@ export class CalciteDropdownItem {
             [CSS.containerNone]: this.selectionMode === "none"
           }}
         >
-          {this.selectionMode === "multi" ? (
-            <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
+          {this.selectionMode !== "none" ? (
+            <calcite-icon
+              class="dropdown-item-icon"
+              icon={this.selectionMode === "multi" ? "check" : "bullet-point"}
+              scale="s"
+            />
           ) : null}
           {contentEl}
         </div>
@@ -247,9 +248,6 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  /** position withing group */
-  private itemPosition: number;
-
   /** id of containing group */
   private parentDropdownGroupEl: HTMLCalciteDropdownGroupElement;
 
@@ -298,13 +296,5 @@ export class CalciteDropdownItem {
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl
     });
-  }
-
-  private getItemPosition(): number {
-    const group = this.el.closest("calcite-dropdown-group") as HTMLCalciteDropdownGroupElement;
-
-    return group
-      ? Array.prototype.indexOf.call(group.querySelectorAll("calcite-dropdown-item"), this.el)
-      : 1;
   }
 }

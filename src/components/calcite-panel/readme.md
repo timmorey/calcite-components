@@ -37,18 +37,21 @@ Renders a panel with leading and trailing `calcite-action`s.
 
 ```html
 <calcite-panel>
-  <div slot="header-leading-content">
-    <calcite-action label="Performs my custom action" text="Perform Action!" text-enabled icon="home"></calcite-action>
-  </div>
+  <calcite-action
+    label="Performs my custom action"
+    text="Perform Action!"
+    text-enabled
+    icon="home"
+    slot="header-actions-start"
+  ></calcite-action>
   <div slot="header-content">Header!</div>
-  <div slot="header-trailing-content">
-    <calcite-action
-      label="Performs another custom action"
-      text="Perform Another Action!"
-      text-enabled
-      icon="blog"
-    ></calcite-action>
-  </div>
+  <calcite-action
+    label="Performs another custom action"
+    text="Perform Another Action!"
+    text-enabled
+    icon="blog"
+    slot="header-actions-end"
+  ></calcite-action>
   <p>Actions are in the top left and right.</p>
 </calcite-panel>
 ```
@@ -111,6 +114,14 @@ Type: `Promise<void>`
 | `"header-actions-start"` | a slot for adding actions or content to the start side of the panel header.      |
 | `"header-content"`       | a slot for adding custom content to the header.                                  |
 | `"header-menu-actions"`  | a slot for adding an overflow menu with actions inside a dropdown.               |
+
+## CSS Custom Properties
+
+| Name                         | Description                     |
+| ---------------------------- | ------------------------------- |
+| `--calcite-panel-max-height` | the maximum height of the panel |
+| `--calcite-panel-max-width`  | the maximum width of the panel  |
+| `--calcite-panel-min-width`  | the minimum width of the panel  |
 
 ## Dependencies
 

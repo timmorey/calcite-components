@@ -3,6 +3,7 @@ export const CSS = {
   content: "content",
   headerContainer: "header-container",
   icon: "icon",
+  statusIcon: "status-icon",
   toggle: "toggle",
   toggleIcon: "toggle-icon",
   title: "title",
@@ -10,23 +11,29 @@ export const CSS = {
   header: "header",
   button: "button",
   summary: "summary",
-  controlContainer: "control-container"
+  controlContainer: "control-container",
+  valid: "valid",
+  invalid: "invalid"
 };
 
 export const TEXT = {
   collapse: "Collapse",
   expand: "Expand",
-  loading: "Loading"
+  loading: "Loading",
+  options: "Options"
 };
 
 export const SLOTS = {
   icon: "icon",
-  control: "control"
+  control: "control",
+  headerMenuActions: "header-menu-actions"
 };
 
 export const ICONS = {
   opened: "chevron-up",
-  closed: "chevron-down"
+  closed: "chevron-down",
+  valid: "check-circle",
+  invalid: "exclamation-mark-triangle"
 };
 
 export const HEADING_LEVEL = 4;

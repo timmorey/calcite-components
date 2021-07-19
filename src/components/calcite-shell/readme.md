@@ -17,7 +17,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 ```html
 <calcite-shell>
   <calcite-shell-panel slot="primary-panel" position="start" detached>
-    <calcite-action-bar slot="action-bar" theme="dark">
+    <calcite-action-bar slot="action-bar">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Save" disabled icon="save"></calcite-action>
@@ -157,6 +157,12 @@ Renders a single panel with actions in an action bar.
 | `"footer"`           | A slot for adding footer content. This content will be positioned at the bottom of the shell.                                            |
 | `"header"`           | A slot for adding header content. This content will be positioned at the top of the shell.                                               |
 | `"primary-panel"`    | A slot for adding the leading `calcite-shell-panel`.                                                                                     |
+
+## CSS Custom Properties
+
+| Name                          | Description                                                               |
+| ----------------------------- | ------------------------------------------------------------------------- |
+| `--calcite-shell-tip-spacing` | the left/right positioning of the tip-manager when slotted within a shell |
 
 ---
 

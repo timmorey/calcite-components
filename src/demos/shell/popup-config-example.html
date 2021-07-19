@@ -167,6 +167,19 @@
                     >
                   </calcite-notice>
                 </div> -->
+                <calcite-action slot="header-menu-actions" text-enabled text="I'm one." icon="banana"></calcite-action>
+                <calcite-action
+                  slot="header-menu-actions"
+                  text-enabled
+                  text="I'm a longer one."
+                  icon="banana"
+                ></calcite-action>
+                <calcite-action
+                  slot="header-menu-actions"
+                  text-enabled
+                  text="I am the longest one."
+                  icon="banana"
+                ></calcite-action>
                 <calcite-block heading="Options" collapsible open>
                   <calcite-icon icon="sliders" scale="m" slot="icon"></calcite-icon>
                   <calcite-label layout="inline-space-between">
@@ -188,12 +201,7 @@
                   <calcite-label scale="s">
                     Title
                     <calcite-input type="text" placeholder="My awesome title" value="{Cty_NAME}">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="input-action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -212,22 +220,12 @@
                   <calcite-label scale="s">
                     Title
                     <calcite-input type="text" placeholder="My awesome title">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="input-action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input> </calcite-label
                   ><calcite-label scale="s">
                     Description
                     <calcite-input type="text" placeholder="My awesome description">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="input-action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-value-list drag-enabled>
@@ -246,22 +244,12 @@
                   <calcite-label scale="s">
                     Title
                     <calcite-input type="text" placeholder="My awesome title">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="input-action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input> </calcite-label
                   ><calcite-label scale="s">
                     Description
                     <calcite-input type="text" placeholder="My awesome description">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="input-action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <h4>Field items</h4>
@@ -304,7 +292,7 @@
             </calcite-flow>
             <!-- </div> -->
           </calcite-shell-panel>
-          <div class="gnav" slot="shell-header">
+          <div class="gnav" slot="header">
             <h2>Cool app</h2>
           </div>
           <calcite-tip-manager slot="center-row" id="tip-manager" hidden>
@@ -355,7 +343,7 @@
           </calcite-tip-manager>
           <div id="viewDiv"></div>
 
-          <footer slot="shell-footer">Footer</footer>
+          <footer slot="footer">Footer</footer>
         </calcite-shell>
       </div>
       <calcite-popover label="right start popover" placement="right" reference-element="popover-trigger">

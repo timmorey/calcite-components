@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-dropdown-width: the width of the dropdown wrapper
+ */
+
 :host {
   @apply relative inline-flex flex-grow;
 }
@@ -23,7 +31,7 @@
   width: var(--calcite-dropdown-width);
 }
 .calcite-dropdown-trigger-container {
-  @apply relative w-full;
+  @apply relative w-auto;
 }
 // width
 :host([width="s"]) {

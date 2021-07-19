@@ -9,7 +9,7 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { nodeListToArray } from "../../utils/dom";
+import { focusElement, nodeListToArray } from "../../utils/dom";
 import { TreeItemSelectDetail } from "../calcite-tree-item/interfaces";
 import { TreeSelectDetail, TreeSelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
@@ -46,7 +46,10 @@ export class CalciteTree {
   /** Specify the scale of the tree, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: Extract<"s" | "m", Scale> = "m";
 
-  /** Customize how tree selection works (single, multi, children, multi-children) */
+  /** Customize how tree selection works (single, multi, children, multi-children)
+   * @default "single"
+   * @see [TreeSelectionMode](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-tree/interfaces.ts#L5)
+   */
   @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode =
     TreeSelectionMode.Single;
 
@@ -73,7 +76,7 @@ export class CalciteTree {
           this.selectionMode === TreeSelectionMode.MultiChildren
         }
         role={!this.child ? "tree" : undefined}
-        tabindex={!this.child ? "0" : undefined}
+        tabIndex={this.getRootTabIndex()}
       >
         <slot />
       </Host>
@@ -88,12 +91,28 @@ export class CalciteTree {
 
   @Listen("focus") onFocus(): void {
     if (!this.child) {
-      const selectedNode = this.el.querySelector(
-        "calcite-tree-item[selected]"
-      ) as HTMLCalciteTreeItemElement;
-      const firstNode = this.el.querySelector("calcite-tree-item") as HTMLCalciteTreeItemElement;
+      const focusTarget =
+        this.el.querySelector<HTMLCalciteTreeItemElement>("calcite-tree-item[selected]") ||
+        this.el.querySelector<HTMLCalciteTreeItemElement>("calcite-tree-item");
 
-      (selectedNode || firstNode).focus();
+      focusElement(focusTarget);
+    }
+  }
+
+  @Listen("focusin") onFocusIn(event: FocusEvent): void {
+    const focusedFromRootOrOutsideTree =
+      event.relatedTarget === this.el || !this.el.contains(event.relatedTarget as HTMLElement);
+
+    if (focusedFromRootOrOutsideTree) {
+      this.el.tabIndex = -1;
+    }
+  }
+
+  @Listen("focusout") onFocusOut(event: FocusEvent): void {
+    const willFocusOutsideTree = !this.el.contains(event.relatedTarget as HTMLElement);
+
+    if (willFocusOutsideTree) {
+      this.el.tabIndex = this.getRootTabIndex();
     }
   }
 
@@ -248,6 +267,17 @@ export class CalciteTree {
 
   /**
    * Emitted when user selects/deselects tree items. An object including an array of selected items will be passed in the event's `detail` property.
+   * @see [TreeSelectDetail](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-tree/interfaces.ts#L1)
    */
   @Event() calciteTreeSelect: EventEmitter<TreeSelectDetail>;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  getRootTabIndex(): number {
+    return !this.child ? 0 : -1;
+  }
 }

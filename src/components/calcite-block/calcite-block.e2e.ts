@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-block", () => {
   it("renders", async () => renders("calcite-block"));
@@ -16,6 +17,14 @@ describe("calcite-block", () => {
       {
         propertyName: "headingLevel",
         defaultValue: undefined
+      },
+      {
+        propertyName: "intlLoading",
+        defaultValue: TEXT.loading
+      },
+      {
+        propertyName: "intlOptions",
+        defaultValue: TEXT.options
       },
       {
         propertyName: "open",
@@ -214,6 +223,35 @@ describe("calcite-block", () => {
 
       const iconSlot = await page.find(`calcite-block >>> slot[name=${SLOTS.icon}]`);
       expect(await iconSlot.isVisible()).toBe(true);
+    });
+
+    it("displays a status icon instead of a header icon when `status` is an accepted value", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-block status="invalid">
+          <div class="header-icon" slot=${SLOTS.icon} /></calcite-block>
+        </calcite-block>`
+      );
+
+      const headerIcon = await page.find("calcite-block >>> .header-icon");
+      expect(headerIcon).toBeNull();
+
+      const statusIcon = await page.find(`calcite-block >>> .${CSS.statusIcon}`);
+      expect(statusIcon).not.toBeNull();
+    });
+
+    it("allows users to slot in actions in a header menu", async () => {
+      const page = await newE2EPage({
+        html: html` <calcite-block heading="With header actions" summary="has header actions">
+          <calcite-action label="Add" icon="plus" slot="header-menu-actions"></calcite-action>
+        </calcite-block>`
+      });
+
+      const menuSlot = await page.find(`calcite-block >>> calcite-action-menu slot[name=${SLOTS.headerMenuActions}]`);
+      expect(menuSlot).toBeDefined();
+
+      const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot.name);
+      expect(actionAssignedSlot).toBe(SLOTS.headerMenuActions);
     });
   });
 });

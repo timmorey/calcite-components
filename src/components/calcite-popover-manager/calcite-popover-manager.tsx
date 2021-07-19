@@ -6,7 +6,8 @@ import { queryElementRoots, queryElementsRoots } from "../../utils/dom";
  * @slot - A slot for adding elements that reference a 'calcite-popover' by the 'selector' property.
  */
 @Component({
-  tag: "calcite-popover-manager"
+  tag: "calcite-popover-manager",
+  shadow: true
 })
 export class CalcitePopoverManager {
   // --------------------------------------------------------------------------
@@ -25,6 +26,7 @@ export class CalcitePopoverManager {
 
   /**
    * CSS Selector to match reference elements for popovers. Reference elements will be identified by this selector in order to open their associated popover.
+   * @default `[data-calcite-popover-reference]`
    */
   @Prop() selector = `[${POPOVER_REFERENCE}]`;
 
