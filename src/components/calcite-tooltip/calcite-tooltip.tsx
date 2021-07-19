@@ -29,6 +29,7 @@ export class CalciteTooltip {
 
   /**
    * Offset the position of the popover away from the reference element.
+   * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
 
@@ -54,6 +55,10 @@ export class CalciteTooltip {
 
   @Watch("open")
   openHandler(): void {
+    if (!this._referenceElement) {
+      this.referenceElementHandler();
+    }
+
     this.reposition();
   }
 
@@ -62,6 +67,7 @@ export class CalciteTooltip {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
+   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
@@ -71,7 +77,7 @@ export class CalciteTooltip {
   }
 
   /**
-   * Reference HTMLElement used to position this component.
+   * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
    */
   @Prop() referenceElement: HTMLElement | string;
 

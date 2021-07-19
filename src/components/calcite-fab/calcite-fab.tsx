@@ -33,6 +33,7 @@ export class CalciteFab {
 
   /**
    * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
+   * @default "plus"
    */
   @Prop() icon?: string = ICONS.plus;
 
@@ -97,12 +98,12 @@ export class CalciteFab {
     return (
       <calcite-button
         appearance={appearance}
-        aria-label={label}
         class={CSS.button}
         color={color}
         dir={dir}
         disabled={disabled}
         iconStart={icon}
+        label={label}
         loading={loading}
         ref={(buttonEl): void => {
           this.buttonEl = buttonEl;

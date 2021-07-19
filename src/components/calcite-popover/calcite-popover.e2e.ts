@@ -90,6 +90,10 @@ describe("calcite-popover", () => {
 
     const element = await page.find("calcite-popover");
 
+    let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
+
+    expect(computedStyle.transform).toBe("matrix(0, 0, 0, 0, 0, 0)");
+
     await page.$eval("calcite-popover", (elm: any) => {
       const referenceElement = document.createElement("div");
       document.body.appendChild(referenceElement);
@@ -98,9 +102,9 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const computedStyle = await element.getComputedStyle();
+    computedStyle = await element.getComputedStyle();
 
-    expect(computedStyle.transform).not.toBe("none");
+    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 
   it("open popover should be visible", async () => {
@@ -148,7 +152,7 @@ describe("calcite-popover", () => {
 
     const computedStyle = await element.getComputedStyle();
 
-    expect(computedStyle.transform).not.toBe("none");
+    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 
   it("should show closeButton when enabled", async () => {
@@ -195,7 +199,7 @@ describe("calcite-popover", () => {
     expect(await popover.isVisible()).toBe(true);
   });
 
-  it("should emit close event", async () => {
+  it("should emit open event", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -210,14 +214,19 @@ describe("calcite-popover", () => {
 
     expect(event).toHaveReceivedEventTimes(0);
 
-    popover.setProperty("open", true);
+    const popoverOpenEvent = page.waitForEvent("calcitePopoverOpen");
 
-    await page.waitForChanges();
+    await page.evaluate(() => {
+      const popover = document.querySelector("calcite-popover");
+      popover.open = true;
+    });
+
+    await popoverOpenEvent;
 
     expect(event).toHaveReceivedEventTimes(1);
   });
 
-  it("should emit open event", async () => {
+  it("should emit close event", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -232,9 +241,14 @@ describe("calcite-popover", () => {
 
     expect(event).toHaveReceivedEventTimes(0);
 
-    popover.setProperty("open", false);
+    const popoverCloseEvent = page.waitForEvent("calcitePopoverClose");
 
-    await page.waitForChanges();
+    await page.evaluate(() => {
+      const popover = document.querySelector("calcite-popover");
+      popover.open = false;
+    });
+
+    await popoverCloseEvent;
 
     expect(event).toHaveReceivedEventTimes(1);
   });
@@ -290,5 +304,36 @@ describe("calcite-popover", () => {
 
     expect(id).toEqual(userDefinedId);
     expect(referenceId).toEqual(userDefinedId);
+  });
+
+  it("should get referenceElement when opened", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-popover placement="auto" reference-element="ref">content</calcite-popover>`);
+
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-popover");
+
+    let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
+
+    expect(computedStyle.transform).toBe("matrix(0, 0, 0, 0, 0, 0)");
+
+    await page.evaluate(() => {
+      const referenceElement = document.createElement("div");
+      referenceElement.id = "ref";
+      referenceElement.innerHTML = "test";
+      document.body.appendChild(referenceElement);
+    });
+
+    await page.waitForChanges();
+
+    element.setProperty("open", true);
+
+    await page.waitForChanges();
+
+    computedStyle = await element.getComputedStyle();
+
+    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 });

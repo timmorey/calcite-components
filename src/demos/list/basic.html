@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+
+    <title>Calcite Components: calcite-list</title>
+
+    <script src="../_assets/head.js"></script>
+    <style>
+      .example-container {
+        margin-bottom: 3rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <section class="example-container">
+        <h1>calcite-list</h1>
+        <h2>Simple list</h2>
+        <calcite-list>
+          <calcite-list-item label="test" description="hello world">
+            <calcite-icon icon="check" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+          </calcite-list-item>
+          <calcite-list-item label="test" description="hello world">
+            <calcite-icon icon="blank" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+          </calcite-list-item>
+        </calcite-list>
+      </section>
+      <section class="example-container">
+        <h2>Rich content</h2>
+        <calcite-list>
+          <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+            <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+            <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
+            <calcite-avatar
+              scale="m"
+              slot="content-start"
+              thumbnail="http://mariadefatima.github.io/DASHH/img/profile_avatar.png"
+            ></calcite-avatar>
+            <calcite-icon
+              scale="s"
+              icon="check-circle"
+              slot="content-end"
+              style="color: var(--calcite-ui-success)"
+            ></calcite-icon>
+            <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
+            <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+          <calcite-list-item label="Finn Mertens" description="Part owner of the Tree House">
+            <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+            <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
+            <calcite-avatar
+              scale="m"
+              slot="content-start"
+              thumbnail="https://i1.sndcdn.com/avatars-000304648977-7nhi7j-t500x500.jpg"
+            ></calcite-avatar>
+            <calcite-icon
+              scale="s"
+              icon="check-circle"
+              slot="content-end"
+              style="color: var(--calcite-ui-success)"
+            ></calcite-icon>
+            <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
+            <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+          <calcite-list-item label="Jake T. Dog" description="Part owner of the Tree House">
+            <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+            <calcite-icon scale="l" icon="walking" slot="content-start"></calcite-icon>
+            <calcite-avatar
+              scale="m"
+              slot="content-start"
+              thumbnail="http://mariadefatima.github.io/DASHH/img/friends/jake.jpg"
+            ></calcite-avatar>
+            <calcite-icon
+              scale="s"
+              icon="exclamation-mark-triangle"
+              slot="content-end"
+              style="color: var(--calcite-ui-danger)"
+            ></calcite-icon>
+            <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
+            <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+        </calcite-list>
+      </section>
+      <section class="example-container">
+        <h2>Non interactive</h2>
+        <calcite-list>
+          <calcite-list-item non-interactive label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+            <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+            <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
+            <calcite-avatar
+              scale="m"
+              slot="content-start"
+              thumbnail="http://mariadefatima.github.io/DASHH/img/profile_avatar.png"
+            ></calcite-avatar>
+            <calcite-icon
+              scale="s"
+              icon="check-circle"
+              slot="content-end"
+              style="color: var(--calcite-ui-success)"
+            ></calcite-icon>
+            <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
+            <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+          <calcite-list-item non-interactive label="Finn Mertens" description="Part owner of the Tree House">
+            <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+            <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
+            <calcite-avatar
+              scale="m"
+              slot="content-start"
+              thumbnail="https://i1.sndcdn.com/avatars-000304648977-7nhi7j-t500x500.jpg"
+            ></calcite-avatar>
+            <calcite-icon
+              scale="s"
+              icon="check-circle"
+              slot="content-end"
+              style="color: var(--calcite-ui-success)"
+            ></calcite-icon>
+            <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
+            <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+          <calcite-list-item non-interactive label="Jake T. Dog" description="Part owner of the Tree House">
+            <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
+            <calcite-icon scale="l" icon="walking" slot="content-start"></calcite-icon>
+            <calcite-avatar
+              scale="m"
+              slot="content-start"
+              thumbnail="http://mariadefatima.github.io/DASHH/img/friends/jake.jpg"
+            ></calcite-avatar>
+            <calcite-icon
+              scale="s"
+              icon="exclamation-mark-triangle"
+              slot="content-end"
+              style="color: var(--calcite-ui-danger)"
+            ></calcite-icon>
+            <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
+            <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
+          </calcite-list-item>
+        </calcite-list>
+      </section>
+    </main>
+  </body>
+</html>

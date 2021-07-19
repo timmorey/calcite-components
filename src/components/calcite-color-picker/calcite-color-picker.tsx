@@ -47,8 +47,7 @@ export class CalciteColorPicker {
   //
   //--------------------------------------------------------------------------
 
-  @Element()
-  el: HTMLCalciteColorPickerElement;
+  @Element() el: HTMLCalciteColorPickerElement;
 
   //--------------------------------------------------------------------------
   //
@@ -71,10 +70,7 @@ export class CalciteColorPicker {
    *
    * @internal
    */
-  @Prop({
-    mutable: true
-  })
-  color: InternalColor | null = DEFAULT_COLOR;
+  @Prop({ mutable: true }) color: InternalColor | null = DEFAULT_COLOR;
 
   @Watch("color")
   handleColorChange(color: Color | null, oldColor: Color | null): void {
@@ -94,6 +90,7 @@ export class CalciteColorPicker {
    * The format of the value property.
    *
    * When "auto", the format will be inferred from `value` when set.
+   * @default "auto"
    */
   @Prop() format: Format = defaultFormat;
 
@@ -112,72 +109,106 @@ export class CalciteColorPicker {
   /** When true, hides the saved colors section */
   @Prop() hideSaved = false;
 
-  /** Label used for the blue channel */
+  /** Label used for the blue channel
+   * @default "B"
+   */
   @Prop() intlB = TEXT.b;
 
-  /** Label used for the blue channel description */
+  /** Label used for the blue channel description
+   * @default "Blue"
+   */
   @Prop() intlBlue = TEXT.blue;
 
-  /** Label used for the delete color button. */
+  /** Label used for the delete color button.
+   * @default "Delete color"
+   */
   @Prop() intlDeleteColor = TEXT.deleteColor;
 
-  /** Label used for the green channel */
+  /** Label used for the green channel
+   * @default "G"
+   */
   @Prop() intlG = TEXT.g;
 
-  /** Label used for the green channel description */
+  /** Label used for the green channel description
+   * @default "Green"
+   */
   @Prop() intlGreen = TEXT.green;
 
-  /** Label used for the hue channel */
+  /** Label used for the hue channel
+   * @default "H"
+   */
   @Prop() intlH = TEXT.h;
 
-  /** Label used for the HSV mode */
+  /** Label used for the HSV mode
+   * @default "HSV"
+   */
   @Prop() intlHsv = TEXT.hsv;
 
-  /** Label used for the hex input */
+  /** Label used for the hex input
+   * @default "Hex"
+   */
   @Prop() intlHex = TEXT.hex;
 
-  /** Label used for the hue channel description */
+  /** Label used for the hue channel description
+   * @default "Hue"
+   */
   @Prop() intlHue = TEXT.hue;
 
   /**
    * Label used for the hex input when there is no color selected.
+   * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
 
-  /** Label used for the red channel */
+  /** Label used for the red channel
+   * @default "R"
+   */
   @Prop() intlR = TEXT.r;
 
-  /** Label used for the red channel description */
+  /** Label used for the red channel description
+   * @default "Red"
+   */
   @Prop() intlRed = TEXT.red;
 
-  /** Label used for the RGB mode */
+  /** Label used for the RGB mode
+   * @default "RGB"
+   */
   @Prop() intlRgb = TEXT.rgb;
 
-  /** Label used for the saturation channel */
+  /** Label used for the saturation channel
+   * @default "S"
+   */
   @Prop() intlS = TEXT.s;
 
-  /** Label used for the saturation channel description */
+  /** Label used for the saturation channel description
+   * @default "Saturation"
+   */
   @Prop() intlSaturation = TEXT.saturation;
 
-  /** Label used for the save color button. */
+  /** Label used for the save color button.
+   * @default "Save color"
+   */
   @Prop() intlSaveColor = TEXT.saveColor;
 
-  /** Label used for the saved colors section */
+  /** Label used for the saved colors section
+   * @default "Saved"
+   */
   @Prop() intlSaved = TEXT.saved;
 
-  /** Label used for the value channel */
+  /** Label used for the value channel
+   * @default "V"
+   */
   @Prop() intlV = TEXT.v;
 
-  /** Label used for the  */
+  /** Label used for the
+   * @default "Value"
+   */
   @Prop() intlValue = TEXT.value;
 
   /**
    * The scale of the color picker.
    */
-  @Prop({
-    reflect: true
-  })
-  scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   @Watch("scale")
   handleScaleChange(scale: Scale = "m"): void {
@@ -196,11 +227,10 @@ export class CalciteColorPicker {
    * a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
+   * @default "#007ac2"
+   * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-color-picker/interfaces.ts#L10)
    */
-  @Prop({
-    mutable: true
-  })
-  value: ColorValue | null = defaultValue;
+  @Prop({ mutable: true }) value: ColorValue | null = defaultValue;
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
@@ -256,7 +286,7 @@ export class CalciteColorPicker {
 
   private globalThumbY: number;
 
-  private hexInputNode: HTMLCalciteColorPickerHexInputElement;
+  private colorFieldScopeNode: HTMLDivElement;
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
 
@@ -297,8 +327,7 @@ export class CalciteColorPicker {
   /**
    * Fires when the color value has changed.
    */
-  @Event()
-  calciteColorPickerChange: EventEmitter;
+  @Event() calciteColorPickerChange: EventEmitter;
 
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
@@ -317,7 +346,7 @@ export class CalciteColorPicker {
       ArrowLeft: { x: -10, y: 0 }
     };
 
-    if (Object.keys(arrowKeyToXYOffset).includes(key)) {
+    if (arrowKeyToXYOffset[key]) {
       event.preventDefault();
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
       this.captureColorFieldColor(
@@ -325,7 +354,6 @@ export class CalciteColorPicker {
         this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0,
         false
       );
-      return;
     }
   };
 
@@ -339,13 +367,12 @@ export class CalciteColorPicker {
       ArrowLeft: -1
     };
 
-    if (Object.keys(arrowKeyToXOffset).includes(key)) {
+    if (arrowKeyToXOffset[key]) {
       event.preventDefault();
       const delta = arrowKeyToXOffset[key] * modifier;
-      const hue = this.baseColorFieldColor?.hue();
-      const color = hue ? this.baseColorFieldColor.hue(hue + delta) : Color({ h: 0, s: 0, v: 100 });
+      const hue = this.baseColorFieldColor.hue();
+      const color = this.baseColorFieldColor.hue(hue + delta);
       this.internalColorSet(color, false);
-      return;
     }
   };
 
@@ -607,7 +634,7 @@ export class CalciteColorPicker {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.hexInputNode);
+    return focusElement(this.colorFieldScopeNode);
   }
 
   //--------------------------------------------------------------------------
@@ -699,8 +726,9 @@ export class CalciteColorPicker {
             aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
             aria-valuemin="0"
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
-            class={CSS.scope}
+            class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
             onKeyDown={this.handleColorFieldScopeKeyDown}
+            ref={this.storeColorFieldScope}
             role="slider"
             style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
             tabindex="0"
@@ -710,7 +738,7 @@ export class CalciteColorPicker {
             aria-valuemax={HSV_LIMITS.h}
             aria-valuemin="0"
             aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
-            class={CSS.scope}
+            class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
             onKeyDown={this.handleHueScopeKeyDown}
             role="slider"
             style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
@@ -740,7 +768,6 @@ export class CalciteColorPicker {
                   class={CSS.control}
                   dir={elementDir}
                   onCalciteColorPickerHexInputChange={this.handleHexInputChange}
-                  ref={this.storeHexInputRef}
                   scale={hexInputScale}
                   value={selectedColorInHex}
                 />
@@ -772,21 +799,21 @@ export class CalciteColorPicker {
               <div class={CSS.savedColorsButtons}>
                 <calcite-button
                   appearance="transparent"
-                  aria-label={intlDeleteColor}
                   class={CSS.deleteColor}
                   color="neutral"
                   disabled={noColor}
                   iconStart="minus"
+                  label={intlDeleteColor}
                   onClick={this.deleteColor}
                   scale={scale}
                 />
                 <calcite-button
                   appearance="transparent"
-                  aria-label={intlSaveColor}
                   class={CSS.saveColor}
                   color="neutral"
                   disabled={noColor}
                   iconStart="plus"
+                  label={intlSaveColor}
                   onClick={this.saveColor}
                   scale={scale}
                 />
@@ -816,8 +843,8 @@ export class CalciteColorPicker {
     );
   }
 
-  private storeHexInputRef = (node: HTMLCalciteColorPickerHexInputElement): void => {
-    this.hexInputNode = node;
+  private storeColorFieldScope = (node: HTMLDivElement): void => {
+    this.colorFieldScopeNode = node;
   };
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
@@ -881,9 +908,9 @@ export class CalciteColorPicker {
     ariaLabel: string
   ): VNode => (
     <calcite-input
-      aria-label={ariaLabel}
       class={CSS.channel}
       data-channel-index={index}
+      label={ariaLabel}
       numberButtonType="none"
       onCalciteInputChange={this.handleChannelChange}
       onCalciteInputInput={this.handleChannelInput}

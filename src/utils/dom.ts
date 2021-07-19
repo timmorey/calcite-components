@@ -22,12 +22,6 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
 
 export type Direction = "ltr" | "rtl";
 
-export function getAttributes(el: HTMLElement, blockList: string[]): Record<string, any> {
-  return Array.from(el.attributes)
-    .filter((a) => a && !blockList.includes(a.name))
-    .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
-}
-
 export function getThemeName(el: HTMLElement): "light" | "dark" {
   return closestElementCrossShadowBoundary(`.${CSS_UTILITY.darkTheme}`, el) ? "dark" : "light";
 }
@@ -121,7 +115,11 @@ function closestElementCrossShadowBoundary<E extends Element = Element>(
 }
 
 export interface CalciteFocusableElement extends HTMLElement {
-  setFocus?: () => void;
+  setFocus?: () => Promise<void>;
+}
+
+export function isCalciteFocusable(el: CalciteFocusableElement): boolean {
+  return typeof el?.setFocus === "function";
 }
 
 export async function focusElement(el: CalciteFocusableElement): Promise<void> {
@@ -129,7 +127,7 @@ export async function focusElement(el: CalciteFocusableElement): Promise<void> {
     return;
   }
 
-  typeof el.setFocus === "function" ? el.setFocus() : el.focus();
+  return isCalciteFocusable(el) ? el.setFocus() : el.focus();
 }
 
 interface GetSlottedOptions {
@@ -210,4 +208,13 @@ export function setRequestedIcon(
   } else if (iconValue === "") {
     return iconObject[matchedValue];
   }
+}
+
+export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
+  return !(
+    rect2.left > rect1.right ||
+    rect2.right < rect1.left ||
+    rect2.top > rect1.bottom ||
+    rect2.bottom < rect1.top
+  );
 }

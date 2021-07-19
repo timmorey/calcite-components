@@ -18,7 +18,8 @@ import {
   ensureId,
   focusElement,
   getElementDir,
-  getSlotted
+  getSlotted,
+  isCalciteFocusable
 } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { queryShadowRoot } from "@a11y/focus-trap/shadow";
@@ -27,13 +28,13 @@ import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
-function isCalciteFocusable(el: CalciteFocusableElement): boolean {
-  return typeof el.setFocus === "function" || isFocusable(el);
-}
+const isFocusableExtended = (el: CalciteFocusableElement): boolean => {
+  return isCalciteFocusable(el) || isFocusable(el);
+};
 
-function getFocusableElements(el: HTMLElement): HTMLElement[] {
-  return queryShadowRoot(el, isHidden, isCalciteFocusable);
-}
+const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
+  return queryShadowRoot(el, isHidden, isFocusableExtended);
+};
 
 @Component({
   tag: "calcite-modal",
@@ -61,6 +62,9 @@ export class CalciteModal {
 
   /** Disables the display a close button within the Modal */
   @Prop() disableCloseButton?: boolean;
+
+  /** Disables the closing of the Modal when clicked outside. */
+  @Prop() disableOutsideClose?: boolean;
 
   /** Aria label for the close button */
   @Prop() intlClose = "Close";
@@ -130,9 +134,12 @@ export class CalciteModal {
         aria-modal="true"
         role="dialog"
       >
-        <calcite-scrim class="scrim" />
+        <calcite-scrim class="scrim" onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div
+          class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          onTransitionEnd={this.transitionEnd}
+        >
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class="header">
             {this.renderCloseButton()}
@@ -225,8 +232,6 @@ export class CalciteModal {
 
   contentId: string;
 
-  focusTimeout: number;
-
   modalContent: HTMLDivElement;
 
   private mutationObserver: MutationObserver = null;
@@ -234,6 +239,8 @@ export class CalciteModal {
   previousActiveElement: HTMLElement;
 
   titleId: string;
+
+  private activeTransitionProp = "opacity";
 
   //--------------------------------------------------------------------------
   //
@@ -309,6 +316,12 @@ export class CalciteModal {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active ? this.calciteModalOpen.emit() : this.calciteModalClose.emit();
+    }
+  };
+
   @Watch("active")
   async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
     if (value !== oldValue) {
@@ -320,9 +333,15 @@ export class CalciteModal {
     }
   }
 
+  private openEnd = (): void => {
+    this.setFocus();
+    this.el.removeEventListener("calciteModalOpen", this.openEnd);
+  };
+
   /** Open the modal */
   private open() {
     this.previousActiveElement = document.activeElement as HTMLElement;
+    this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.active = true;
 
     const titleEl = getSlotted(this.el, "header");
@@ -331,14 +350,16 @@ export class CalciteModal {
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    clearTimeout(this.focusTimeout);
-    // wait for the modal to open, then handle focus.
-    this.focusTimeout = window.setTimeout(() => {
-      this.focusElement(this.firstFocus);
-      this.calciteModalOpen.emit();
-    }, 300);
     document.documentElement.classList.add("overflow-hidden");
   }
+
+  handleOutsideClose = (): void => {
+    if (this.disableOutsideClose) {
+      return;
+    }
+
+    this.close();
+  };
 
   /** Close the modal, first running the `beforeClose` method */
   close = (): Promise<void> => {
@@ -346,7 +367,6 @@ export class CalciteModal {
       this.active = false;
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
-      setTimeout(() => this.calciteModalClose.emit(), 300);
     });
   };
 

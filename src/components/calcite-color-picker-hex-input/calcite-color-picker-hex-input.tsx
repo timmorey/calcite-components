@@ -84,11 +84,13 @@ export class CalciteColorPickerHexInput {
 
   /**
    * Label used for the hex input.
+   * @default "Hex"
    */
   @Prop() intlHex = TEXT.hex;
 
   /**
    * Label used for the hex input when there is no color selected.
+   * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
 
@@ -252,9 +254,9 @@ export class CalciteColorPickerHexInput {
     return (
       <div class={CSS.container}>
         <calcite-input
-          aria-label={intlHex}
           class={CSS.input}
           dir={elementDir}
+          label={intlHex}
           onCalciteInputBlur={this.onCalciteInputBlur}
           onChange={this.onInputChange}
           prefixText="#"

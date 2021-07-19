@@ -7,6 +7,9 @@ describe("calcite-checkbox", () => {
       `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox>label</calcite-label>`
     ));
 
+  it("is accessible without calcite-label", async () =>
+    accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`));
+
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-checkbox></calcite-checkbox>");
@@ -206,16 +209,13 @@ describe("calcite-checkbox", () => {
     const input = await page.find("input");
     const label = await page.find("label");
 
-    expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(await calciteCheckbox.getProperty("checked")).toBe(false);
-    expect(input).not.toHaveAttribute("checked");
     expect(await input.getProperty("checked")).toBe(false);
 
     await label.click();
 
     await page.waitForChanges();
 
-    expect(calciteCheckbox).toHaveAttribute("checked");
     expect(await calciteCheckbox.getProperty("checked")).toBe(true);
     expect(await input.getProperty("checked")).toBe(true);
   });

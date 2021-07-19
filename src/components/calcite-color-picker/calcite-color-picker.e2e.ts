@@ -1,4 +1,4 @@
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, focusable } from "../../tests/commonTests";
 
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
@@ -17,6 +17,13 @@ describe("calcite-color-picker", () => {
   );
 
   afterEach(() => consoleSpy.mockClear());
+
+  describe("is focusable", () => {
+    it("should focus scope by default", async () =>
+      focusable("<calcite-color-picker></calcite-color-picker>", {
+        shadowFocusTargetSelector: `.${CSS.colorFieldScope}`
+      }));
+  });
 
   it("is accessible", async () => {
     await accessible("calcite-color-picker");
@@ -799,15 +806,15 @@ describe("calcite-color-picker", () => {
 
           await rgbModeButton.click();
 
-          expect(await rInput.getProperty("value")).toBeNull();
-          expect(await gInput.getProperty("value")).toBeNull();
-          expect(await bInput.getProperty("value")).toBeNull();
+          expect(await rInput.getProperty("value")).toBeUndefined();
+          expect(await gInput.getProperty("value")).toBeUndefined();
+          expect(await bInput.getProperty("value")).toBeUndefined();
 
           await hsvModeButton.click();
 
-          expect(await hInput.getProperty("value")).toBeNull();
-          expect(await sInput.getProperty("value")).toBeNull();
-          expect(await vInput.getProperty("value")).toBeNull();
+          expect(await hInput.getProperty("value")).toBeUndefined();
+          expect(await sInput.getProperty("value")).toBeUndefined();
+          expect(await vInput.getProperty("value")).toBeUndefined();
         });
 
         describe("clearing color via supporting inputs", () => {
@@ -839,10 +846,10 @@ describe("calcite-color-picker", () => {
             await clearAndEnterValue(page, rInput, "");
 
             // clearing one clears the rest
-            expect(await gInput.getProperty("value")).toBeNull();
-            expect(await bInput.getProperty("value")).toBeNull();
+            expect(await gInput.getProperty("value")).toBeUndefined();
+            expect(await bInput.getProperty("value")).toBeUndefined();
 
-            expect(await picker.getProperty("value")).toBe(null);
+            expect(await picker.getProperty("value")).toBeNull();
           });
 
           it("clears color via HSV channel inputs", async () => {
@@ -862,10 +869,10 @@ describe("calcite-color-picker", () => {
             await clearAndEnterValue(page, hInput, "");
 
             // clearing one clears the rest
-            expect(await sInput.getProperty("value")).toBeNull();
-            expect(await vInput.getProperty("value")).toBeNull();
+            expect(await sInput.getProperty("value")).toBeUndefined();
+            expect(await vInput.getProperty("value")).toBeUndefined();
 
-            expect(await picker.getProperty("value")).toBe(null);
+            expect(await picker.getProperty("value")).toBeNull();
           });
         });
 
@@ -1154,6 +1161,43 @@ describe("calcite-color-picker", () => {
 
       const finalStyle = await scope.getComputedStyle();
       expect(finalStyle.left).toBe(`${DIMENSIONS.m.colorField.width}px`);
+    });
+
+    it("allows nudging color's hue even if it does not change RGB value", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-color-picker value="#000"></calcite-color-picker>`
+      });
+      const scope = await page.find(`calcite-color-picker >>> .${CSS.hueScope}`);
+
+      const nudgeAThirdOfSlider = async () => {
+        let stepsToShiftNudgeToAThird = 18;
+
+        while (stepsToShiftNudgeToAThird--) {
+          // pressing shift to move faster across slider
+          await page.keyboard.down("Shift");
+          await scope.press("ArrowRight");
+          await page.keyboard.up("Shift");
+        }
+      };
+
+      const getScopeLeftOffset = async () => parseFloat((await scope.getComputedStyle()).left);
+
+      expect(await getScopeLeftOffset()).toBe(0);
+
+      await scope.click();
+      await nudgeAThirdOfSlider();
+
+      expect(await getScopeLeftOffset()).toBeCloseTo(DIMENSIONS.m.colorField.width / 2);
+
+      await nudgeAThirdOfSlider();
+
+      // hue wraps around, so we nudge it back to assert position at the edge
+      await scope.press("ArrowLeft");
+      expect(await getScopeLeftOffset()).toBeCloseTo(DIMENSIONS.m.colorField.width - 1, 0);
+
+      // nudge it back to wrap around
+      await scope.press("ArrowRight");
+      expect(await getScopeLeftOffset()).toBeCloseTo(0);
     });
 
     it("allows editing hue slider via keyboard", async () => {
