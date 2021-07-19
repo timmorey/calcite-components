@@ -12,7 +12,7 @@ import {
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { TEXT } from "./calcite-video.resources";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-video",
@@ -25,9 +25,6 @@ export class CalciteVideo {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-
-  /** Theme of the video component */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the scale of the video player, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -172,7 +169,6 @@ export class CalciteVideo {
           onCalciteSliderChange={(e) => this.updateVolumeLevel(e)}
           onKeyDown={(e) => this.handleVolumeSliderKeyDown(e)}
           step={0.1}
-          theme={this.theme}
           value={!this.muted ? (this.volumeLevel as number) : 0}
         />
       </div>
@@ -252,12 +248,11 @@ export class CalciteVideo {
           onCalciteSliderUpdate={(e) => this.updatePlaybackPosition(e)}
           onKeyDown={(e) => this.handleScrubberKeyDown(e)}
           ref={(el) => (this.scrubberEl = el)}
-          theme={this.theme}
         />
       </div>
     ) : (
       // progress should always be ltr so explicitly set dir
-      <calcite-progress dir="ltr" ref={(el) => (this.progressEl = el)} theme={this.theme} />
+      <calcite-progress dir="ltr" ref={(el) => (this.progressEl = el)} />
     );
 
     const time = (
