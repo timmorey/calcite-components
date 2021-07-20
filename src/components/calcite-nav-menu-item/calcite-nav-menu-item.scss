@@ -1,0 +1,58 @@
+// theme variables
+// light theme
+
+:host {
+  @apply inline-flex 
+  items-center 
+  relative 
+  h-full 
+  box-border 
+  outline-none;
+}
+
+:host a {
+  @apply flex
+  h-full
+  items-center
+  justify-center
+  cursor-pointer 
+  px-6 
+  text-0
+  transition-default 
+  font-medium focus-base  
+  text-color-2 py-1 box-border;
+  border-bottom: 2px solid transparent;
+}
+
+:host([text-enabled]) a .icon.icon-start {
+  @apply mr-3;
+}
+
+:host([text-enabled]) a .icon.icon-end {
+  @apply ml-3;
+}
+:host([breadcrumb]) a {
+  @apply pr-3;
+}
+:host([breadcrumb]) a .icon.icon-breadcrumb {
+  @apply pl-3 mr-0;
+}
+
+:host(:hover) a {
+  @apply bg-foreground-2 text-color-2;
+}
+
+:host(:focus) a {
+  @apply bg-foreground-2 text-color-2 focus-inset;
+}
+
+:host(:active) a {
+  @apply text-color-1;
+}
+:host([active]) a {
+  @apply text-color-1;
+  border-bottom-color: var(--calcite-ui-brand);
+}
+:host([active]) a .icon {
+  color: var(--calcite-ui-brand);
+}

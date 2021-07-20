@@ -1,0 +1,50 @@
+:host {
+  @apply inline-flex 
+  relative 
+  h-full 
+  outline-none
+  items-center
+  justify-center
+  cursor-pointer 
+  px-6 
+  text-0
+  transition-default 
+  font-medium focus-base  
+  text-color-2 box-border;
+}
+
+:host(:hover) {
+  @apply bg-foreground-2 text-color-2;
+}
+:host(:focus) {
+  @apply bg-foreground-2 text-color-2 focus-inset;
+}
+
+:host(:active) {
+  @apply bg-foreground-3;
+}
+:host([active]) {
+  @apply bg-foreground-1 text-color-1;
+}
+
+.user-details {
+  @apply flex flex-col content-center px-6;
+  @media only screen and (max-width: $viewport-medium) {
+    @apply hidden;
+  }
+}
+
+span.user-name,
+span.user-organization {
+  display: inline-flex;
+  font-weight: 500;
+}
+
+span.user-name {
+  color: var(--calcite-nav-text-color);
+}
+
+span.user-organization {
+  color: var(--calcite-ui-text-3);
+  @include font-size(-4);
+}

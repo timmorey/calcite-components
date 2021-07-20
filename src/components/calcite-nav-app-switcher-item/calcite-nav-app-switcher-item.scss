@@ -1,0 +1,53 @@
+:host {
+  display: flex;
+  width: 100%;
+  padding: $baseline/2 $baseline;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+  @include font-size(-3);
+  color: var(--calcite-nav-text-color);
+  cursor: pointer;
+  transition: $transition;
+}
+
+.drag-handle {
+  display: flex;
+  height: 100%;
+  padding: $baseline/6;
+  margin-left: auto;
+  opacity: 0;
+  transition: $transition;
+}
+
+:host(:hover) .drag-handle {
+  opacity: .5;
+}
+
+:host .drag-handle:hover {
+  opacity: 0.8;
+}
+
+:host .drag-handle:active {
+  opacity: 1.0;
+  color: var(--calcite-nav-border-active);
+}
+
+// todo rtl
+:host .item-image {
+  display: inline-flex;
+  height: 1.75em;
+  margin-right: 1em;
+}
+
+:host([type="secondary"]) {
+  padding: $baseline/4 $baseline;
+}
+
+:host(:hover),
+:host(:focus) {
+  background-color: var(--calcite-nav-background-hover);
+}
+
+:host(:active) {
+  background-color: var(--calcite-nav-background-2);
+}

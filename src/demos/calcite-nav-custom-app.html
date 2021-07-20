@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Nav</title>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+
+  <!-- Chart JS-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css" />
+
+  <!-- JSAPI-->
+  <script src="https://js.arcgis.com/4.19/"></script>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/dark/main.css" />
+
+  <!-- Project files-->
+  <script src="./nav-demo-js/main.js"></script>
+  <link rel="stylesheet" href="./nav-demo-css/main.css">
+
+  <style>
+    * {
+      --calcite-ui-brand-1: teal;
+    }
+  </style>
+</head>
+
+
+<body>
+  <calcite-shell content-behind class="calcite-theme-dark">
+    <div slot="header">
+      <calcite-nav>
+        <calcite-nav-logo text="Bakery Finder" text-enabled slot="nav-logo" src='../assets/images/online-logo.svg' href>
+        </calcite-nav-logo>
+        <div slot="nav-actions-start">
+          <calcite-chip color="yellow">Unsaved Changes</calcite-chip>
+        </div>
+        <calcite-nav-menu slot="nav-menu-start">
+          <calcite-nav-menu-item icon="home" text="Home" text-enabled></calcite-nav-menu-item>
+          <calcite-nav-menu-item icon="gallery" text="Gallery" text-enabled></calcite-nav-menu-item>
+          <calcite-nav-menu-item icon="map" icon-position="end" text="Map" text-enabled></calcite-nav-menu-item>
+          <calcite-nav-menu-item icon="globe" text="Scene"></calcite-nav-menu-item>
+          <calcite-nav-menu-item icon="superimpose" text="Sample Name"></calcite-nav-menu-item>
+          <calcite-nav-menu-item active text="Groups" text-enabled></calcite-nav-menu-item>
+          <calcite-nav-menu-item text="Organization" text-enabled></calcite-nav-menu-item>
+        </calcite-nav-menu>
+        <div slot="nav-actions-end">
+          <calcite-button>Save</calcite-button>
+          <calcite-action icon="search" scale="l"></calcite-action>
+          <calcite-action icon="bell" scale="l" indicator></calcite-action>
+          <calcite-action icon="app-launcher" scale="l"></calcite-action>
+        </div>
+        <calcite-nav-profile slot="nav-profile" user-name="Michael Carter-Williams" user-organization="NBA, LLC">
+        </calcite-nav-profile>
+      </calcite-nav>
+      <calcite-nav type="secondary">
+        <calcite-nav-menu slot="nav-menu-start">
+          <calcite-nav-menu-item breadcrumb text="All Content" icon="book" text-enabled></calcite-nav-menu-item>
+          <calcite-nav-menu-item breadcrumb text="Applications" icon="apps" text-enabled></calcite-nav-menu-item>
+          <calcite-nav-menu-item text-enabled text="My Excellent Application"></calcite-nav-menu-item>
+        </calcite-nav-menu>
+        <calcite-nav-menu slot="nav-menu-end">
+          <calcite-nav-menu-item text-enabled text="Overview"></calcite-nav-menu-item>
+          <calcite-nav-menu-item text-enabled text="Data" active></calcite-nav-menu-item>
+          <calcite-nav-menu-item text-enabled text="Details"></calcite-nav-menu-item>
+          <calcite-nav-menu-item text-enabled text="Something Else"></calcite-nav-menu-item>
+        </calcite-nav-menu>
+      </calcite-nav>
+    </div>
+    <calcite-shell-panel slot="primary-panel">
+      <calcite-panel heading="Configuration options" description="The map will update based on your choices">
+        <!-- <calcite-fab slot="fab" icon="banana" color="red" text="Report a bug" text-enabled
+                    onClick=(document.querySelector("#test-modal").active=true)></calcite-fab>
+                -->
+        <!--<calcite-fab slot="fab" icon="debug" text="Report a bug" text-enabled
+                    onClick=(document.querySelector("#test-modal").active=true)></calcite-fab> -->
+
+        <calcite-block open heading="Select visualization">
+          <calcite-icon slot="icon" icon="graph-time-series"></calcite-icon>
+          <calcite-radio-button-group id="viewTypeRadio" layout="vertical" width="full">
+            <calcite-radio-button checked icon-start="group" value="Age">Age groups
+            </calcite-radio-button>
+            <calcite-radio-button icon-start="calculator" value="Income">Income predominance
+            </calcite-radio-button>
+          </calcite-radio-button-group>
+        </calcite-block>
+
+        <!--
+                <calcite-notice active id="ageGroupNotice">
+                    <div slot="notice-title">
+                        Interact with the map!
+                    </div>
+                    <div slot="notice-message">
+                        Use the handles to reposition or adjust the size of the filter ring
+                    </div>
+                </calcite-notice>
+           -->
+        <calcite-block heading="Age Group Options" collapsible open id="shellBlockAgeOptions">
+          <calcite-icon slot="icon" icon="sliders"></calcite-icon>
+          <calcite-label>
+            Age range
+            <calcite-select id="ageSelect">
+              <calcite-option value="none">
+                Custom
+              </calcite-option>
+              <calcite-option value="infant">
+                Infants </calcite-option>
+              <calcite-option value="child">
+                Children (1-11)
+              </calcite-option>
+              <calcite-option value="teen">
+                Teens (12-17)
+              </calcite-option>
+              <calcite-option value="college" selected>
+                College Age (18-22)
+              </calcite-option>
+              <calcite-option value="millenials">
+                Millenials (24-39)
+              </calcite-option>
+              <calcite-option value="genx">
+                Generation X (40-55)
+              </calcite-option>
+              <calcite-option value="boomer">
+                Baby Boomers (56-74)
+              </calcite-option>
+            </calcite-select>
+          </calcite-label>
+          <calcite-label id="ageSliderLabel" disabled>
+            <calcite-slider id="ageSlider" min=0" max="84" min-value="18" max-value="22" step=2 min-label="Minimum Age"
+              max-label="Maximum Age" label-handles disabled>
+            </calcite-slider>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Above and below color ramp
+            <calcite-switch id="above-below-switch" name="setting" value="enabled">
+            </calcite-switch>
+          </calcite-label>
+        </calcite-block>
+
+        <calcite-block collapsible heading="Income predominance options" open id="shellBlockIncomeOptions"
+          style="display:none">
+          <calcite-icon slot="icon" icon="sliders"></calcite-icon>
+          <calcite-label>
+            Age range
+            <calcite-select id="ageForIncome" layout="horizontal" appearance="solid" scale="m" width="auto"
+              role="radiogroup">
+              <calcite-option value="HINC" selected>
+                All ages
+              </calcite-option>
+              <calcite-option value="A15">
+                15-24
+              </calcite-option>
+              <calcite-option value="A25">
+                25-34
+              </calcite-option>
+              <calcite-option value="A35">
+                35-44
+              </calcite-option>
+              <calcite-option value="A45">
+                45-54
+              </calcite-option>
+              <calcite-option value="A55">
+                55-64
+              </calcite-option>
+              <calcite-option value="A65">
+                65-74
+              </calcite-option>
+              <calcite-option value="A75">
+                75+
+                </calcite-radio-group-item>
+                <input type=" hidden" />
+            </calcite-select>
+          </calcite-label>
+        </calcite-block>
+
+        <calcite-block heading="About this app" collapsible>
+          <calcite-icon slot="icon" icon="lightbulb"></calcite-icon>
+          <p>
+            This application was built by Esri's <calcite-link href="https://github.com/annelfitz" target="_blank"
+              rel="noreferrer noopener">@annelfitz</calcite-link> using <calcite-link
+              href="https://github.com/annelfitz" target="_blank" rel="noreferrer noopener">Calcite
+              Components
+            </calcite-link> and the <calcite-link href="https://github.com/annelfitz" target="_blank"
+              rel="noreferrer noopener">JSAPI</calcite-link>.
+          </p>
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+
+    <calcite-shell-center-row height-scale="l">
+      <!-- The map-->
+      <div id="viewDiv"></div>
+    </calcite-shell-center-row>
+
+    <calcite-shell-panel detached slot="contextual-panel" position="end" width-scale="l">
+      <calcite-panel heading="Data and Visualization">
+        <calcite-block heading="Age distribution" open collapsible id="shellBlockAgeChart">
+          <canvas id="chart"></canvas>
+          </div>
+        </calcite-block>
+
+        <calcite-block heading="Income Distribution" id="shellBlockIncomeChart" summary="Plotted as a donut" collapsible
+          open style="display:none">
+          <canvas id="chartDonut"></canvas>
+        </calcite-block>
+
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

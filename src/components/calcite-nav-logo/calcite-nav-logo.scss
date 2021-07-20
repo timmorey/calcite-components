@@ -1,0 +1,29 @@
+:host {
+  @apply inline-flex outline-none;
+  & a {
+    @apply flex
+  items-center
+  justify-center
+  cursor-pointer py-2 px-4 transition-default focus-base no-underline;
+  }
+  & img {
+    @apply flex h-8;
+  }
+}
+
+:host(:hover) a,
+:host(:focus) a {
+  @apply bg-foreground-2;
+}
+:host(:focus) a {
+  @apply focus-inset;
+}
+:host(:active) a {
+  @apply bg-foreground-3;
+}
+
+.logo-text {
+  @apply inline-flex ml-4 text-0
+  font-bold
+  text-color-2;
+}

@@ -84,6 +84,7 @@ export class CalciteShell {
     const primaryPanel = getSlotted<HTMLCalciteShellPanelElement>(this.el, SLOTS.primaryPanel);
 
     const mainClasses = {
+      [CSS.hasHeader]: !!getSlotted(this.el, SLOTS.header),
       [CSS.main]: true,
       [CSS.mainReversed]: primaryPanel?.position === "end"
     };
@@ -93,9 +94,13 @@ export class CalciteShell {
         <slot name={SLOTS.primaryPanel} />
         {this.renderContent()}
         <slot name={SLOTS.contextualPanel} />
+        <slot name={SLOTS.startDrawer} />
+        <slot name={SLOTS.endDrawer} />
       </div>
     );
   }
+
+  // todo render Slot for Drawer Start and End
 
   render(): VNode {
     return (

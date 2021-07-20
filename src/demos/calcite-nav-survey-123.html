@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calcite Nav</title>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+
+  <!-- Chart JS-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css" />
+
+  <!-- JSAPI-->
+  <script src="https://js.arcgis.com/4.19/"></script>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/dark/main.css" />
+
+  <!-- Project files-->
+  <script src="./nav-demo-js/main.js"></script>
+  <link rel="stylesheet" href="./nav-demo-css/main.css">
+  <style>
+    .demo-div {
+      width: 80%;
+      padding: 4vw;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <calcite-shell content-behind>
+    <div slot="header">
+      <calcite-nav>
+        <calcite-nav-logo text="ArcGIS Survey123" text-enabled slot="nav-logo" src='../assets/images/survey123-logo.svg'
+          href>
+        </calcite-nav-logo>
+        <calcite-nav-menu slot="nav-menu-start">
+          <calcite-nav-menu-item icon="book" text="My Surveys" text-enabled></calcite-nav-menu-item>
+          <calcite-nav-menu-item icon="circle" text="Help" text-enabled></calcite-nav-menu-item>
+        </calcite-nav-menu>
+        <div slot="nav-actions-end">
+          <calcite-button icon-start="plus">Create</calcite-button>
+          <calcite-action icon="search" scale="l"></calcite-action>
+          <calcite-action icon="bell" scale="l" indicator></calcite-action>
+          <calcite-action icon="app-launcher" scale="l"></calcite-action>
+        </div>
+        <calcite-nav-profile slot="nav-profile" user-name="Michael Carter-Williams" user-organization="NBA, LLC">
+        </calcite-nav-profile>
+      </calcite-nav>
+    </div>
+
+    <calcite-shell-center-row height-scale="l">
+      <div class="demo-div">
+        <h2>Survey 123</h2>
+        <h3>Just a demo :) </h3>
+        <calcite-button href="./calcite-nav.html">Kitchen Sink</calcite-button>
+        <calcite-button href="./calcite-nav-dev-docs.html">Dev Docs</calcite-button>
+        <calcite-button href="./calcite-nav-map-viewer.html">Map Viewer</calcite-button>
+        <calcite-button href="./calcite-nav-online.html">Online</calcite-button>
+        <calcite-button href="./calcite-nav-story-maps.html">Story Maps</calcite-button>
+        <calcite-button href="./calcite-nav-survey-123.html">Survey 123</calcite-button>
+        <calcite-button href="./calcite-nav-quick-capture.html">Quick Capture</calcite-button>
+        <calcite-button href="./calcite-nav-custom-app.html">Custom App</calcite-button>
+      </div>
+    </calcite-shell-center-row>
+  </calcite-shell>
+</body>
+
+</html>

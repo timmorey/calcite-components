@@ -3,7 +3,8 @@ export const CSS = {
   mainReversed: "main--reversed",
   content: "content",
   contentBehind: "content--behind",
-  footer: "footer"
+  footer: "footer",
+  hasHeader: "main--has-header"
 };
 
 export const SLOTS = {
@@ -11,5 +12,7 @@ export const SLOTS = {
   primaryPanel: "primary-panel",
   contextualPanel: "contextual-panel",
   header: "header",
-  footer: "footer"
+  footer: "footer",
+  startDrawer: "start-drawer",
+  endDrawer: "end-drawer"
 };

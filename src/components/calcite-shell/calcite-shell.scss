@@ -33,6 +33,9 @@
     justify-between 
     overflow-hidden;
 }
+.main--has-header {
+  @apply border-t-0;
+}
 
 .main--reversed {
   @apply flex-row-reverse;

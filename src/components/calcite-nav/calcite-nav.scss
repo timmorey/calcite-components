@@ -1,0 +1,33 @@
+:host {
+  @apply flex
+    h-16
+    w-full
+    border-0
+    border-b
+    border-solid
+    border-b-color-3;
+}
+:host([type="secondary"]) {
+  @apply h-12 bg-background;
+}
+
+slot[name] {
+  @apply inline-flex flex-row;
+}
+
+slot[name="nav-menu-start"] {
+  @apply mr-auto;
+}
+slot[name="nav-actions-start"]::slotted(*),
+slot[name="nav-actions-end"]::slotted(*) {
+  @apply flex flex-row items-center;
+}
+slot[name="nav-actions-start"] {
+  @apply mx-3;
+}
+slot[name="nav-actions-end"] {
+  @apply ml-auto;
+}
+slot[name="nav-menu-end"] {
+  @apply ml-auto;
+}
