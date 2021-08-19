@@ -2,145 +2,201 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Video</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Video</title>
   <style>
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
+    .parent-flex {
+      display: flex;
+      width: 80%;
+      padding: 25px 0;
+      color: var(--calcite-ui-text-3);
+      font-family: var(--calcite-sans-family);
+      font-size: var(--calcite-font-size-0);
+      font-weight: var(--calcite-font-weight-medium);
+    }
+
+    .child-flex {
+      flex: 0 0 85%;
+      padding: 0 20px;
+    }
+
+    .vertical-child-flex {
+      flex: 0 0 30%;
+      padding: 0 20px;
+    }
+
+    .right-aligned-text {
+      text-align: right;
+      flex: 0 0 15%;
+    }
+
+    hr {
+      margin: 50px 0;
+      border-top: 1px solid var(--calcite-ui-border-2);
+    }
+
+    calcite-stepper-item {
+      padding-right: 50px;
     }
   </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
-  <script type="module" src="../build/calcite.esm.js"></script>
-  <script nomodule src="../build/calcite.js"></script>
+  <script src="./_assets/head.js"></script>
 </head>
 
 <body>
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Video</h1>
-  <div>
-    <h2> Subtitles</h2>
-    <h3>Multiple Subtitles</h3>
-    <calcite-video>
-      <source src="../assets/demo/video/sintel-short.mp4" type="video/mp4">
-      <source src="../assets/demo/video/sintel-short.webm" type="video/webm">
-      <track label="English" kind="subtitles" srclang="en" src="../assets/demo/subtitles/vtt/sintel-en.vtt" default>
-      <track label="Deutsch" kind="subtitles" srclang="de" src="../assets/demo/subtitles/vtt/sintel-de.vtt">
-      <track label="Español" kind="subtitles" srclang="es" src="../assets/demo/subtitles/vtt/sintel-es.vtt">
-    </calcite-video>
-    <br />
-    <br />
-    <h3>Single subtitle</h3>
-    <calcite-video>
-      <source src="../assets/demo/video/sintel-short.mp4" type="video/mp4">
-      <source src="../assets/demo/video/sintel-short.webm" type="video/webm">
-      <track label="English" kind="subtitles" srclang="de" src="../assets/demo/subtitles/vtt/sintel-de.vtt" default>
+  <!--
+      **************************************************
+      * SMALL
+      **************************************************
+    -->
+  <!-- multiple subtitle lang -->
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text"></div>
+    <div class="child-flex">Medium</div>
+  </div>
 
-    </calcite-video>
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">multiple subtitle</div>
 
-    <h3>No subtitle</h3>
-    <calcite-video>
-      <source src="../assets/demo/video/sintel-short.mp4" type="video/mp4">
-      <source src="../assets/demo/video/sintel-short.webm" type="video/webm">
-    </calcite-video>
-
-    <h4>Default</h4>
-    <calcite-video disable-scrubbing>
-      <source src="../assets/demo/alert-timing-good.mp4" type="video/mp4">
-    </calcite-video>
-    <h4>Loop</h4>
-    <calcite-video disable-scrubbing loop>
-      <source src="../assets/demo/alert-timing-good.mp4" type="video/mp4">
-
-    </calcite-video>
-    <h4>Autoplay Loop</h4>
-    <calcite-video disable-fullscreen disable-scrubbing autoplay loop>
-      <source src="../assets/demo/alert-timing-good.mp4" type="video/mp4">
-
-    </calcite-video>
-    <h4>Autoplay</h4>
-    <calcite-video autoplay>
-      <source src="../assets/demo/alert-timing-good.mp4" type="video/mp4">
-
-    </calcite-video>
-    <h4>Sound Demo</h4>
-    <calcite-video disable-fullscreen>
-      <source id="my-example-video-source"
-        src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4"
-        type="video/mp4">
-
-    </calcite-video>
-    <h4>explicit height / width</h4>
-    <calcite-video width="200" disable-scrubbing disable-fullscreen>
-      <source src="../assets/demo/sounddemo.mp4" type="video/mp4">
-    </calcite-video>
-    <calcite-video height="200" disable-scrubbing disable-fullscreen>
-      <source src="../assets/demo/sounddemo.mp4" type="video/mp4">
-    </calcite-video>
-    <calcite-video height="200" width="500" disable-scrubbing disable-fullscreen>
-      <source src="../assets/demo/sounddemo.mp4" type="video/mp4">
-
-    </calcite-video>
-    <h4>demo no sound</h4>
-    <calcite-video disable-scrubbing disable-fullscreen disable-timestamp>
-      <source src="../assets/demo/demo.mp4" type="video/mp4">
-    </calcite-video>
-    <h4>play on hover</h4>
-    <calcite-video play-on-hover disable-controls>
-      <source src="../assets/demo/demo.mp4" type="video/mp4">
-    </calcite-video>
-    <br />
-    <div class="demo-background-dark">
-      <h4>Show controls on hover</h4>
-      <calcite-video class="calcite-theme-dark" show-controls-on-hover>
-        <source id="my-example-video-source"
-          src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4"
-          type="video/mp4">
-
-      </calcite-video>
-      <h4>Sound Demo</h4>
-      <calcite-video class="calcite-theme-dark" disable-fullscreen>
-        <source id="my-example-video-source"
-          src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4"
-          type="video/mp4">
-
-      </calcite-video>
-      <h4>Dark Theme</h4>
-      <calcite-video class="calcite-theme-dark" disable-fullscreen>
-        <source src="../assets/demo/alert-timing-good.mp4" type="video/mp4">
-      </calcite-video>
-
-      <h4>RTL</h4>
-      <h5>set on component</h5>
-      <calcite-video class="calcite-theme-dark" dir="rtl">
-        <source
-          src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4"
-          type="video/mp4">
-      </calcite-video>
-      <h5>set on wrapper</h5>
-      <div dir="rtl">
-        <calcite-video class="calcite-theme-dark">
-          <source
-            src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4"
-            type="video/mp4">
-        </calcite-video>
-      </div>
-      <h5>with subtitles</h5>
-      <calcite-video class="calcite-theme-dark" dir="rtl">
+    <div class="child-flex">
+      <calcite-video>
         <source src="../assets/demo/video/sintel-short.mp4" type="video/mp4">
         <source src="../assets/demo/video/sintel-short.webm" type="video/webm">
         <track label="English" kind="subtitles" srclang="en" src="../assets/demo/subtitles/vtt/sintel-en.vtt" default>
         <track label="Deutsch" kind="subtitles" srclang="de" src="../assets/demo/subtitles/vtt/sintel-de.vtt">
         <track label="Español" kind="subtitles" srclang="es" src="../assets/demo/subtitles/vtt/sintel-es.vtt">
       </calcite-video>
-      <h5>no scrubbing</h5>
-      <calcite-video autoplay dir="rtl" class="calcite-theme-dark" disable-scrubbing>
-        <source src="../assets/demo/alert-timing-good.mp4" type="video/mp4">
+    </div>
+  </div>
 
+  <!-- single subtitle lang -->
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">single subtitle</div>
+
+    <div class="child-flex">
+      <calcite-video>
+        <source src="../assets/demo/video/sintel-short.mp4" type="video/mp4">
+        <source src="../assets/demo/video/sintel-short.webm" type="video/webm">
+        <track label="English" kind="subtitles" srclang="de" src="../assets/demo/subtitles/vtt/sintel-de.vtt" default>
+      </calcite-video>
+    </div>
+  </div>
+
+  <!-- no subtitle -->
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">no subtitle</div>
+
+    <div class="child-flex">
+      <calcite-video>
+        <source src="../assets/demo/video/sintel-short.mp4" type="video/mp4">
+        <source src="../assets/demo/video/sintel-short.webm" type="video/webm">
+      </calcite-video>
+    </div>
+  </div>
+
+  <!-- disabled -->
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">loop</div>
+    <div class="child-flex">
+      <calcite-video loop>
+        <source src="../assets/demo/alert-timing-good.mp4" type="video/mp4">
+      </calcite-video>
+    </div>
+  </div>
+
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">autoplay</div>
+    <div class="child-flex">
+      <calcite-video autoplay>
+        <source src="../assets/demo/alert-timing-good.mp4" type="video/mp4">
+      </calcite-video>
+    </div>
+  </div>
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">disable-scrubbing</div>
+    <div class="child-flex">
+      <calcite-video disable-scrubbing>
+        <source src="../assets/demo/alert-timing-good.mp4" type="video/mp4">
+      </calcite-video>
+    </div>
+  </div>
+
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">disable-fullscreen</div>
+    <div class="child-flex">
+      <calcite-video disable-fullscreen>
+        <source src="../assets/demo/alert-timing-good.mp4" type="video/mp4">
+      </calcite-video>
+    </div>
+  </div>
+
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">streaming source</div>
+    <div class="child-flex">
+      <calcite-video>
+        <source id="my-example-video-source"
+          src="https://archive.org/download/untvmi-Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020/Family_Strings_-_Billy_Strings_and_Terry_Barber_-_LIVE_2_28_2020.mp4"
+          type="video/mp4">
+      </calcite-video>
+    </div>
+  </div>
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">disable timestamp</div>
+    <div class="child-flex">
+      <calcite-videdisable-timestamp>
+        <source src="../assets/demo/demo.mp4" type="video/mp4">
+        </calcite-video>
+    </div>
+  </div>
+
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">explicit width</div>
+    <div class="child-flex">
+      <calcite-video width="200" disable-scrubbing disable-fullscreen>
+        <source src="../assets/demo/sounddemo.mp4" type="video/mp4">
+      </calcite-video>
+    </div>
+  </div>
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">explicit height </div>
+    <div class="child-flex">
+      <calcite-video height="200" disable-scrubbing disable-fullscreen>
+        <source src="../assets/demo/sounddemo.mp4" type="video/mp4">
+      </calcite-video>
+    </div>
+  </div>
+
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">explicit height / width</div>
+    <div class="child-flex">
+      <calcite-video height="400" width="700" disable-scrubbing disable-fullscreen>
+        <source src="../assets/demo/sounddemo.mp4" type="video/mp4">
+      </calcite-video>
+    </div>
+  </div>
+
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">play-on-hover or focus</div>
+    <div class="child-flex">
+      <calcite-video play-on-hover>
+        <source src="../assets/demo/demo.mp4" type="video/mp4">
+      </calcite-video>
+    </div>
+  </div>
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">show-controls-on-hover or focus</div>
+    <div class="child-flex">
+      <calcite-video show-controls-on-hover>
+        <source src="../assets/demo/demo.mp4" type="video/mp4">
+      </calcite-video>
+    </div>
+  </div>
+  <div class="parent-flex">
+    <div class="child-flex right-aligned-text">play on hover or focus disable controls</div>
+    <div class="child-flex">
+      <calcite-video play-on-hover disable-controls>
+        <source src="../assets/demo/demo.mp4" type="video/mp4">
       </calcite-video>
     </div>
   </div>

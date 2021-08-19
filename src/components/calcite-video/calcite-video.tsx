@@ -135,33 +135,23 @@ export class CalciteVideo {
 
     const playControl = (
       <div class="calcite-video-control-item">
-        <calcite-button
-          appearance="transparent"
-          aria-label={
+        <calcite-action
+          text={
             this.isComplete ? this.intlRestart : this.isPlaying ? this.intlPause : this.intlPlay
           }
-          color="neutral"
-          icon-start={this.isComplete ? "reset" : this.isPlaying ? "pause" : "play"}
+          icon={this.isComplete ? "reset" : this.isPlaying ? "pause" : "play"}
           onClick={() => this.toggleVideo()}
-          title={
-            this.isComplete ? this.intlRestart : this.isPlaying ? this.intlPause : this.intlPlay
-          }
         />
       </div>
     );
 
     const volumeControl = (
       <div class="calcite-video-control-item calcite-video-volume-control-item">
-        <calcite-button
-          appearance="transparent"
-          aria-label={!this.muted ? this.intlMute : this.intlUnmute}
-          color="neutral"
-          icon-flip-rtl={dir == "rtl" ? "start" : null}
-          icon-start={
-            this.muted ? "sound-unavailable" : this.volumeLevel < 0.5 ? "sound-low" : "sound"
-          }
+        <calcite-action
+          text={!this.muted ? this.intlMute : this.intlUnmute}
+          icon-flip-rtl
+          icon={this.muted ? "sound-unavailable" : this.volumeLevel < 0.5 ? "sound-low" : "sound"}
           onClick={() => this.toggleMuted()}
-          title={!this.muted ? this.intlMute : this.intlUnmute}
         />
         <calcite-slider
           max={1}
@@ -176,49 +166,38 @@ export class CalciteVideo {
 
     const fullscreenControl = (
       <div class="calcite-video-control-item calcite-video-fullscreen-control-item">
-        <calcite-button
-          appearance="transparent"
-          aria-label={!this.isFullscreen ? this.intlEnterFullscreen : this.intlExitFullscreen}
-          color="neutral"
-          icon-start={!this.isFullscreen ? "extent" : "full-screen-exit"}
+        <calcite-action
+          text={!this.isFullscreen ? this.intlEnterFullscreen : this.intlExitFullscreen}
+          icon={!this.isFullscreen ? "extent" : "full-screen-exit"}
           onClick={() => this.toggleFullscreen()}
-          title={!this.isFullscreen ? this.intlEnterFullscreen : this.intlExitFullscreen}
         />
       </div>
     );
 
     const subtitleControlSingle = (
       <div class="calcite-video-control-item calcite-video-subtitle-control-item">
-        <calcite-button
-          appearance="transparent"
-          aria-label={this.intlSubtitles}
+        <calcite-action
           class={this.isSubtitleActive ? "calcite-video-subtitle-active" : ""}
-          color="neutral"
-          icon-flip-rtl={dir == "rtl" ? "start" : null}
-          icon-start="speech-bubble"
+          icon-flip-rtl
+          icon="speech-bubble"
+          indicator={this.isSubtitleActive}
           onClick={() => this.handleSubtitleToggle()}
-          title={this.intlSubtitles}
-        >
-          {this.isSubtitleActive ? `${this.subLang?.toUpperCase()}` : null}
-        </calcite-button>
+          text={this.isSubtitleActive ? `${this.subLang?.toUpperCase()}` : null}
+        />
       </div>
     );
 
     const subtitleControlMultiple = (
       <div class="calcite-video-control-item calcite-video-subtitle-control-item">
         <calcite-dropdown width="s">
-          <calcite-button
-            appearance="transparent"
-            aria-label={this.intlSubtitles}
+          <calcite-action
             class={this.isSubtitleActive ? "calcite-video-subtitle-active" : ""}
-            color="neutral"
-            icon-flip-rtl={dir == "rtl" ? "start" : null}
-            icon-start="speech-bubbles"
+            icon-flip-rtl
+            icon="speech-bubbles"
             slot="dropdown-trigger"
-            title={this.intlSubtitles}
-          >
-            {this.isSubtitleActive ? `${this.subLang?.toUpperCase()}` : null}
-          </calcite-button>
+            indicator={this.isSubtitleActive}
+            text={this.isSubtitleActive ? `${this.subLang?.toUpperCase()}` : null}
+          />
           <calcite-dropdown-group selection-mode="single">
             <calcite-dropdown-item
               active={!this.isSubtitleActive}
