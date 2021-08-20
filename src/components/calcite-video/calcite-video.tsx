@@ -26,6 +26,10 @@ export class CalciteVideo {
   //
   //--------------------------------------------------------------------------
 
+  // todo buffer length indicator
+  // todo speed 1.5 .5x toggle
+  // quality hd etc toggle
+
   /** specify the scale of the video player, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
