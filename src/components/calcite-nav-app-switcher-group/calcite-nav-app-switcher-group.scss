@@ -1,8 +1,0 @@
-:host .group-title {
-  display: block;
-  padding: $baseline $baseline $baseline/2 $baseline;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--calcite-nav-text-color);
-  @include font-size(-4);
-}

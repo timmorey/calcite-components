@@ -20,13 +20,10 @@ import { getElementDir } from "../../utils/dom";
 export class CalciteNavProfile {
   @Element() el: HTMLElement;
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: "light" | "dark";
-
-  @Prop({ reflect: true }) srcTitle: "light" | "name" = "name";
-
   @Prop({ reflect: true }) src?;
+
   @Prop({ reflect: true }) userName?;
+
   @Prop({ reflect: true }) userOrganization?;
 
   //--------------------------------------------------------------------------
@@ -36,15 +33,17 @@ export class CalciteNavProfile {
   //--------------------------------------------------------------------------
 
   @Event() calciteShellDrawerToggleEvent: EventEmitter;
-  @Listen("click") onClick() {
+  /* @Listen("click") onClick() {
     this.calciteShellDrawerToggleEvent.emit({
       requestedContent: "profile-menu"
     });
   }
+  */
+
   render() {
     return (
       <Host tabIndex={0}>
-        <calcite-avatar full-name={this.userName}></calcite-avatar>
+        <calcite-avatar full-name={this.userName} />
         <div class="user-details">
           <span class="user-name">{this.userName}</span>
           <span class="user-organization">{this.userOrganization}</span>
