@@ -97,11 +97,12 @@
 }
 
 .header-content {
-  @apply block
-    overflow-hidden
+  @apply overflow-hidden
     mr-auto
-    py-5
-    px-4;
+    px-3
+    py-4
+    flex
+    flex-col;
   .heading,
   .summary {
     @apply p-0

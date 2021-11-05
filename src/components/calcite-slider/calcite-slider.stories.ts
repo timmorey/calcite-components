@@ -1,6 +1,6 @@
-import { text, number, array } from "@storybook/addon-knobs";
+import { text, number, array, boolean as booleanFn } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -52,10 +52,37 @@ export const Range = (): string => html`
 
 export const Histogram = (): HTMLCalciteSliderElement => {
   const slider = document.createElement("calcite-slider");
-  slider.min = number("min", 0);
-  slider.minValue = number("min-value", 25);
+  slider.min = number("min", -100);
+  slider.minValue = number("min-value", -33.32);
   slider.max = number("max", 100);
-  slider.maxValue = number("max-value", 75);
+  slider.maxValue = number("max-value", 30.87);
+  slider.histogram = array(
+    "histogram",
+    [
+      [-90, 0],
+      [-60, 12],
+      [-20, 25],
+      [20, 55],
+      [60, 10],
+      [90, 0]
+    ],
+    "  "
+  );
+  slider.labelHandles = booleanFn("label-handles", false);
+  slider.labelTicks = booleanFn("label-ticks", false);
+  slider.ticks = number("ticks", 10);
+  slider.precise = booleanFn("precise", false);
+  slider.snap = booleanFn("snap", false);
+  slider.style.minWidth = "60vw";
+  return slider;
+};
+
+export const HistogramWithColors = (): HTMLCalciteSliderElement => {
+  const slider = document.createElement("calcite-slider");
+  slider.min = number("min", 0);
+  slider.minValue = number("min-value", 35);
+  slider.max = number("max", 100);
+  slider.maxValue = number("max-value", 55);
   slider.histogram = array(
     "histogram",
     [
@@ -68,10 +95,26 @@ export const Histogram = (): HTMLCalciteSliderElement => {
     ],
     "  "
   );
+  slider.style.minWidth = "60vw";
+  const colors = array("histogram colors", ["red", "green", "blue"]);
+  const offsets = array(
+    "histogram color offsets",
+    colors.map((_, i) => `${(1 / (colors.length - 1)) * i}`)
+  );
+  slider.histogramStops = colors.map((color, i) => ({ offset: parseFloat(offsets[i]), color }));
   return slider;
 };
 
-export const HistogramWithColors = (): HTMLCalciteSliderElement => {
+export const DarkMode = (): string => html`
+  <calcite-slider min="0" max="100" value="50" step="1" label="Temperature" class="calcite-theme-dark"></calcite-slider>
+`;
+
+DarkMode.story = {
+  name: "Dark mode",
+  parameters: { themes: themesDarkDefault }
+};
+
+export const HistogramDark = (): HTMLCalciteSliderElement => {
   const slider = document.createElement("calcite-slider");
   slider.min = number("min", 0);
   slider.minValue = number("min-value", 25);
@@ -89,20 +132,17 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
     ],
     "  "
   );
-  const colors = array("histogram colors", ["red", "green", "blue"]);
-  const offsets = array(
-    "histogram color offsets",
-    colors.map((_, i) => `${(1 / (colors.length - 1)) * i}`)
-  );
-  slider.histogramStops = colors.map((color, i) => ({ offset: parseFloat(offsets[i]), color }));
+  slider.labelHandles = booleanFn("label-handles", false);
+  slider.labelTicks = booleanFn("label-ticks", false);
+  slider.ticks = number("ticks", 10);
+  slider.precise = booleanFn("precise", false);
+  slider.snap = booleanFn("snap", false);
+  slider.style.minWidth = "60vw";
+  slider.className = "calcite-theme-dark";
   return slider;
 };
 
-export const DarkMode = (): string => html`
-  <calcite-slider min="0" max="100" value="50" step="1" label="Temperature" class="calcite-theme-dark"></calcite-slider>
-`;
-
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
+HistogramDark.story = {
+  name: "Histogram Dark theme",
+  parameters: { themes: themesDarkDefault }
 };

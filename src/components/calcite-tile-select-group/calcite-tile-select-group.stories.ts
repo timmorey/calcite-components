@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import { boolean } from "@storybook/addon-knobs";
 import { html } from "../../tests/utils";
 import readme from "./readme.md";
@@ -56,7 +56,7 @@ export const Light = (): string => html`
     </calcite-tile-select>
     <calcite-tile-select
       description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.  Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-      heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+      heading="TiletitleloremipsumTiletitleloremipsumTiletitleloremipsumTiletitleloremipsumTiletitleloremipsumTiletitleloremipsum"
       icon="layers"
       name="light"
       ${boolean("input-enabled", true, "Tile Select") && "input-enabled"}
@@ -123,7 +123,7 @@ export const Dark = (): string => html`
 `;
 
 Dark.story = {
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const RTL = (): string => html`
