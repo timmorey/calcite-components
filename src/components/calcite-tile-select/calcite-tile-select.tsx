@@ -64,7 +64,7 @@ export class CalciteTileSelect {
   @Prop({ reflect: true }) icon?: string;
 
   /** The name of the tile select.  This name will appear in form submissions as either a radio or checkbox identifier based on the `type` property. */
-  @Prop({ reflect: true }) name = "";
+  @Prop({ reflect: true }) name;
 
   @Watch("name")
   nameChanged(newName: string): void {
@@ -145,7 +145,8 @@ export class CalciteTileSelect {
   }
 
   @Listen("calciteInternalCheckboxFocus")
-  checkboxFocusHandler(event: CustomEvent): void {
+  @Listen("calciteInternalCheckboxBlur")
+  checkboxFocusBlurHandler(event: CustomEvent): void {
     const checkbox = event.target as HTMLCalciteCheckboxElement;
     if (checkbox === this.input) {
       this.focused = event.detail;
@@ -173,7 +174,8 @@ export class CalciteTileSelect {
   }
 
   @Listen("calciteInternalRadioButtonFocus")
-  radioButtonFocusHandler(event: CustomEvent): void {
+  @Listen("calciteInternalRadioButtonBlur")
+  radioButtonFocusBlurHandler(event: CustomEvent): void {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.focused = radioButton.focused;
