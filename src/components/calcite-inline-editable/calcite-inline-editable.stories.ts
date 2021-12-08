@@ -1,6 +1,6 @@
 import readme from "./readme.md";
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 
 export default {
@@ -45,9 +45,7 @@ export const WithLabel = (): string => html`
   </div>
 `;
 
-WithLabel.story = {
-  name: "With label"
-};
+WithLabel.storyName = "With label";
 
 export const WithoutLabel = (): string => html`
   <div style="width:300px;max-width:100%;">
@@ -126,7 +124,5 @@ export const DarkMode = (): string => html`
   </div>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };

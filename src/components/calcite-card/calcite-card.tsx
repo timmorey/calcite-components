@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { CSS_UTILITY } from "../../utils/resources";
 
 /** Cards do not include a grid or bounding container
@@ -9,8 +9,8 @@ import { CSS_UTILITY } from "../../utils/resources";
  */
 
 /**
- * @slot thumbnail - A slot for adding a thumbnail to the card.
  * @slot - A slot for adding subheader/description content.
+ * @slot thumbnail - A slot for adding a thumbnail to the card.
  * @slot title - A slot for adding a card title.
  * @slot subtitle - A slot for adding a card subtitle or short summary.
  * @slot footer-leading - A slot for adding a leading footer.
@@ -114,7 +114,7 @@ export class CalciteCard {
   };
 
   private cardSelectKeyDown = (e: KeyboardEvent): void => {
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case " ":
       case "Enter":
         this.selectCard();
@@ -141,15 +141,13 @@ export class CalciteCard {
     const checkboxLabel = this.selected ? this.intlDeselect : this.intlSelect;
 
     return (
-      <label
-        aria-label={checkboxLabel}
+      <calcite-label
         class={CSS.checkboxWrapper}
         onClick={this.cardSelectClick}
         onKeyDown={this.cardSelectKeyDown}
-        title={checkboxLabel}
       >
-        <calcite-checkbox checked={this.selected} />
-      </label>
+        <calcite-checkbox checked={this.selected} label={checkboxLabel} />
+      </calcite-label>
     );
   }
 

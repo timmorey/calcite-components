@@ -1,6 +1,6 @@
 import { number, select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-dropdown-group/readme.md";
 import readme3 from "../calcite-dropdown-item/readme.md";
@@ -135,9 +135,7 @@ export const GroupsAndSelectionModes = (): string => html`
   </calcite-dropdown>
 `;
 
-GroupsAndSelectionModes.story = {
-  name: "Groups and selection modes"
-};
+GroupsAndSelectionModes.storyName = "Groups and selection modes";
 
 export const ItemsAsLinks = (): string => html`
   <calcite-dropdown
@@ -169,9 +167,7 @@ export const ItemsAsLinks = (): string => html`
   </calcite-dropdown>
 `;
 
-ItemsAsLinks.story = {
-  name: "Items as Links"
-};
+ItemsAsLinks.storyName = "Items as Links";
 
 export const AMixOfLinksAndNonLinks = (): string => html`
   <calcite-dropdown
@@ -197,9 +193,7 @@ export const AMixOfLinksAndNonLinks = (): string => html`
   </calcite-dropdown>
 `;
 
-AMixOfLinksAndNonLinks.story = {
-  name: "A mix of links and non-links"
-};
+AMixOfLinksAndNonLinks.storyName = "A mix of links and non-links";
 
 export const DarkTheme = (): string => html`
   <calcite-dropdown
@@ -223,10 +217,8 @@ export const DarkTheme = (): string => html`
   </calcite-dropdown>
 `;
 
-DarkTheme.story = {
-  name: "Dark theme",
-  parameters: { backgrounds: darkBackground }
-};
+DarkTheme.storyName = "Dark theme";
+DarkTheme.parameters = { themes: themesDarkDefault };
 
 export const WithIconsDarkTheme = (): string => html`
   <calcite-dropdown
@@ -266,10 +258,8 @@ export const WithIconsDarkTheme = (): string => html`
   </calcite-dropdown>
 `;
 
-WithIconsDarkTheme.story = {
-  name: "With Icons - Dark theme",
-  parameters: { backgrounds: darkBackground }
-};
+WithIconsDarkTheme.storyName = "With Icons - Dark theme";
+WithIconsDarkTheme.parameters = { themes: themesDarkDefault };
 
 export const GroupsAndSelectionModesDarkTheme = (): string => html`
   <calcite-dropdown
@@ -298,10 +288,8 @@ export const GroupsAndSelectionModesDarkTheme = (): string => html`
   </calcite-dropdown>
 `;
 
-GroupsAndSelectionModesDarkTheme.story = {
-  name: "Groups and selection modes dark theme",
-  parameters: { backgrounds: darkBackground }
-};
+GroupsAndSelectionModesDarkTheme.storyName = "Groups and selection modes dark theme";
+GroupsAndSelectionModesDarkTheme.parameters = { themes: themesDarkDefault };
 
 export const ItemsAsLinksDarkTheme = (): string => html`
   <calcite-dropdown
@@ -334,10 +322,8 @@ export const ItemsAsLinksDarkTheme = (): string => html`
   </calcite-dropdown>
 `;
 
-ItemsAsLinksDarkTheme.story = {
-  name: "Items as Links - dark theme",
-  parameters: { backgrounds: darkBackground }
-};
+ItemsAsLinksDarkTheme.storyName = "Items as Links - dark theme";
+ItemsAsLinksDarkTheme.parameters = { themes: themesDarkDefault };
 
 export const SimpleRtl = (): string => html`
   <calcite-dropdown
@@ -361,9 +347,7 @@ export const SimpleRtl = (): string => html`
   </calcite-dropdown>
 `;
 
-SimpleRtl.story = {
-  name: "Simple - RTL"
-};
+SimpleRtl.storyName = "Simple - RTL";
 
 export const ScrollingAfterCertainItems = (): string => html`
   <calcite-dropdown
@@ -393,6 +377,4 @@ export const ScrollingAfterCertainItems = (): string => html`
   </calcite-dropdown>
 `;
 
-ScrollingAfterCertainItems.story = {
-  name: "Scrolling after certain items"
-};
+ScrollingAfterCertainItems.storyName = "Scrolling after certain items";

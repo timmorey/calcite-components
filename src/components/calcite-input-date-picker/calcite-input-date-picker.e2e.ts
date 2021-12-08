@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, renders } from "../../tests/commonTests";
+import { defaults, formAssociated, labelable, renders } from "../../tests/commonTests";
 
 const animationDurationInMs = 200;
 
@@ -13,12 +13,18 @@ describe("calcite-input-date-picker", () => {
         defaultValue: "absolute"
       }
     ]));
+
+  it("is labelable", async () => labelable("calcite-input-date-picker"));
+
   it("fires a calciteDatePickerChange event on change", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
     const input = (
       await page.waitForFunction(() =>
-        document.querySelector("calcite-input-date-picker").shadowRoot.querySelector("calcite-input input")
+        document
+          .querySelector("calcite-input-date-picker")
+          .shadowRoot.querySelector("calcite-input")
+          .shadowRoot.querySelector("input")
       )
     ).asElement();
     await input.focus();
@@ -48,6 +54,9 @@ describe("calcite-input-date-picker", () => {
     await input.press("0");
     await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(4);
+    const element = await page.find("calcite-input-date-picker");
+    expect(await element.getProperty("value")).toBe("2020-03-07");
+    expect(await element.getProperty("valueAsDate")).toBeDefined();
   });
 
   it("fires a calciteDatePickerRangeChange event on change", async () => {
@@ -55,7 +64,10 @@ describe("calcite-input-date-picker", () => {
     await page.setContent("<calcite-input-date-picker range></calcite-input-date-picker>");
     const input = (
       await page.waitForFunction(() =>
-        document.querySelector("calcite-input-date-picker").shadowRoot.querySelector("calcite-input input")
+        document
+          .querySelector("calcite-input-date-picker")
+          .shadowRoot.querySelector("calcite-input")
+          .shadowRoot.querySelector("input")
       )
     ).asElement();
     await input.focus();
@@ -85,6 +97,11 @@ describe("calcite-input-date-picker", () => {
     await input.press("0");
     await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(4);
+    const element = await page.find("calcite-input-date-picker");
+    element.setProperty("end", "2020-03-05");
+    await page.waitForChanges();
+    expect(await element.getProperty("start")).toBe("2020-03-07");
+    expect(await element.getProperty("startAsDate")).toBeDefined();
   });
 
   it("displays a calendar when clicked", async () => {
@@ -99,5 +116,13 @@ describe("calcite-input-date-picker", () => {
     const calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
 
     expect(await calendar.isVisible()).toBe(true);
+  });
+
+  describe("is form-associated", () => {
+    it("supports single value", () => formAssociated("calcite-input-date-picker", { testValue: "1985-03-23" }));
+    it("supports range", () =>
+      formAssociated(`<calcite-input-date-picker range name="calcite-input-date-picker"></calcite-input-date-picker>`, {
+        testValue: ["1985-03-23", "1985-10-30"]
+      }));
   });
 });

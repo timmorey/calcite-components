@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-stepper-item/readme.md";
 import { html } from "../../tests/utils";
@@ -89,9 +89,7 @@ export const NoContent = (): string => html`
   </calcite-stepper>
 `;
 
-NoContent.story = {
-  name: "No content"
-};
+NoContent.storyName = "No content";
 
 export const DarkMode = (): string => html`
   <calcite-stepper
@@ -134,9 +132,7 @@ export const DarkMode = (): string => html`
   </calcite-stepper>
 `;
 
-DarkMode.story = {
-  parameters: { backgrounds: darkBackground }
-};
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const Rtl = (): string => html`
   <div dir="rtl">
@@ -178,6 +174,4 @@ export const Rtl = (): string => html`
   </div>
 `;
 
-Rtl.story = {
-  name: "RTL"
-};
+Rtl.storyName = "RTL";

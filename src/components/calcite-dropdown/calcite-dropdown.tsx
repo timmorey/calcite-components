@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
-import { getKey } from "../../utils/key";
+
 import { focusElement, getElementDir } from "../../utils/dom";
 import {
   createPopper,
@@ -22,9 +22,14 @@ import {
 } from "../../utils/popper";
 import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
-import { DefaultDropdownPlacement } from "./resources";
+import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
+import { createObserver } from "../../utils/observers";
 
+/**
+ * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
+ * @slot dropdown-trigger - A slot for the element that triggers the dropdown.
+ */
 @Component({
   tag: "calcite-dropdown",
   styleUrl: "calcite-dropdown.scss",
@@ -45,6 +50,7 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
+  /** Opens or closes the dropdown */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
@@ -59,13 +65,18 @@ export class CalciteDropdown {
   @Prop({ reflect: true }) disableCloseOnSelect = false;
 
   /** is the dropdown disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
    this value does not include groupTitles passed to calcite-dropdown-group
   */
   @Prop() maxItems = 0;
+
+  @Watch("maxItems")
+  maxItemsHandler(): void {
+    this.reposition();
+  }
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
@@ -104,49 +115,37 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
-  }
-
-  componentWillLoad(): void {
-    // get initially selected items
-    this.updateSelectedItems();
+    this.updateItems();
   }
 
   componentDidLoad(): void {
-    this.triggers = Array.from(
-      this.el.querySelectorAll("[slot=dropdown-trigger]")
-    ) as HTMLSlotElement[];
-
-    const groups = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownGroupElement>("calcite-dropdown-group")
-    );
-
-    this.maxScrollerHeight = this.getMaxScrollerHeight(groups);
-
-    this.items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
-    );
-
     this.reposition();
   }
 
   disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
     this.destroyPopper();
   }
 
   render(): VNode {
-    const { active, maxScrollerHeight } = this;
+    const { active } = this;
     const dir = getElementDir(this.el);
 
     return (
       <Host tabIndex={this.disabled ? -1 : null}>
         <div
           class={{ ["calcite-dropdown-trigger-container"]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-          onClick={this.openDropdown}
+          onClick={this.openCalciteDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}
         >
-          <slot aria-expanded={active.toString()} aria-haspopup="true" name="dropdown-trigger" />
+          <slot
+            aria-expanded={active.toString()}
+            aria-haspopup="true"
+            name={SLOTS.dropdownTrigger}
+          />
         </div>
         <div
           aria-hidden={(!active).toString()}
@@ -160,9 +159,7 @@ export class CalciteDropdown {
               [PopperCSS.animationActive]: active
             }}
             onTransitionEnd={this.transitionEnd}
-            style={{
-              maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
-            }}
+            ref={this.setScrollerEl}
           >
             <slot />
           </div>
@@ -177,13 +174,17 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, menuEl, placement } = this;
+
+    this.setMaxScrollerHeight();
+
     const modifiers = this.getModifiers();
 
     popper
-      ? updatePopper({
+      ? await updatePopper({
           el: menuEl,
           modifiers,
           placement,
@@ -209,15 +210,11 @@ export class CalciteDropdown {
 
   @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(e: Event): void {
-    const target = e.target as HTMLElement;
-    if (
-      !this.disableCloseOnSelect &&
-      this.active &&
-      target.nodeName !== "CALCITE-DROPDOWN-ITEM" &&
-      target.nodeName !== "CALCITE-DROPDOWN-GROUP"
-    ) {
-      this.closeCalciteDropdown();
+    if (!this.active || e.composedPath().includes(this.el)) {
+      return;
     }
+
+    this.closeCalciteDropdown();
   }
 
   @Listen("calciteDropdownCloseRequest")
@@ -256,7 +253,7 @@ export class CalciteDropdown {
     const itemToFocus = target.nodeName !== "A" ? target : target.parentNode;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
     const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (getKey(keyboardEvent.key)) {
+    switch (keyboardEvent.key) {
       case "Tab":
         if (isLastItem && !keyboardEvent.shiftKey) {
           this.closeCalciteDropdown();
@@ -306,9 +303,6 @@ export class CalciteDropdown {
 
   private items: HTMLCalciteDropdownItemElement[] = [];
 
-  /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
-  private maxScrollerHeight = 0;
-
   /** trigger elements */
   private triggers: HTMLSlotElement[];
 
@@ -318,13 +312,44 @@ export class CalciteDropdown {
 
   private referenceEl: HTMLDivElement;
 
-  private activeTransitionProp = "opacity";
+  private activeTransitionProp = "visibility";
+
+  private scrollerEl: HTMLDivElement;
+
+  mutationObserver = createObserver("mutation", () => this.updateItems());
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  updateItems = (): void => {
+    this.updateSelectedItems();
+
+    this.triggers = Array.from(
+      this.el.querySelectorAll("[slot=dropdown-trigger]")
+    ) as HTMLSlotElement[];
+
+    this.items = Array.from(
+      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
+    );
+
+    this.reposition();
+  };
+
+  setMaxScrollerHeight = (): void => {
+    const { scrollerEl } = this;
+
+    if (scrollerEl) {
+      const maxScrollerHeight = this.getMaxScrollerHeight();
+      scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    }
+  };
+
+  setScrollerEl = (scrollerEl: HTMLDivElement): void => {
+    this.scrollerEl = scrollerEl;
+  };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
@@ -377,21 +402,9 @@ export class CalciteDropdown {
     this.popper = null;
   }
 
-  private openDropdown = (e: Event): void => {
-    const target = e.target as HTMLSlotElement;
-    if (
-      this.triggers.includes(target) ||
-      this.triggers.some((trigger) => trigger.contains(target))
-    ) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.openCalciteDropdown();
-    }
-  };
-
   private keyDownHandler = (e: KeyboardEvent): void => {
     const target = e.target as HTMLSlotElement;
-    const key = getKey(e.key);
+    const key = e.key;
     if (
       this.triggers.includes(target) ||
       this.triggers.some((trigger) => trigger.contains(target))
@@ -419,7 +432,11 @@ export class CalciteDropdown {
     this.selectedItems = items.filter((item) => item.active);
   }
 
-  private getMaxScrollerHeight(groups: HTMLCalciteDropdownGroupElement[]): number {
+  private getMaxScrollerHeight(): number {
+    const groups = Array.from(
+      this.el.querySelectorAll<HTMLCalciteDropdownGroupElement>("calcite-dropdown-group")
+    );
+
     const { maxItems } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, hidden, accessible, defaults } from "../../tests/commonTests";
+import { renders, hidden, accessible, defaults, labelable, formAssociated } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-combobox", () => {
@@ -28,6 +28,8 @@ describe("calcite-combobox", () => {
       </calcite-combobox>
   `));
 
+  it("is labelable", async () => labelable("calcite-combobox"));
+
   it("should show the listbox when it receives focus", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-combobox>
@@ -52,13 +54,11 @@ describe("calcite-combobox", () => {
       </calcite-combobox>`
     });
 
+    const items = await page.findAll("calcite-combobox-item");
     const eventSpy = await page.spyOnEvent("calciteComboboxFilterChange");
     await page.keyboard.press("Tab");
-    const openEvent = page.waitForEvent("calciteComboboxOpen");
+    await page.waitForEvent("calciteComboboxOpen");
     await page.keyboard.type("one");
-    await openEvent;
-
-    const items = await page.findAll("calcite-combobox-item");
     await items[1].waitForNotVisible();
     const item1Visible = await items[0].isVisible();
     const item2Visible = await items[1].isVisible();
@@ -325,6 +325,7 @@ describe("calcite-combobox", () => {
 
       let chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).not.toBeNull();
+      expect(await cbox.getProperty("active")).toBe(true);
 
       await page.evaluate(() => {
         const combobox = document.querySelector("calcite-combobox");
@@ -338,6 +339,7 @@ describe("calcite-combobox", () => {
 
       chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeNull();
+      expect(await cbox.getProperty("active")).toBe(false);
     });
 
     it("should honor calciteComboboxChipDismiss", async () => {
@@ -804,4 +806,14 @@ describe("calcite-combobox", () => {
     await input.click();
     expect(await combobox.getProperty("active")).toBe(true);
   });
+
+  it("is form-associated", () =>
+    formAssociated(
+      html`<calcite-combobox selection-mode="single">
+        <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
+        <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+      </calcite-combobox>`,
+      { testValue: "two" }
+    ));
 });

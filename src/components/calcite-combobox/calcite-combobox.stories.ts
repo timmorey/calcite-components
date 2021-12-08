@@ -1,7 +1,7 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-combobox-item/readme.md";
 import { html } from "../../tests/utils";
@@ -76,6 +76,33 @@ export const Single = (): string => html`
   </div>
 `;
 
+export const Multiple = (): string => html`
+  <div style="width:400px;max-width:100%;background-color:white;padding:100px">
+    <calcite-combobox
+      label="demo combobox"
+      placeholder="${text("placeholder", "placeholder")}"
+      label="${text("label (for screen readers)", "demo")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      ${boolean("disabled", false)}
+      ${boolean("allow-custom-values", false)}
+      max-items="${number("max-items", 0)}"
+    >
+      <calcite-combobox-item value="Trees" text-label="Trees" selected></calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers" selected></calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals"></calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+      <calcite-combobox-item
+        value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+        text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+        selected
+      ></calcite-combobox-item>
+    </calcite-combobox>
+  </div>
+`;
+
 export const NestedItems = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
@@ -120,7 +147,7 @@ export const NestedItems = (): string => html`
 `;
 
 export const DarkTheme = (): string => html`
-  <div style="width:400px;max-width:100%;background-color:white;padding:100px">
+  <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
@@ -154,9 +181,7 @@ export const DarkTheme = (): string => html`
   </div>
 `;
 
-DarkTheme.story = {
-  parameters: { backgrounds: darkBackground }
-};
+DarkTheme.parameters = { themes: themesDarkDefault };
 
 export const Rtl = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
@@ -191,6 +216,4 @@ export const Rtl = (): string => html`
   </div>
 `;
 
-Rtl.story = {
-  name: "RTL"
-};
+Rtl.storyName = "RTL";

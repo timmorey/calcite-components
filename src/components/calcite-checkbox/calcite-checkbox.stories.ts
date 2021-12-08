@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 import readme from "./readme.md";
 
@@ -35,10 +35,8 @@ export const DarkMode = (): string => html`
   </calcite-label>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const RTL = (): string => html`
   <calcite-label layout="inline" dir="rtl">

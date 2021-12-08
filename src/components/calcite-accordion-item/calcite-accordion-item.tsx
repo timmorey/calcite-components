@@ -10,10 +10,13 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { CSS_UTILITY } from "../../utils/resources";
 import { Position } from "../interfaces";
 
+/**
+ * @slot - A slot for adding custom content.
+ */
 @Component({
   tag: "calcite-accordion-item",
   styleUrl: "calcite-accordion-item.scss",
@@ -34,6 +37,7 @@ export class CalciteAccordionItem {
   //
   //--------------------------------------------------------------------------
 
+  /** Indicates whether the item is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** pass a title for the accordion item */
@@ -120,9 +124,9 @@ export class CalciteAccordionItem {
               class="accordion-item-expand-icon"
               icon={
                 this.iconType === "chevron"
-                  ? "chevronUp"
+                  ? "chevronDown"
                   : this.iconType === "caret"
-                  ? "caretUp"
+                  ? "caretDown"
                   : this.active
                   ? "minus"
                   : "plus"
@@ -146,7 +150,7 @@ export class CalciteAccordionItem {
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     if (e.target === this.el) {
-      switch (getKey(e.key)) {
+      switch (e.key) {
         case " ":
         case "Enter":
           this.emitRequestedItem();
@@ -170,6 +174,9 @@ export class CalciteAccordionItem {
   updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail
       .requestedAccordionItem as HTMLCalciteAccordionItemElement;
+    if (this.el.parentNode !== this.requestedAccordionItem.parentNode) {
+      return;
+    }
     this.determineActiveItem();
   }
 
@@ -214,11 +221,7 @@ export class CalciteAccordionItem {
         break;
 
       case "single":
-        if (this.el === this.requestedAccordionItem) {
-          this.active = !this.active;
-        } else {
-          this.active = false;
-        }
+        this.active = this.el === this.requestedAccordionItem ? !this.active : false;
         break;
 
       case "single-persist":

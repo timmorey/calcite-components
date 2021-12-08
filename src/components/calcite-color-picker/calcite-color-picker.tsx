@@ -27,7 +27,7 @@ import {
 import { focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
-import { getKey } from "../../utils/key";
+
 import { clamp } from "../../utils/math";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -79,7 +79,7 @@ export class CalciteColorPicker {
 
     this.previousColor = oldColor;
 
-    if (this.colorUpdateLocked) {
+    if (this.internalColorUpdateContext) {
       return;
     }
 
@@ -96,7 +96,7 @@ export class CalciteColorPicker {
 
   @Watch("format")
   handleFormatChange(format: CalciteColorPicker["format"]): void {
-    this.mode = format === "auto" ? this.mode : format;
+    this.setMode(format);
     this.value = this.toValue(this.color);
   }
 
@@ -242,18 +242,22 @@ export class CalciteColorPicker {
       const nextMode = parseMode(value);
 
       if (!nextMode || (format !== "auto" && nextMode !== format)) {
-        console.warn(`ignoring invalid color value: ${value}`);
+        this.showIncompatibleColorWarning(value, format);
         this.value = oldValue;
         return;
       }
 
       modeChanged = this.mode !== nextMode;
-      this.mode = nextMode;
+      this.setMode(nextMode);
     }
 
     const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
 
-    if (this.colorUpdateLocked) {
+    if (this.internalColorUpdateContext) {
+      if (this.internalColorUpdateContext === "initial") {
+        return;
+      }
+
       this.calciteColorPickerInput.emit();
       if (!dragging) {
         this.calciteColorPickerChange.emit();
@@ -266,6 +270,7 @@ export class CalciteColorPicker {
 
     if (modeChanged || colorChanged) {
       this.color = color;
+
       this.calciteColorPickerInput.emit();
       if (!dragging) {
         this.calciteColorPickerChange.emit();
@@ -284,8 +289,6 @@ export class CalciteColorPicker {
 
   private activeColorFieldAndSliderRect: DOMRect;
 
-  private colorUpdateLocked = false;
-
   private colorFieldAndSliderHovered = false;
 
   private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
@@ -293,6 +296,8 @@ export class CalciteColorPicker {
   private colorFieldScopeNode: HTMLDivElement;
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
+
+  private internalColorUpdateContext: "internal" | "initial" | null = null;
 
   private previousColor: InternalColor | null;
 
@@ -349,7 +354,7 @@ export class CalciteColorPicker {
   };
 
   private handleColorFieldScopeKeyDown = (event: KeyboardEvent): void => {
-    const key = getKey(event.key);
+    const key = event.key;
     const arrowKeyToXYOffset = {
       ArrowUp: { x: 0, y: -10 },
       ArrowRight: { x: 10, y: 0 },
@@ -370,7 +375,7 @@ export class CalciteColorPicker {
 
   private handleHueScopeKeyDown = (event: KeyboardEvent): void => {
     const modifier = event.shiftKey ? 10 : 1;
-    const key = getKey(event.key);
+    const key = event.key;
     const arrowKeyToXOffset = {
       ArrowUp: 1,
       ArrowRight: 1,
@@ -440,7 +445,7 @@ export class CalciteColorPicker {
   @Listen("keyup", { capture: true })
   protected handleChannelKeyUpOrDown(event: KeyboardEvent): void {
     this.shiftKeyChannelAdjustment = 0;
-    const key = getKey(event.key);
+    const key = event.key;
 
     if (
       (key !== "ArrowUp" && key !== "ArrowDown") ||
@@ -552,12 +557,13 @@ export class CalciteColorPicker {
     let samplingX: number;
     let samplingY: number;
 
+    const colorFieldAndSliderRect = this.activeColorFieldAndSliderRect;
+    const { clientX, clientY } = event;
+
     if (this.colorFieldAndSliderHovered) {
-      samplingX = event.offsetX;
-      samplingY = event.offsetY;
+      samplingX = clientX - colorFieldAndSliderRect.x;
+      samplingY = clientY - colorFieldAndSliderRect.y;
     } else {
-      const { clientX, clientY } = event;
-      const colorFieldAndSliderRect = this.activeColorFieldAndSliderRect;
       const colorFieldWidth = dimensions.colorField.width;
       const colorFieldHeight = dimensions.colorField.height;
       const hueSliderHeight = dimensions.slider.height;
@@ -683,22 +689,28 @@ export class CalciteColorPicker {
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
+    const { allowEmpty, color, format, value } = this;
+
+    const willSetNoColor = allowEmpty && !value;
+    const parsedMode = parseMode(value);
+    const valueIsCompatible =
+      willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
+    const initialColor = willSetNoColor ? null : valueIsCompatible ? Color(value) : color;
+
+    if (!valueIsCompatible) {
+      this.showIncompatibleColorWarning(value, format);
+    }
+
+    this.setMode(format);
+    this.internalColorSet(initialColor, false, "initial");
+
+    this.updateDimensions(this.scale);
+
     const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
 
     if (this.storageId && localStorage.getItem(storageKey)) {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
-  }
-
-  connectedCallback(): void {
-    const { color, format, value } = this;
-
-    const initialValueDefault = format !== "auto" ? this.toValue(color, format) : defaultValue;
-    const initialValue = format !== "auto" && value === defaultValue ? initialValueDefault : value;
-
-    this.handleValueChange(initialValue, initialValueDefault);
-
-    this.updateDimensions(this.scale);
   }
 
   disconnectedCallback(): void {
@@ -966,6 +978,16 @@ export class CalciteColorPicker {
   //
   //--------------------------------------------------------------------------
 
+  private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
+    console.warn(
+      `ignoring color value (${value}) as it is not compatible with the current format (${format})`
+    );
+  }
+
+  private setMode(format: CalciteColorPicker["format"]): void {
+    this.mode = format === "auto" ? this.mode : format;
+  }
+
   private captureHueSliderColor(x: number): void {
     const {
       dimensions: {
@@ -996,15 +1018,19 @@ export class CalciteColorPicker {
     return "none";
   }
 
-  private internalColorSet(color: Color | null, skipEqual = true): void {
+  private internalColorSet(
+    color: Color | null,
+    skipEqual = true,
+    context: CalciteColorPicker["internalColorUpdateContext"] = "internal"
+  ): void {
     if (skipEqual && colorEqual(color, this.color)) {
       return;
     }
 
-    this.colorUpdateLocked = true;
+    this.internalColorUpdateContext = context;
     this.color = color;
     this.value = this.toValue(color);
-    this.colorUpdateLocked = false;
+    this.internalColorUpdateContext = null;
   }
 
   private toValue(color: Color | null, format: SupportedMode = this.mode): ColorValue | null {

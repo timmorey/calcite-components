@@ -1,25 +1,23 @@
+import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import {
-  getElementDir,
-  queryElementRoots,
-  closestElementCrossShadowBoundary
-} from "../../utils/dom";
+import { closestElementCrossShadowBoundary, getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { createObserver } from "../../utils/observers";
 
+/** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
+/** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
+
+/** @slot - A slot for adding text. */
 @Component({
   tag: "calcite-button",
   styleUrl: "calcite-button.scss",
   shadow: true
 })
-
-/** @slot default text slot for button text */
-
-/** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
-/** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
-export class CalciteButton {
+export class CalciteButton implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -47,10 +45,15 @@ export class CalciteButton {
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** is the button disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
+
+  @Watch("href")
+  hrefHandler(href: string): void {
+    this.childElType = href ? "a" : "button";
+  }
 
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
@@ -67,7 +70,7 @@ export class CalciteButton {
   @Prop() intlLoading?: string = TEXT.loading;
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
-  @Prop({ reflect: true }) loading?: boolean = false;
+  @Prop({ reflect: true }) loading = false;
 
   /** The name attribute to apply to the button */
   @Prop() name?: string;
@@ -75,11 +78,15 @@ export class CalciteButton {
   /** The rel attribute to apply to the hyperlink */
   @Prop() rel?: string;
 
-  /** The form ID to associate with the component */
+  /**
+   * The form ID to associate with the component
+   *
+   * @deprecated – this property is no longer needed if placed inside a form.
+   */
   @Prop() form?: string;
 
   /** optionally add a round style to the button  */
-  @Prop({ reflect: true }) round?: boolean = false;
+  @Prop({ reflect: true }) round = false;
 
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -118,10 +125,17 @@ export class CalciteButton {
     this.childElType = this.href ? "a" : "button";
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
+    connectLabel(this);
+    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(
+      this.el,
+      this.form ? `#${this.form}` : "form"
+    );
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
+    disconnectLabel(this);
+    this.formEl = null;
   }
 
   componentWillLoad(): void {
@@ -177,7 +191,7 @@ export class CalciteButton {
 
     return (
       <Tag
-        aria-label={this.label}
+        aria-label={getLabelText(this)}
         class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
         disabled={this.disabled || this.loading}
         href={this.childElType === "a" && this.href}
@@ -203,6 +217,7 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.childEl.focus();
@@ -214,20 +229,24 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  formEl: HTMLFormElement;
+
+  labelEl: HTMLCalciteLabelElement;
+
   /** watches for changing text content **/
-  private observer: MutationObserver;
+  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   /** the rendered child element */
   private childEl?: HTMLElement;
 
   /** the node type of the rendered child element */
-  private childElType?: "a" | "button" = "button";
+  @State() childElType?: "a" | "button" = "button";
 
   /** determine if there is slotted content for styling purposes */
-  @State() private hasContent?: boolean = false;
+  @State() private hasContent = false;
 
   /** determine if loader present for styling purposes */
-  @State() private hasLoader?: boolean = false;
+  @State() private hasLoader = false;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
@@ -238,12 +257,7 @@ export class CalciteButton {
   }
 
   private setupTextContentObserver() {
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(() => {
-        this.updateHasContent();
-      });
-      this.observer.observe(this.el, { childList: true, subtree: true });
-    }
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   //--------------------------------------------------------------------------
@@ -252,33 +266,21 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  onLabelClick(): void {
+    this.handleClick();
+    this.setFocus();
+  }
+
   // act on a requested or nearby form based on type
-  private handleClick = (e: Event): void => {
-    const { childElType, form, el, type } = this;
+  private handleClick = (): void => {
+    const { childElType, formEl, type } = this;
     // this.type refers to type attribute, not child element type
     if (childElType === "button" && type !== "button") {
-      const targetForm: HTMLFormElement = form
-        ? queryElementRoots(el, `#${form}`)
-        : closestElementCrossShadowBoundary(el, "form");
-
-      if (targetForm) {
-        const targetFormSubmitFunction = targetForm.onsubmit as () => void;
-        switch (type) {
-          case "submit":
-            if (targetFormSubmitFunction) {
-              targetFormSubmitFunction();
-            } else if (targetForm.checkValidity()) {
-              targetForm.submit();
-            } else {
-              targetForm.reportValidity();
-            }
-            break;
-          case "reset":
-            targetForm.reset();
-            break;
-        }
+      if (type === "submit") {
+        formEl?.requestSubmit();
+      } else if (type === "reset") {
+        formEl?.reset();
       }
-      e.preventDefault();
     }
   };
 }

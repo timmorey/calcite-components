@@ -1,15 +1,14 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
-import { getElementDir, getSlotted } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import { CalciteHeading, HeadingLevel } from "../functional/CalciteHeading";
 import { Status } from "../interfaces";
 
 /**
+ * @slot - A slot for adding content to the block.
  * @slot icon - A slot for adding a leading header icon.
  * @slot control - A slot for adding a single HTML input element in a header.
  * @slot header-menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
- * @slot - A slot for adding content to the block.
  */
 @Component({
   tag: "calcite-block",
@@ -41,7 +40,7 @@ export class CalciteBlock {
   /**
    * Block heading.
    */
-  @Prop() heading: string;
+  @Prop() heading!: string;
 
   /**
    * Number at which section headings should start for this component.
@@ -135,20 +134,23 @@ export class CalciteBlock {
   renderIcon(): VNode[] {
     const { el, status } = this;
 
-    const icon = ICONS[status] ?? false;
+    const showingLoadingStatus = this.loading && !this.open;
 
-    const hasIcon = getSlotted(el, SLOTS.icon) || icon;
+    const statusIcon = showingLoadingStatus ? ICONS.refresh : ICONS[status];
 
-    const iconEl = !icon ? (
+    const hasIcon = getSlotted(el, SLOTS.icon) || statusIcon;
+
+    const iconEl = !statusIcon ? (
       <slot name={SLOTS.icon} />
     ) : (
       <calcite-icon
         class={{
           [CSS.statusIcon]: true,
           [CSS.valid]: status == "valid",
-          [CSS.invalid]: status == "invalid"
+          [CSS.invalid]: status == "invalid",
+          [CSS.loading]: showingLoadingStatus
         }}
-        icon={icon}
+        icon={statusIcon}
         scale="m"
       />
     );
@@ -228,15 +230,12 @@ export class CalciteBlock {
       </div>
     );
 
-    const rtl = getElementDir(el) === "rtl";
-
     return (
       <Host tabIndex={disabled ? -1 : null}>
         <article
           aria-busy={loading.toString()}
           class={{
-            [CSS.article]: true,
-            [CSS_UTILITY.rtl]: rtl
+            [CSS.article]: true
           }}
         >
           {headerNode}

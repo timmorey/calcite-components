@@ -30,11 +30,11 @@ export function initialize<T extends Lists>(this: List<T>): void {
 }
 
 export function initializeObserver<T extends Lists>(this: List<T>): void {
-  this.observer.observe(this.el, { childList: true, subtree: true });
+  this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 }
 
 export function cleanUpObserver<T extends Lists>(this: List<T>): void {
-  this.observer.disconnect();
+  this.mutationObserver?.disconnect();
 }
 
 // --------------------------------------------------------------------------
@@ -276,8 +276,8 @@ export function selectSiblings<T extends Lists>(this: List<T>, item: ListItemEle
 let groups: Set<HTMLCalcitePickListGroupElement>;
 
 export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent): void {
-  const filteredData = event.detail;
-  const values = filteredData.map((item) => item.value);
+  const { filteredItems } = event.currentTarget as HTMLCalciteFilterElement;
+  const values = filteredItems.map((item: ItemData[number]) => item.value);
   let hasSelectedMatch = false;
 
   if (!groups) {

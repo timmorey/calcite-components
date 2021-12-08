@@ -1,6 +1,6 @@
 import { select, text, number } from "@storybook/addon-knobs";
 import { boolean, iconNames } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -16,9 +16,11 @@ export const WithLabel = (): string => html`
     <calcite-label
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      for="input-with-label"
     >
       ${text("label text", "My great label")}
       <calcite-input
+        id="input-with-label"
         type="${select(
           "type",
           ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
@@ -55,9 +57,11 @@ export const WithLabelAndInputMessage = (): string => html`
       alignment="${select("alignment", ["start", "center", "end"], "start", "Label")}"
       scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
       layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
+      for="input-with-label-and-input-message"
     >
       ${text("label text", "My great label", "Label")}
       <calcite-input
+        id="input-with-label-and-input-message"
         type="${select(
           "type",
           ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
@@ -89,9 +93,7 @@ export const WithLabelAndInputMessage = (): string => html`
   </div>
 `;
 
-WithLabelAndInputMessage.story = {
-  name: "With Label and Input Message"
-};
+WithLabelAndInputMessage.storyName = "With Label and Input Message";
 
 export const WithoutLabel = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
@@ -126,9 +128,11 @@ export const WithSlottedAction = (): string => html`
     <calcite-label
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      for="input-with-slotted-action"
     >
       ${text("label text", "My great label")}
       <calcite-input
+        id="input-with-slotted-action"
         type="${select(
           "type",
           ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
@@ -161,9 +165,10 @@ export const WithSlottedAction = (): string => html`
 
 export const Textarea = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle")}">
+    <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle")}" for="input-with-text-area">
       ${text("label text", "My great label")}
       <calcite-input
+        id="input-with-text-area"
         type="textarea"
         ${boolean("loading", false)}
         ${boolean("clearable", false)}
@@ -183,9 +188,14 @@ export const Textarea = (): string => html`
 
 export const SimpleDarkMode = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label class="calcite-theme-dark" status="${select("status", ["idle", "valid", "invalid"], "idle")}">
+    <calcite-label
+      class="calcite-theme-dark"
+      status="${select("status", ["idle", "valid", "invalid"], "idle")}"
+      for="input-dark-theme"
+    >
       ${text("label text", "My great label")}
       <calcite-input
+        id="input-dark-theme"
         type="${select(
           "type",
           ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
@@ -215,10 +225,8 @@ export const SimpleDarkMode = (): string => html`
   </div>
 `;
 
-SimpleDarkMode.story = {
-  name: "Simple - Dark mode",
-  parameters: { backgrounds: darkBackground }
-};
+SimpleDarkMode.storyName = "Simple - Dark mode";
+SimpleDarkMode.parameters = { themes: themesDarkDefault };
 
 export const WithLabelAndInputMessageRTL = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" dir="rtl">
@@ -227,9 +235,11 @@ export const WithLabelAndInputMessageRTL = (): string => html`
       alignment="${select("alignment", ["start", "center", "end"], "start", "Label")}"
       scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
       layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
+      for="input-with-label-and-input-message-rtl"
     >
       ${text("label text", "My great label", "Label")}
       <calcite-input
+        id="input-with-label-and-input-message-rtl"
         type="${select(
           "type",
           ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],

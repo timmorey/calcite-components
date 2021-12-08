@@ -15,9 +15,7 @@ import { Alignment, Appearance, Scale } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
-import { CSS_UTILITY } from "../../utils/resources";
-
-import { getElementDir } from "../../utils/dom";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -33,8 +31,6 @@ export class CalciteAction {
   //  Properties
   //
   // --------------------------------------------------------------------------
-  /** Specify the appearance style of the action, defaults to solid. */
-  @Prop({ reflect: true }) appearance: Appearance = "solid";
 
   /**
    * Indicates whether the action is highlighted.
@@ -42,9 +38,12 @@ export class CalciteAction {
   @Prop({ reflect: true }) active = false;
 
   /**
-   * Indicates the alignment when text-enabled is false.
+   * Optionally specify the horizontal alignment of button elements with text content.
    */
   @Prop({ reflect: true }) alignment?: Alignment;
+
+  /** Specify the appearance style of the action, defaults to solid. */
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
   /**
    * Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.
@@ -118,7 +117,7 @@ export class CalciteAction {
 
   buttonEl: HTMLButtonElement;
 
-  observer = new MutationObserver(() => forceUpdate(this));
+  mutationObserver = createObserver("mutation", () => forceUpdate(this));
 
   // --------------------------------------------------------------------------
   //
@@ -127,11 +126,11 @@ export class CalciteAction {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.observer.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -140,6 +139,7 @@ export class CalciteAction {
   //
   // --------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.buttonEl.focus();
@@ -196,16 +196,14 @@ export class CalciteAction {
   }
 
   render(): VNode {
-    const { compact, disabled, loading, el, textEnabled, label, text } = this;
+    const { compact, disabled, loading, textEnabled, label, text } = this;
 
     const ariaLabel = label || text;
-    const rtl = getElementDir(el) === "rtl";
 
     const buttonClasses = {
       [CSS.button]: true,
       [CSS.buttonTextVisible]: textEnabled,
-      [CSS.buttonCompact]: compact,
-      [CSS_UTILITY.rtl]: rtl
+      [CSS.buttonCompact]: compact
     };
 
     return (

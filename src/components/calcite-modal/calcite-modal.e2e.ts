@@ -180,7 +180,7 @@ describe("calcite-modal accessibility checks", () => {
         shadowFocusTargetSelector: closeButtonTargetSelector
       }));
 
-    it.skip("can focus close button directly", async () =>
+    it("can focus close button directly", async () =>
       focusable(createModalHTML(focusableContentHTML), {
         focusId: closeButtonFocusId,
         shadowFocusTargetSelector: closeButtonTargetSelector
@@ -347,5 +347,25 @@ describe("calcite-modal accessibility checks", () => {
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
     });
     expect(scrimStyles).toEqual("rgba(0, 0, 0, 0.75)");
+  });
+
+  it("correctly reflects the scale of the modal on the close button icon", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-modal active></calcite-modal> `);
+    const modal = await page.find("calcite-modal");
+    modal.setProperty("scale", "s");
+    await page.waitForChanges();
+    let closeIcon = await page.find('calcite-modal >>> calcite-icon[scale="s"]');
+    expect(closeIcon).not.toBe(null);
+
+    modal.setProperty("scale", "m");
+    await page.waitForChanges();
+    closeIcon = await page.find('calcite-modal >>> calcite-icon[scale="m"]');
+    expect(closeIcon).not.toBe(null);
+
+    modal.setProperty("scale", "l");
+    await page.waitForChanges();
+    closeIcon = await page.find('calcite-modal >>> calcite-icon[scale="l"]');
+    expect(closeIcon).not.toBe(null);
   });
 });

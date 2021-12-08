@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 import { iconNames, boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -52,9 +52,7 @@ export const Dark = (): string => html`
   </calcite-tile-select>
 `;
 
-Dark.story = {
-  parameters: { backgrounds: darkBackground }
-};
+Dark.parameters = { themes: themesDarkDefault };
 
 export const RTL = (): string => html`
   <calcite-tile-select

@@ -1,6 +1,6 @@
 import { number, select, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -41,10 +41,8 @@ export const DarkMode = (): string => html`
   ></calcite-rating>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const WrappedInCalciteLabel = (): string => html`
   <calcite-label layout="${select("input layout", ["default", "inline", "inline-space-between"], "default")}">
@@ -63,9 +61,7 @@ export const WrappedInCalciteLabel = (): string => html`
   </calcite-label>
 `;
 
-WrappedInCalciteLabel.story = {
-  name: "Wrapped in calcite-label"
-};
+WrappedInCalciteLabel.storyName = "Wrapped in calcite-label";
 
 export const Rtl = (): string => html`
   <div dir="rtl">
@@ -83,6 +79,4 @@ export const Rtl = (): string => html`
   </div>
 `;
 
-Rtl.story = {
-  name: "RTL"
-};
+Rtl.storyName = "RTL";

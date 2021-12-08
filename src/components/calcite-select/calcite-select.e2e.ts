@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, reflects, renders } from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { CSS } from "./resources";
 
@@ -39,6 +39,8 @@ describe("calcite-select", () => {
     expect(selectedOptionValue).toBe(await selectedOption.getProperty("value"));
   }
 
+  it("is labelable", async () => labelable("calcite-select"));
+
   describe("flat options", () => {
     it("allows selecting items", async () => {
       const page = await newE2EPage({
@@ -60,11 +62,22 @@ describe("calcite-select", () => {
       await internalSelect.asElement().select("dos");
       await page.waitForChanges();
 
-      const selected = await page.findAll("calcite-option[selected]");
+      let selected = await page.findAll("calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
       expect(selected[0].innerText).toBe("dos");
+      expect(spy).toHaveReceivedEventTimes(1);
+
+      const lastOption = await page.find("calcite-option:last-child");
+      await lastOption.setProperty("selected", true);
+      await page.waitForChanges();
+
+      selected = await page.findAll("calcite-option[selected]");
+
+      await assertSelectedOption(page, selected[0]);
+      expect(selected.length).toBe(1);
+      expect(selected[0].innerText).toBe("tres");
       expect(spy).toHaveReceivedEventTimes(1);
     });
 
@@ -164,11 +177,22 @@ describe("calcite-select", () => {
       await internalSelect.asElement().select("c");
       await page.waitForChanges();
 
-      const selected = await page.findAll("calcite-option[selected]");
+      let selected = await page.findAll("calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
       expect(selected[0].innerText).toBe("c");
+      expect(spy).toHaveReceivedEventTimes(1);
+
+      const lastNumberOption = await page.find("calcite-option-group[label='numbers'] calcite-option:last-child");
+      await lastNumberOption.setProperty("selected", true);
+      await page.waitForChanges();
+
+      selected = await page.findAll("calcite-option[selected]");
+
+      await assertSelectedOption(page, selected[0]);
+      expect(selected.length).toBe(1);
+      expect(selected[0].innerText).toBe("3");
       expect(spy).toHaveReceivedEventTimes(1);
     });
 
@@ -218,48 +242,6 @@ describe("calcite-select", () => {
       await assertSelectedOption(page, selected[0]);
       expect(selected).toHaveLength(1);
       expect(selected[0].innerText).toBe("a");
-    });
-
-    describe("label compatibility", () => {
-      it("focuses when enclosing label is clicked", async () => {
-        const page = await newE2EPage({
-          html: html`
-            <calcite-label>
-              Click me!
-              <calcite-select>
-                <calcite-option>1</calcite-option>
-                <calcite-option>2</calcite-option>
-                <calcite-option>3</calcite-option>
-              </calcite-select>
-            </calcite-label>
-          `
-        });
-
-        const internalLabel = await page.find("calcite-label label");
-        await internalLabel.click();
-        await page.waitForChanges();
-
-        expect(await page.evaluate(() => document.activeElement.tagName)).toEqual("CALCITE-SELECT");
-      });
-
-      it("focuses when associated label is clicked", async () => {
-        const page = await newE2EPage({
-          html: html`
-            <calcite-label for="select">Click me!</calcite-label>
-            <calcite-select id="select">
-              <calcite-option>1</calcite-option>
-              <calcite-option>2</calcite-option>
-              <calcite-option>3</calcite-option>
-            </calcite-select>
-          `
-        });
-
-        const label = await page.find("calcite-label");
-        await label.click();
-        await page.waitForChanges();
-
-        expect(await page.evaluate(() => document.activeElement.tagName)).toEqual("CALCITE-SELECT");
-      });
     });
 
     it("internally maps children to native elements", async () => {
@@ -343,4 +325,16 @@ describe("calcite-select", () => {
 
     expect(selectedOptionId).toBe("2");
   });
+
+  it("is form-associated", () =>
+    formAssociated(
+      html`
+        <calcite-select>
+          <calcite-option id="1">uno</calcite-option>
+          <calcite-option id="2">dos</calcite-option>
+          <calcite-option id="3">tres</calcite-option>
+        </calcite-select>
+      `,
+      { testValue: "dos" }
+    ));
 });

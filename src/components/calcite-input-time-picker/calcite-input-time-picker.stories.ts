@@ -1,6 +1,6 @@
 import { number, select, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -16,7 +16,6 @@ export const LightTheme = (): string => html`
   <calcite-input-time-picker
     ${boolean("disabled", false)}
     ${boolean("hidden", false)}
-    hour-display-format="${select("hour-display-format", ["12", "24"], "12")}"
     name="${text("name", "light")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     step="${number("step", 1)}"
@@ -30,7 +29,6 @@ export const DarkTheme = (): string => html`
     ${boolean("disabled", false)}
     ${boolean("hidden", false)}
     class="calcite-theme-dark"
-    hour-display-format="${select("hour-display-format", ["12", "24"], "12")}"
     name="${text("name", "dark")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     step="${number("step", 1)}"
@@ -39,6 +37,4 @@ export const DarkTheme = (): string => html`
   </calcite-input-time-picker>
 `;
 
-DarkTheme.story = {
-  parameters: { backgrounds: darkBackground }
-};
+DarkTheme.parameters = { themes: themesDarkDefault };

@@ -1,6 +1,6 @@
 import { text, select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
@@ -54,9 +54,7 @@ export const WithIconStart = (): string => html`
   </div>
 `;
 
-WithIconStart.story = {
-  name: "With icon-start"
-};
+WithIconStart.storyName = "With icon-start";
 
 export const WithIconEnd = (): string => html`
   <div
@@ -78,9 +76,7 @@ export const WithIconEnd = (): string => html`
   </div>
 `;
 
-WithIconEnd.story = {
-  name: "With icon-end"
-};
+WithIconEnd.storyName = "With icon-end";
 
 export const WithIconStartAndIconEnd = (): string => html`
   <div
@@ -103,12 +99,11 @@ export const WithIconStartAndIconEnd = (): string => html`
   </div>
 `;
 
-WithIconStartAndIconEnd.story = {
-  name: "With icon-start and icon-end"
-};
+WithIconStartAndIconEnd.storyName = "With icon-start and icon-end";
 
 export const DarkMode = (): string => html`
   <div
+    class="calcite-theme-dark"
     style="color: white; font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
@@ -123,10 +118,8 @@ export const DarkMode = (): string => html`
   </div>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const WithIconStartAndIconEndRTL = (): string => html`
   <div

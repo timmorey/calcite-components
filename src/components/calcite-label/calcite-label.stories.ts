@@ -1,4 +1,4 @@
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -80,12 +80,10 @@ export const WrappingComponentsOtherThanInput = (): string => html`
   </div>
 `;
 
-WrappingComponentsOtherThanInput.story = {
-  name: "Wrapping components other than input"
-};
+WrappingComponentsOtherThanInput.storyName = "Wrapping components other than input";
 
 export const DarkTheme = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
+  <div style="width:300px;max-width:100%;text-align:center;" class="calcite-theme-dark">
     <calcite-label class="calcite-theme-dark">
       Default label wrapping a switch
       <calcite-switch></calcite-switch>
@@ -146,9 +144,7 @@ export const DarkTheme = (): string => html`
   </div>
 `;
 
-DarkTheme.story = {
-  parameters: { backgrounds: darkBackground }
-};
+DarkTheme.parameters = { themes: themesDarkDefault };
 
 export const WrappingComponentsOtherThanInputRTL = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" dir="rtl">

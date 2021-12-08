@@ -8,17 +8,16 @@ import {
   State,
   EventEmitter,
   Watch,
-  VNode
+  VNode,
+  Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "./utils";
 import { getElementDir } from "../../utils/dom";
-import { dateFromRange, dateFromISO, dateToISO, getDaysDiff } from "../../utils/date";
+import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
-import { getKey } from "../../utils/key";
-import { TEXT } from "./calcite-date-picker-resources";
 
 import { DateRangeChange } from "./interfaces";
-import { HEADING_LEVEL } from "./resources";
+import { HEADING_LEVEL, TEXT } from "./resources";
 
 @Component({
   assetsDirs: ["assets"],
@@ -43,7 +42,7 @@ export class CalciteDatePicker {
   @Prop() activeRange?: "start" | "end";
 
   /** Selected date */
-  @Prop({ mutable: true }) value?: string;
+  @Prop({ mutable: true }) value?: string | string[];
 
   /**
    * Number at which section headings should start for this component.
@@ -51,18 +50,26 @@ export class CalciteDatePicker {
   @Prop() headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
-  @Prop({ mutable: true }) valueAsDate?: Date;
+  @Prop({ mutable: true }) valueAsDate?: Date | Date[];
 
   @Watch("valueAsDate")
-  handleValueAsDate(date: Date): void {
-    this.activeDate = date;
-    this.calciteDatePickerChange.emit(date);
+  handleValueAsDate(date: Date | Date[]): void {
+    if (!Array.isArray(date) && date && date !== this.activeDate) {
+      this.activeDate = date;
+      this.calciteDatePickerChange.emit(date);
+    }
   }
 
-  /** Selected start date as full date object*/
+  /**
+   * Selected start date as full date object
+   * @deprecated use valueAsDate instead
+   */
   @Prop({ mutable: true }) startAsDate?: Date;
 
-  /** Selected end date as full date object*/
+  /**
+   * Selected end date as full date object
+   * @deprecated use valueAsDate instead
+   */
   @Prop({ mutable: true }) endAsDate?: Date;
 
   /** Earliest allowed date as full date object */
@@ -103,16 +110,22 @@ export class CalciteDatePicker {
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** Range mode activation */
-  @Prop({ reflect: true }) range?: boolean = false;
+  @Prop({ reflect: true }) range = false;
 
-  /** Selected start date */
+  /**
+   * Selected start date
+   * @deprecated use value instead
+   */
   @Prop({ mutable: true }) start?: string;
 
-  /** Selected end date */
+  /**
+   * Selected end date
+   * @deprecated use value instead
+   */
   @Prop({ mutable: true }) end?: string;
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
-  @Prop() proximitySelectionDisabled?: boolean = false;
+  @Prop() proximitySelectionDisabled = false;
 
   //--------------------------------------------------------------------------
   //
@@ -151,9 +164,11 @@ export class CalciteDatePicker {
   //
   // --------------------------------------------------------------------------
   connectedCallback(): void {
-    this.loadLocaleData();
-
-    if (this.value) {
+    if (Array.isArray(this.value)) {
+      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.start = this.value[0];
+      this.end = this.value[1];
+    } else if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
     }
 
@@ -172,6 +187,10 @@ export class CalciteDatePicker {
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await this.loadLocaleData();
   }
 
   render(): VNode {
@@ -229,7 +248,7 @@ export class CalciteDatePicker {
   //--------------------------------------------------------------------------
   @State() private localeData: DateLocaleData;
 
-  @State() private hoverRange;
+  @State() private hoverRange: HoverRange;
 
   private mostRecentRangeValue?: Date;
 
@@ -240,14 +259,22 @@ export class CalciteDatePicker {
   //--------------------------------------------------------------------------
 
   keyUpHandler = (e: KeyboardEvent): void => {
-    if (getKey(e.key) === "Escape") {
+    if (e.key === "Escape") {
       this.reset();
     }
   };
 
   @Watch("value")
-  valueWatcher(value: string): void {
-    this.valueAsDate = dateFromISO(value);
+  valueHandler(value: string | string[]): void {
+    if (Array.isArray(value)) {
+      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.start = value[0];
+      this.end = value[1];
+    } else if (value) {
+      this.valueAsDate = dateFromISO(value);
+      this.start = "";
+      this.end = "";
+    }
   }
 
   @Watch("start")
@@ -262,6 +289,10 @@ export class CalciteDatePicker {
 
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
+    if (!Build.isBrowser) {
+      return;
+    }
+
     const { locale } = this;
     this.localeData = await getLocaleData(locale);
   }
@@ -297,7 +328,7 @@ export class CalciteDatePicker {
   monthHoverChange = (e: CustomEvent<Date>): void => {
     if (!this.startAsDate) {
       this.hoverRange = undefined;
-      return this.hoverRange;
+      return;
     }
     const date = new Date(e.detail);
     this.hoverRange = {
@@ -309,7 +340,13 @@ export class CalciteDatePicker {
       if (this.endAsDate) {
         const startDiff = getDaysDiff(date, this.startAsDate);
         const endDiff = getDaysDiff(date, this.endAsDate);
-        if (startDiff < endDiff) {
+        if (endDiff > 0) {
+          this.hoverRange.end = date;
+          this.hoverRange.focused = "end";
+        } else if (startDiff < 0) {
+          this.hoverRange.start = date;
+          this.hoverRange.focused = "start";
+        } else if (startDiff > endDiff) {
           this.hoverRange.start = date;
           this.hoverRange.focused = "start";
         } else {
@@ -430,7 +467,11 @@ export class CalciteDatePicker {
    * Reset active date and close
    */
   reset = (): void => {
-    if (this.valueAsDate && this.valueAsDate?.getTime() !== this.activeDate?.getTime()) {
+    if (
+      !Array.isArray(this.valueAsDate) &&
+      this.valueAsDate &&
+      this.valueAsDate?.getTime() !== this.activeDate?.getTime()
+    ) {
       this.activeDate = new Date(this.valueAsDate);
     }
     if (this.startAsDate && this.startAsDate?.getTime() !== this.activeStartDate?.getTime()) {
@@ -468,7 +509,11 @@ export class CalciteDatePicker {
       if (this.startAsDate) {
         this.setEndDate(new Date(this.startAsDate));
       }
-      this.setStartDate(date);
+      if (this.activeRange == "end") {
+        this.setEndDate(date);
+      } else {
+        this.setStartDate(date);
+      }
     } else if (!this.endAsDate) {
       this.setEndDate(date);
     } else {
@@ -482,7 +527,11 @@ export class CalciteDatePicker {
         } else {
           const startDiff = getDaysDiff(date, this.startAsDate);
           const endDiff = getDaysDiff(date, this.endAsDate);
-          if (startDiff < endDiff) {
+          if (endDiff === 0 || startDiff < 0) {
+            this.setStartDate(date);
+          } else if (startDiff === 0 || endDiff < 0) {
+            this.setEndDate(date);
+          } else if (startDiff < endDiff) {
             this.setStartDate(date);
           } else {
             this.setEndDate(date);

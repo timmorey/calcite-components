@@ -1,7 +1,6 @@
 import { Component, h, Listen, Prop, VNode, Element } from "@stencil/core";
 import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
 import { queryElementRoots } from "../../utils/dom";
-import { getKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding elements that reference a 'calcite-tooltip' by the 'selector' property.
@@ -131,14 +130,15 @@ export class CalciteTooltipManager {
 
   activeTooltipHover = (event: MouseEvent): void => {
     const { tooltipEl, hoverTimeouts } = this;
+    const { type } = event;
 
     if (!tooltipEl) {
       return;
     }
 
-    if (event.composedPath().includes(tooltipEl)) {
+    if (type === "mouseover" && event.composedPath().includes(tooltipEl)) {
       this.clearHoverTimeout(tooltipEl);
-    } else if (!hoverTimeouts.has(tooltipEl)) {
+    } else if (type === "mouseout" && !hoverTimeouts.has(tooltipEl)) {
       this.hoverTooltip({ tooltip: tooltipEl, value: false });
     }
   };
@@ -184,7 +184,7 @@ export class CalciteTooltipManager {
 
   @Listen("keyup", { target: "document" })
   keyUpHandler(event: KeyboardEvent): void {
-    if (getKey(event.key) === "Escape") {
+    if (event.key === "Escape") {
       const { tooltipEl } = this;
 
       if (tooltipEl) {

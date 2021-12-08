@@ -3,7 +3,11 @@ import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../calcite-button/interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
+import { OverlayPositioning } from "../../utils/popper";
 
+/**
+ * @slot - A slot for adding `calcite-dropdown` content.
+ */
 @Component({
   tag: "calcite-split-button",
   styleUrl: "calcite-split-button.scss",
@@ -19,13 +23,13 @@ export class CalciteSplitButton {
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** is the control disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * Is the dropdown currently active or not
    * @internal
    */
-  @Prop({ reflect: true }) active?: boolean;
+  @Prop({ reflect: true }) active = false;
 
   /** specify the icon used for the dropdown menu, defaults to chevron */
   @Prop({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
@@ -35,7 +39,10 @@ export class CalciteSplitButton {
 
   /** optionally add a calcite-loader component to the control,
    disabling interaction. with the primary button */
-  @Prop({ reflect: true }) loading?: boolean = false;
+  @Prop({ reflect: true }) loading = false;
+
+  /** Describes the type of positioning to use for the dropdown. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) primaryIconEnd?: string;
@@ -100,6 +107,7 @@ export class CalciteSplitButton {
           active={this.active}
           dir={dir}
           onClick={this.calciteSplitButtonSecondaryClickHandler}
+          overlayPositioning={this.overlayPositioning}
           placement="bottom-trailing"
           scale={this.scale}
           width={this.scale}

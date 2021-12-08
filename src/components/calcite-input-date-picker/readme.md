@@ -2,13 +2,35 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<div style="width: 400px">
+  <calcite-label layout="inline">
+    Date
+    <calcite-input-date-picker
+      min="2016-08-09"
+      max="2023-12-18"
+      locale="en"
+      intl-next-month="Next month"
+      intl-prev-month="Previous month"
+      role="application"
+      layout="horizontal"
+    ></calcite-input-date-picker>
+  </calcite-label>
+</div>
+```
+
 ## Properties
 
 | Property                     | Attribute                      | Description                                                                                                                        | Type                         | Default                                   |
 | ---------------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------------------------------------- |
 | `active`                     | `active`                       | Expand or collapse when calendar does not have input                                                                               | `boolean`                    | `false`                                   |
-| `end`                        | `end`                          | Selected end date                                                                                                                  | `string`                     | `undefined`                               |
-| `endAsDate`                  | --                             | Selected end date as full date object                                                                                              | `Date`                       | `undefined`                               |
+| `disabled`                   | `disabled`                     | When false, the component won't be interactive.                                                                                    | `boolean`                    | `false`                                   |
+| `end`                        | `end`                          | <span style="color:red">**[DEPRECATED]**</span> use value instead<br/><br/>Selected end date                                       | `string`                     | `undefined`                               |
+| `endAsDate`                  | --                             | <span style="color:red">**[DEPRECATED]**</span> use valueAsDate instead<br/><br/>Selected end date as full date object             | `Date`                       | `undefined`                               |
 | `headingLevel`               | `heading-level`                | Number at which section headings should start for this component.                                                                  | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined`                               |
 | `intlNextMonth`              | `intl-next-month`              | Localized string for "next month" (used for aria label)                                                                            | `string`                     | `TEXT.nextMonth`                          |
 | `intlPrevMonth`              | `intl-prev-month`              | Localized string for "previous month" (used for aria label)                                                                        | `string`                     | `TEXT.prevMonth`                          |
@@ -18,14 +40,15 @@
 | `maxAsDate`                  | --                             | Latest allowed date as full date object                                                                                            | `Date`                       | `undefined`                               |
 | `min`                        | `min`                          | Earliest allowed date ("yyyy-mm-dd")                                                                                               | `string`                     | `undefined`                               |
 | `minAsDate`                  | --                             | Earliest allowed date as full date object                                                                                          | `Date`                       | `undefined`                               |
+| `name`                       | `name`                         | The picker's name. Gets submitted with the form.                                                                                   | `string`                     | `undefined`                               |
 | `overlayPositioning`         | `overlay-positioning`          | Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. | `"absolute" \| "fixed"`      | `"absolute"`                              |
 | `proximitySelectionDisabled` | `proximity-selection-disabled` | Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range.              | `boolean`                    | `false`                                   |
 | `range`                      | `range`                        | Range mode activation                                                                                                              | `boolean`                    | `false`                                   |
 | `scale`                      | `scale`                        | specify the scale of the date picker                                                                                               | `"l" \| "m" \| "s"`          | `"m"`                                     |
-| `start`                      | `start`                        | Selected start date                                                                                                                | `string`                     | `undefined`                               |
-| `startAsDate`                | --                             | Selected start date as full date object                                                                                            | `Date`                       | `undefined`                               |
-| `value`                      | `value`                        | Selected date                                                                                                                      | `string`                     | `undefined`                               |
-| `valueAsDate`                | --                             | Selected date as full date object                                                                                                  | `Date`                       | `undefined`                               |
+| `start`                      | `start`                        | <span style="color:red">**[DEPRECATED]**</span> use value instead<br/><br/>Selected start date                                     | `string`                     | `undefined`                               |
+| `startAsDate`                | --                             | <span style="color:red">**[DEPRECATED]**</span> use valueAsDate instead<br/><br/>Selected start date as full date object           | `Date`                       | `undefined`                               |
+| `value`                      | `value`                        | Selected date                                                                                                                      | `string \| string[]`         | `undefined`                               |
+| `valueAsDate`                | --                             | Selected date as full date object                                                                                                  | `Date \| Date[]`             | `undefined`                               |
 
 ## Events
 
@@ -37,6 +60,16 @@
 ## Methods
 
 ### `reposition() => Promise<void>`
+
+Updates the position of the component.
+
+#### Returns
+
+Type: `Promise<void>`
+
+### `setFocus() => Promise<void>`
+
+Updates the position of the component.
 
 #### Returns
 

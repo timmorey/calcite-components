@@ -13,10 +13,18 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getKey } from "../../utils/key";
+
 import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
-import { hasLabel, intersects } from "../../utils/dom";
+import { intersects } from "../../utils/dom";
 import { clamp } from "../../utils/math";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import {
+  afterConnectDefaultValueSet,
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot
+} from "../../utils/form";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -25,7 +33,7 @@ type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
   styleUrl: "calcite-slider.scss",
   shadow: true
 })
-export class CalciteSlider {
+export class CalciteSlider implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -45,10 +53,14 @@ export class CalciteSlider {
   /** Indicates if a histogram is present */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
-  /** Display a histogram above the slider */
+  /**
+   * List of x,y coordinates within the slider's min and max, displays above the slider track.
+   * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-graph/interfaces.ts#L5)
+   */
   @Prop() histogram?: DataSeries;
 
-  @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
+  @Watch("histogram")
+  histogramWatcher(newHistogram: DataSeries): void {
     this.hasHistogram = !!newHistogram;
   }
 
@@ -58,15 +70,15 @@ export class CalciteSlider {
   @Prop() histogramStops: ColorStop[];
 
   /** Label handles with their numeric value */
-  @Prop({ reflect: true }) labelHandles?: boolean;
+  @Prop({ reflect: true }) labelHandles = false;
 
   /** Label tick marks with their numeric value. */
-  @Prop({ reflect: true }) labelTicks?: boolean;
+  @Prop({ reflect: true }) labelTicks = false;
 
   /** Maximum selectable value */
   @Prop({ reflect: true }) max = 100;
 
-  /** Label for second handle if needed (ex. "Temperature, upper bound") */
+  /** Used as an accessible label (aria-label) for second handle if needed (ex. "Temperature, upper bound") */
   @Prop() maxLabel?: string;
 
   /** Currently selected upper number (if multi-select) */
@@ -75,7 +87,7 @@ export class CalciteSlider {
   /** Minimum selectable value */
   @Prop({ reflect: true }) min = 0;
 
-  /** Label for first (or only) handle (ex. "Temperature, lower bound") */
+  /** Used as an accessible label (aria-label) for first (or only) handle (ex. "Temperature, lower bound") */
   @Prop() minLabel: string;
 
   /** Currently selected lower number (if multi-select) */
@@ -88,14 +100,22 @@ export class CalciteSlider {
    */
   @Prop({ reflect: true }) mirrored = false;
 
+  /** The name of the slider */
+  @Prop({ reflect: true }) name: string;
+
   /** Interval to move on page up/page down keys */
   @Prop() pageStep?: number;
 
   /** Use finer point for handles */
-  @Prop() precise?: boolean;
+  @Prop() precise = false;
+
+  /**
+   * When true, makes the component required for form-submission.
+   */
+  @Prop({ reflect: true }) required = false;
 
   /** When true, enables snap selection along the step interval */
-  @Prop() snap?: boolean = false;
+  @Prop() snap = false;
 
   /** Interval to move on up/down keys */
   @Prop() step?: number = 1;
@@ -111,17 +131,28 @@ export class CalciteSlider {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectLabel(this);
+    connectForm(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLabel(this);
+    disconnectForm(this);
+  }
+
   componentWillLoad(): void {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
     this.value = this.clamp(this.value);
+    afterConnectDefaultValueSet(this, this.value);
     if (this.snap) {
       this.value = this.getClosestStep(this.value);
     }
     if (this.histogram) {
       this.hasHistogram = true;
     }
-    this.emitChange();
   }
 
   componentDidRender(): void {
@@ -143,7 +174,8 @@ export class CalciteSlider {
     const max = this.maxValue || this.value;
     const maxProp = this.isRange ? "maxValue" : "value";
     const value = this[maxProp];
-    const minInterval = this.getUnitInterval(min) * 100;
+    const useMinValue = this.shouldUseMinValue();
+    const minInterval = this.getUnitInterval(useMinValue ? this.minValue : min) * 100;
     const maxInterval = this.getUnitInterval(max) * 100;
     const mirror = this.shouldMirror();
     const leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
@@ -516,7 +548,7 @@ export class CalciteSlider {
       <Host id={id} onTouchStart={this.handleTouchStart}>
         <div class={{ container: true, "container--range": this.isRange }}>
           {this.renderGraph()}
-          <div class="track">
+          <div class="track" ref={this.storeTrackRef}>
             <div
               class="track__range"
               onPointerDown={() => this.dragStart("minMaxValue")}
@@ -528,12 +560,16 @@ export class CalciteSlider {
             <div class="ticks">
               {this.tickValues.map((tick) => {
                 const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
+                let activeTicks = tick >= min && tick <= max;
+                if (useMinValue) {
+                  activeTicks = tick >= this.minValue && tick <= this.maxValue;
+                }
 
                 return (
                   <span
                     class={{
                       tick: true,
-                      "tick--active": tick >= min && tick <= max
+                      "tick--active": activeTicks
                     }}
                     style={{
                       left: mirror ? "" : tickOffset,
@@ -567,6 +603,7 @@ export class CalciteSlider {
           {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
           {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
           {this.hasHistogram && this.precise && this.labelHandles && histogramLabeledPreciseHandle}
+          <HiddenFormInputSlot component={this} />
         </div>
       </Host>
     );
@@ -578,9 +615,12 @@ export class CalciteSlider {
         <calcite-graph
           colorStops={this.histogramStops}
           data={this.histogram}
+          data-style="slider-histogram"
           height={48}
           highlightMax={this.isRange ? this.maxValue : this.value}
           highlightMin={this.isRange ? this.minValue : this.min}
+          max={this.max}
+          min={this.min}
           width={300}
         />
       </div>
@@ -670,17 +710,12 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e: CustomEvent): void {
-    if (e.detail.interactedEl !== this.el && hasLabel(e.detail.labelEl, this.el)) {
-      this.setFocus();
-    }
-  }
-
-  @Listen("keydown") keyDownHandler(event: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
     const value = this[activeProp];
-    const key = getKey(event.key);
+    const key = event.key;
 
     if (key === "Enter" || key === " ") {
       event.preventDefault();
@@ -708,19 +743,16 @@ export class CalciteSlider {
     } else if (key === "End") {
       adjustment = max;
     }
-
     if (isNaN(adjustment)) {
       return;
     }
-
     event.preventDefault();
-    this[activeProp] = this.clamp(adjustment, activeProp);
-    this.emitChange();
+    this.setValue(activeProp, this.clamp(adjustment, activeProp));
   }
 
   @Listen("click")
-  clickHandler(): void {
-    this.focusActiveHandle();
+  clickHandler(event: PointerEvent): void {
+    this.focusActiveHandle(event.clientX);
   }
 
   @Listen("pointerdown")
@@ -734,11 +766,15 @@ export class CalciteSlider {
         prop = "minMaxValue";
       } else {
         const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
-        prop = closerToMax ? "maxValue" : "minValue";
+        prop = closerToMax || position > this.maxValue ? "maxValue" : "minValue";
       }
     }
-    this[prop] = this.clamp(position, prop);
+    this.lastDragPropValue = this[prop];
     this.dragStart(prop);
+    const isThumbActive = this.el.shadowRoot.querySelector(".thumb:active");
+    if (!isThumbActive) {
+      this.setValue(prop, this.clamp(position, prop));
+    }
   }
 
   handleTouchStart(event: TouchEvent): void {
@@ -757,6 +793,13 @@ export class CalciteSlider {
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    */
+  @Event() calciteSliderInput: EventEmitter;
+
+  /**
+   * Fires on when the thumb is released on slider
+   * If you need to constantly listen to the drag event,
+   * please use calciteSliderInput instead
+   */
   @Event() calciteSliderChange: EventEmitter;
 
   /**
@@ -764,7 +807,7 @@ export class CalciteSlider {
    * :warning: Will be fired frequently during drag. If you are performing any
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
-   * @deprecated use calciteSliderChange instead
+   * @deprecated use calciteSliderInput instead
    */
   @Event() calciteSliderUpdate: EventEmitter;
 
@@ -773,6 +816,8 @@ export class CalciteSlider {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
@@ -785,6 +830,12 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteSlider["value"];
+
   private guid = `calcite-slider-${guid()}`;
 
   private isRange = false;
@@ -793,9 +844,13 @@ export class CalciteSlider {
 
   private lastDragProp: ActiveSliderProperty;
 
+  private lastDragPropValue: number;
+
   private minHandle: HTMLButtonElement;
 
   private maxHandle: HTMLButtonElement;
+
+  private trackEl: HTMLDivElement;
 
   @State() private activeProp: ActiveSliderProperty = "value";
 
@@ -813,15 +868,28 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
 
+  onLabelClick(): void {
+    this.setFocus();
+  }
+
   private shouldMirror(): boolean {
     return this.mirrored && !this.hasHistogram;
+  }
+
+  private shouldUseMinValue(): boolean {
+    if (!this.isRange) {
+      return false;
+    }
+    return (
+      (this.hasHistogram && this.maxValue === 0) || (!this.hasHistogram && this.minValue === 0)
+    );
   }
 
   private generateTickValues(): number[] {
     const ticks = [];
     let current = this.min;
     while (this.ticks && current < this.max + this.ticks) {
-      ticks.push(current);
+      ticks.push(Math.min(current, this.max));
       current = current + this.ticks;
     }
     return ticks;
@@ -836,23 +904,24 @@ export class CalciteSlider {
     document.addEventListener("pointercancel", this.dragEnd);
   }
 
-  private focusActiveHandle(): void {
+  private focusActiveHandle(valueX: number): void {
     switch (this.dragProp) {
-      default:
-      case "maxValue":
-        this.maxHandle.focus();
-        break;
       case "minValue":
         this.minHandle.focus();
         break;
+      case "maxValue":
+        this.maxHandle.focus();
+        break;
       case "minMaxValue":
+        this.getClosestHandle(valueX).focus();
+        break;
+      default:
         break;
     }
   }
 
   private dragUpdate = (event: PointerEvent): void => {
     event.preventDefault();
-
     if (this.dragProp) {
       const value = this.translate(event.clientX || event.pageX);
       if (this.isRange && this.dragProp === "minMaxValue") {
@@ -873,30 +942,63 @@ export class CalciteSlider {
           this.minMaxValueRange = this.maxValue - this.minValue;
         }
       } else {
-        this[this.dragProp] = this.clamp(value, this.dragProp);
+        this.setValue(this.dragProp, this.clamp(value, this.dragProp));
       }
-
-      this.emitChange();
     }
   };
 
-  private emitChange(): void {
-    this.calciteSliderChange.emit();
+  private emitInput(): void {
+    this.calciteSliderInput.emit();
     this.calciteSliderUpdate.emit();
   }
 
-  private dragEnd = (): void => {
+  private emitChange(): void {
+    this.calciteSliderChange.emit();
+  }
+
+  private dragEnd = (event: PointerEvent): void => {
     document.removeEventListener("pointermove", this.dragUpdate);
     document.removeEventListener("pointerup", this.dragEnd);
     document.removeEventListener("pointercancel", this.dragEnd);
 
-    this.emitChange();
-    this.focusActiveHandle();
-
+    this.focusActiveHandle(event.clientX);
+    if (this.lastDragPropValue != this[this.dragProp]) {
+      this.emitChange();
+    }
     this.dragProp = null;
+    this.lastDragPropValue = null;
     this.minValueDragRange = null;
     this.maxValueDragRange = null;
     this.minMaxValueRange = null;
+  };
+
+  /**
+   * Set the prop value if changed at the component level
+   * @param valueProp
+   * @param value
+   */
+  private setValue(valueProp: string, value: number): void {
+    const oldValue = this[valueProp];
+    const valueChanged = oldValue !== value;
+
+    if (!valueChanged) {
+      return;
+    }
+    this[valueProp] = value;
+    const dragging = this.dragProp;
+    if (!dragging) {
+      this.emitChange();
+    }
+    this.emitInput();
+  }
+
+  /**
+   * Set the reference of the track Element
+   * @internal
+   * @param node
+   */
+  private storeTrackRef = (node: HTMLDivElement): void => {
+    this.trackEl = node;
   };
 
   /**
@@ -922,7 +1024,7 @@ export class CalciteSlider {
    */
   private translate(x: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.el.getBoundingClientRect();
+    const { left, width } = this.trackEl.getBoundingClientRect();
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     let value = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
@@ -943,6 +1045,16 @@ export class CalciteSlider {
       num = this.clamp(step);
     }
     return num;
+  }
+
+  private getClosestHandle(valueX: number): HTMLButtonElement {
+    return this.getDistanceX(this.maxHandle, valueX) > this.getDistanceX(this.minHandle, valueX)
+      ? this.minHandle
+      : this.maxHandle;
+  }
+
+  private getDistanceX(el: HTMLButtonElement, valueX: number): number {
+    return Math.abs(el.getBoundingClientRect().left - valueX);
   }
 
   private getFontSizeForElement(element: HTMLElement): number {
@@ -1023,11 +1135,10 @@ export class CalciteSlider {
       if (rightValueLabelStaticHostOffset === 0 && leftValueLabelStaticHostOffset === 0) {
         // Neither handle overlaps the host boundary
         let leftValueLabelTranslate = labelTransformedOverlap / 2 - labelOffset;
-        if (Math.sign(leftValueLabelTranslate) === -1) {
-          leftValueLabelTranslate = Math.abs(leftValueLabelTranslate);
-        } else {
-          leftValueLabelTranslate = -leftValueLabelTranslate;
-        }
+        leftValueLabelTranslate =
+          Math.sign(leftValueLabelTranslate) === -1
+            ? Math.abs(leftValueLabelTranslate)
+            : -leftValueLabelTranslate;
 
         const leftValueLabelTransformedHostOffset = this.getHostOffset(
           leftValueLabelTransformed.getBoundingClientRect().left +
@@ -1075,11 +1186,10 @@ export class CalciteSlider {
         // labels overlap host boundary on the right side
         let leftValueLabelTranslate =
           Math.abs(leftValueLabelStaticHostOffset) + labelTransformedOverlap - labelOffset;
-        if (Math.sign(leftValueLabelTranslate) === -1) {
-          leftValueLabelTranslate = Math.abs(leftValueLabelTranslate);
-        } else {
-          leftValueLabelTranslate = -leftValueLabelTranslate;
-        }
+        leftValueLabelTranslate =
+          Math.sign(leftValueLabelTranslate) === -1
+            ? Math.abs(leftValueLabelTranslate)
+            : -leftValueLabelTranslate;
         leftValueLabel.style.transform = `translateX(${leftValueLabelTranslate}px)`;
         leftValueLabelTransformed.style.transform = `translateX(${
           leftValueLabelTranslate - labelOffset
@@ -1127,35 +1237,21 @@ export class CalciteSlider {
       this.el.shadowRoot.querySelector(".tick__label--max");
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
-      if (this.isMinTickLabelObscured(minTickLabel, maxHandle)) {
-        minTickLabel.style.opacity = "0";
-      } else {
-        minTickLabel.style.opacity = "1";
-      }
-      if (this.isMaxTickLabelObscured(maxTickLabel, maxHandle)) {
-        maxTickLabel.style.opacity = "0";
-      } else {
-        maxTickLabel.style.opacity = "1";
-      }
+      minTickLabel.style.opacity = this.isMinTickLabelObscured(minTickLabel, maxHandle) ? "0" : "1";
+      maxTickLabel.style.opacity = this.isMaxTickLabelObscured(maxTickLabel, maxHandle) ? "0" : "1";
     }
 
     if (minHandle && maxHandle && minTickLabel && maxTickLabel) {
-      if (
+      minTickLabel.style.opacity =
         this.isMinTickLabelObscured(minTickLabel, minHandle) ||
         this.isMinTickLabelObscured(minTickLabel, maxHandle)
-      ) {
-        minTickLabel.style.opacity = "0";
-      } else {
-        minTickLabel.style.opacity = "1";
-      }
-      if (
+          ? "0"
+          : "1";
+      maxTickLabel.style.opacity =
         this.isMaxTickLabelObscured(maxTickLabel, minHandle) ||
         (this.isMaxTickLabelObscured(maxTickLabel, maxHandle) && this.hasHistogram)
-      ) {
-        maxTickLabel.style.opacity = "0";
-      } else {
-        maxTickLabel.style.opacity = "1";
-      }
+          ? "0"
+          : "1";
     }
   }
 

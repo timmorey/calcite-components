@@ -654,6 +654,14 @@ describe("calcite-dropdown", () => {
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].isIntersectingViewport()).toBe(i <= maxItems - 1);
       }
+
+      const newMaxItems = 4;
+      element.setProperty("maxItems", newMaxItems);
+      await page.waitForChanges();
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].isIntersectingViewport()).toBe(i <= newMaxItems - 1);
+      }
     });
   });
 
@@ -998,5 +1006,38 @@ describe("calcite-dropdown", () => {
     );
 
     expect(finalSelectedItem).toBe("item-3");
+  });
+
+  it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
+    const page = await newE2EPage({
+      html: html` <calcite-tabs>
+        <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-title is-active>First tab</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab is-active>
+          <calcite-dropdown>
+            <calcite-button slot="dropdown-trigger" class="dropdown">Dropdown</calcite-button>
+            <calcite-dropdown-group group-title="Select one">
+              <calcite-dropdown-item>First</calcite-dropdown-item>
+              <calcite-dropdown-item>Second</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+        </calcite-tab>
+      </calcite-tabs>`
+    });
+    await page.waitForChanges();
+
+    const button = await page.find("calcite-button");
+
+    await button.click();
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval("calcite-dropdown", (dropdown) => {
+        // check whether the element is overflown, ref :https://stackoverflow.com/questions/9333379/check-if-an-elements-content-is-overflowing
+        const { clientWidth, clientHeight, scrollWidth, scrollHeight } = dropdown;
+        return scrollHeight > clientHeight || scrollWidth > clientWidth;
+      })
+    ).toBe(false);
   });
 });

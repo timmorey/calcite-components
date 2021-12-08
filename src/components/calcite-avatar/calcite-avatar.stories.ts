@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import { html, placeholderImage } from "../../tests/utils";
 import readme from "./readme.md";
 
@@ -33,10 +33,7 @@ export const MissingThumbnail = (): string => html`
   </calcite-avatar>
 `;
 
-MissingThumbnail.story = {
-  name: "Missing thumbnail",
-  parameters: { backgrounds: darkBackground }
-};
+MissingThumbnail.storyName = "Missing thumbnail";
 
 export const Dark = (): string => html`
   <calcite-avatar
@@ -49,6 +46,4 @@ export const Dark = (): string => html`
   </calcite-avatar>
 `;
 
-Dark.story = {
-  parameters: { backgrounds: darkBackground }
-};
+Dark.parameters = { themes: themesDarkDefault };

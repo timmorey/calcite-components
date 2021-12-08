@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-radio-group-item/readme.md";
 import { html } from "../../tests/utils";
@@ -61,9 +61,7 @@ export const WithIcons = (): string => html`
   </calcite-label>
 `;
 
-WithIcons.story = {
-  name: "With icons"
-};
+WithIcons.storyName = "With icons";
 
 export const DarkMode = (): string => html`
   <calcite-radio-group
@@ -81,10 +79,8 @@ export const DarkMode = (): string => html`
   </calcite-radio-group>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const FullWidth = (): string => html`
   <div style="width:33vw;">
@@ -102,9 +98,7 @@ export const FullWidth = (): string => html`
   </div>
 `;
 
-FullWidth.story = {
-  name: "Full width"
-};
+FullWidth.storyName = "Full width";
 
 export const RTL = (): string => html`
   <calcite-radio-group

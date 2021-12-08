@@ -8,8 +8,6 @@ The `calcite-shell-panel` is a child component of `calcite-shell` used as a cont
 
 ### Basic
 
-#### Basic
-
 Renders a basic shell panel with text content.
 
 ```html
@@ -18,7 +16,7 @@ Renders a basic shell panel with text content.
 </calcite-shell-panel>
 ```
 
-#### With action bar
+### With-action-bar
 
 Renders a panel with an action bar.
 
@@ -32,36 +30,7 @@ Renders a panel with an action bar.
 </calcite-shell-panel>
 ```
 
-#### With a CalcitePanel.
-
-```html
-<calcite-shell-panel>
-  <calcite-action-bar slot="action-bar">
-    <calcite-action text="Add" icon="plus"></calcite-action>
-    <calcite-action text="Save" icon="save"></calcite-action>
-    <calcite-action text="Layers" icon="layers"></calcite-action>
-  </calcite-action-bar>
-  <calcite-panel> ... </calcite-panel>
-</calcite-shell-panel>
-```
-
-#### With a CalciteFlow.
-
-```html
-<calcite-shell-panel>
-  <calcite-action-bar slot="action-bar">
-    <calcite-action text="Add" icon="plus"></calcite-action>
-    <calcite-action text="Save" icon="save"></calcite-action>
-    <calcite-action text="Layers" icon="layers"></calcite-action>
-  </calcite-action-bar>
-  <calcite-flow>
-    <calcite-panel> ... </calcite-panel>
-    <calcite-panel> ... </calcite-panel>
-  </calcite-flow>
-</calcite-shell-panel>
-```
-
-#### With a custom element wrapping a CalcitePanel.
+### With-custom-element
 
 Add `calcite-match-height` to a wrapping element to ensure proper height, scrolling, and sticky behavior (header, footer, fab). Note that multiple levels of nesting is not supported.
 
@@ -78,15 +47,46 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 </calcite-shell-panel>
 ```
 
+### With-flow
+
+```html
+<calcite-shell-panel>
+  <calcite-action-bar slot="action-bar">
+    <calcite-action text="Add" icon="plus"></calcite-action>
+    <calcite-action text="Save" icon="save"></calcite-action>
+    <calcite-action text="Layers" icon="layers"></calcite-action>
+  </calcite-action-bar>
+  <calcite-flow>
+    <calcite-panel> ... </calcite-panel>
+    <calcite-panel> ... </calcite-panel>
+  </calcite-flow>
+</calcite-shell-panel>
+```
+
+### With-panel
+
+```html
+<calcite-shell-panel>
+  <calcite-action-bar slot="action-bar">
+    <calcite-action text="Add" icon="plus"></calcite-action>
+    <calcite-action text="Save" icon="save"></calcite-action>
+    <calcite-action text="Layers" icon="layers"></calcite-action>
+  </calcite-action-bar>
+  <calcite-panel> ... </calcite-panel>
+</calcite-shell-panel>
+```
+
 ## Properties
 
-| Property              | Attribute               | Description                                                          | Type                | Default     |
-| --------------------- | ----------------------- | -------------------------------------------------------------------- | ------------------- | ----------- |
-| `collapsed`           | `collapsed`             | Hide the content panel.                                              | `boolean`           | `false`     |
-| `detached`            | `detached`              | This property makes the content area appear like a "floating" panel. | `boolean`           | `false`     |
-| `detachedHeightScale` | `detached-height-scale` | Specifies the maxiumum height of the contents when detached.         | `"l" \| "m" \| "s"` | `"l"`       |
-| `position`            | `position`              | Arranges the component depending on the elements 'dir' property.     | `"end" \| "start"`  | `undefined` |
-| `widthScale`          | `width-scale`           | This sets width of the content area.                                 | `"l" \| "m" \| "s"` | `"m"`       |
+| Property              | Attribute               | Description                                                                                  | Type                | Default       |
+| --------------------- | ----------------------- | -------------------------------------------------------------------------------------------- | ------------------- | ------------- |
+| `collapsed`           | `collapsed`             | Hide the content panel.                                                                      | `boolean`           | `false`       |
+| `detached`            | `detached`              | This property makes the content area appear like a "floating" panel.                         | `boolean`           | `false`       |
+| `detachedHeightScale` | `detached-height-scale` | Specifies the maxiumum height of the contents when detached.                                 | `"l" \| "m" \| "s"` | `"l"`         |
+| `intlResize`          | `intl-resize`           | Accessible label for resize separator.                                                       | `string`            | `TEXT.resize` |
+| `position`            | `position`              | Arranges the component depending on the elements 'dir' property.                             | `"end" \| "start"`  | `undefined`   |
+| `resizable`           | `resizable`             | This property makes the content area resizable if the calcite-shell-panel is not 'detached'. | `boolean`           | `false`       |
+| `widthScale`          | `width-scale`           | This sets width of the content area.                                                         | `"l" \| "m" \| "s"` | `"m"`         |
 
 ## Events
 

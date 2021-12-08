@@ -5,8 +5,7 @@ import { html } from "../../tests/utils";
 describe("calcite-tile-select", () => {
   it("renders", async () => renders("calcite-tile-select", { display: "block" }));
 
-  it("is accessible", async () =>
-    accessible(`<calcite-label><calcite-tile-select></calcite-tile-select>Label</calcite-label>`));
+  it("is accessible", async () => accessible(`<calcite-tile-select heading="label"></calcite-tile-select>`));
 
   it("has defaults", async () =>
     defaults("calcite-tile-select", [
@@ -46,12 +45,9 @@ describe("calcite-tile-select", () => {
     await page.setContent("<calcite-tile-select name='radio' heading='test' value='one'></calcite-tile-select>");
     const calciteRadio = await page.find("calcite-radio-button");
     const calciteCheckbox = await page.find("calcite-checkbox");
-    const radio = await page.find("input[type='radio']");
     expect(calciteRadio).toBeDefined();
     expect(calciteCheckbox).toBeNull();
     expect(await calciteRadio.getProperty("label")).toBe("test");
-    expect(radio).toEqualAttribute("name", "radio");
-    expect(radio).toEqualAttribute("value", "one");
   });
 
   it("renders a calcite-checkbox when in checkbox mode", async () => {
@@ -62,12 +58,9 @@ describe("calcite-tile-select", () => {
 
     const calciteRadio = await page.find("calcite-radio-button");
     const calciteCheckbox = await page.find("calcite-checkbox");
-    const checkbox = await page.find("input[type='checkbox']");
     expect(calciteRadio).toBeNull();
     expect(calciteCheckbox).toBeDefined();
     expect(await calciteCheckbox.getProperty("label")).toBe("test");
-    expect(checkbox).toEqualAttribute("name", "checkbox-tile-select");
-    expect(checkbox).toEqualAttribute("value", "one");
   });
 
   it("removing a tile-select also removes its corresponding calcite-radio-button", async () => {
@@ -112,11 +105,66 @@ describe("calcite-tile-select", () => {
 
   it("focuses calcite-checkbox when setFocus method is called", async () =>
     focusable(html`<calcite-tile-select type="checkbox"></calcite-tile-select>`, {
-      focusTargetSelector: "input[type=checkbox]"
+      focusTargetSelector: "calcite-checkbox"
     }));
 
   it("focuses calcite-radio-button when setFocus method is called", async () =>
     focusable(html`<calcite-tile-select type="radio"></calcite-tile-select>`, {
-      focusTargetSelector: "input[type=radio]"
+      focusTargetSelector: "calcite-radio-button"
     }));
+
+  it("emits change event on checkbox toggle and suppresses internal checkbox change event", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-tile-select type="checkbox" input-enabled></calcite-tile-select>`
+    });
+
+    const tileSelectSpy = await page.spyOnEvent("calciteTileSelectChange");
+    const checkboxSpy = await page.spyOnEvent("calciteCheckboxChange");
+    const element = await page.find("calcite-tile-select");
+
+    expect(await element.getProperty("checked")).toBe(false);
+
+    await element.click();
+
+    expect(await element.getProperty("checked")).toBe(true);
+    expect(tileSelectSpy).toHaveReceivedEvent();
+    expect(checkboxSpy).not.toHaveReceivedEvent();
+
+    await element.click();
+
+    expect(await element.getProperty("checked")).toBe(false);
+    expect(tileSelectSpy).toHaveReceivedEvent();
+    expect(checkboxSpy).not.toHaveReceivedEvent();
+  });
+
+  it("emits change event on radio check and suppresses internal radio change event", async () => {
+    const page = await newE2EPage({
+      html: html`
+        <calcite-tile-select name="change" type="radio" input-enabled value="one"></calcite-tile-select>
+        <calcite-tile-select name="change" type="radio" input-enabled value="two"></calcite-tile-select>
+      `
+    });
+
+    const tileSelectSpy = await page.spyOnEvent("calciteTileSelectChange");
+    const radioButtonSpy = await page.spyOnEvent("calciteRadioButtonChange");
+    const one = await page.find('calcite-tile-select[value="one"]');
+    const two = await page.find('calcite-tile-select[value="two"]');
+
+    expect(await one.getProperty("checked")).toBe(false);
+    expect(await two.getProperty("checked")).toBe(false);
+
+    await one.click();
+
+    expect(await one.getProperty("checked")).toBe(true);
+    expect(await two.getProperty("checked")).toBe(false);
+    expect(tileSelectSpy).toHaveReceivedEventTimes(1);
+    expect(radioButtonSpy).not.toHaveReceivedEvent();
+
+    await two.click();
+
+    expect(await one.getProperty("checked")).toBe(false);
+    expect(await two.getProperty("checked")).toBe(true);
+    expect(tileSelectSpy).toHaveReceivedEventTimes(2);
+    expect(radioButtonSpy).not.toHaveReceivedEvent();
+  });
 });

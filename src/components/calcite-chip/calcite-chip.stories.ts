@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { iconNames, boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html, placeholderImage } from "../../tests/utils";
 
@@ -88,10 +88,8 @@ export const DarkTheme = (): string => html`
   </div>
 `;
 
-DarkTheme.story = {
-  name: "Dark theme",
-  parameters: { backgrounds: darkBackground }
-};
+DarkTheme.storyName = "Dark theme";
+DarkTheme.parameters = { themes: themesDarkDefault };
 
 export const Rtl = (): string => html`
   <div style="background-color:white;padding:100px" dir="rtl">
@@ -106,6 +104,4 @@ export const Rtl = (): string => html`
   </div>
 `;
 
-Rtl.story = {
-  name: "RTL"
-};
+Rtl.storyName = "RTL";

@@ -2,6 +2,11 @@ import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { BoundingBox, JSONObject } from "puppeteer";
 import dedent from "dedent";
 
+/**
+ * Util to help type global props for testing.
+ */
+export type GlobalTestProps<T> = T & Window & typeof globalThis;
+
 type DragAndDropSelector = string | SelectorOptions;
 
 type PointerPosition = {
@@ -208,6 +213,29 @@ export function placeholderImage({
   }
 
   return cleaned;
+}
+
+/**
+ * Helper to get an E2EElement's x,y coordinates
+ * @param page
+ * @param elementSelector
+ * @param shadowSelector
+ */
+export async function getElementXY(
+  page: E2EPage,
+  elementSelector: string,
+  shadowSelector?: string
+): Promise<[number, number]> {
+  return page.evaluate(
+    ([elementSelector, shadowSelector]): [number, number] => {
+      const element = document.querySelector(elementSelector);
+      const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
+      const { x, y } = measureTarget.getBoundingClientRect();
+
+      return [x, y];
+    },
+    [elementSelector, shadowSelector]
+  );
 }
 
 /**

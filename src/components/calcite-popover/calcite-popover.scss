@@ -67,7 +67,9 @@
   flex-col
   flex-no-wrap
   self-center
-  h-full;
+  overflow-hidden
+  h-full
+  w-full;
 }
 
 .calcite--rtl {

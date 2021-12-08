@@ -2,9 +2,9 @@ import { boolean, select, text } from "@storybook/addon-knobs";
 import {
   Attributes,
   createComponentHTML as create,
-  darkBackground,
   Attribute,
-  filterComponentAttributes
+  filterComponentAttributes,
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
@@ -14,24 +14,15 @@ import { html } from "../../tests/utils";
 export default {
   title: "Components/Panel",
   parameters: {
-    backgrounds: darkBackground,
     notes: readme
   }
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { dir, theme, scale } = ATTRIBUTES;
+  const { scale } = ATTRIBUTES;
 
   return filterComponentAttributes(
     [
-      {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue);
-          delete this.build;
-          return this;
-        }
-      },
       {
         name: "dismissed",
         commit(): Attribute {
@@ -76,14 +67,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "intl-close",
         commit(): Attribute {
           this.value = text("intlClose", TEXT.close);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue);
           delete this.build;
           return this;
         }
@@ -133,6 +116,26 @@ const panelContent = `${headerHTML}
 
 export const basic = (): string => create("calcite-panel", createAttributes(), panelContent);
 
+export const withButton = (): string =>
+  create(
+    "calcite-panel",
+    createAttributes(),
+    `
+  ${headerHTML}
+  <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
+  <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
+  ${contentHTML}
+  <calcite-fab slot='fab'></calcite-fab>
+  ${footerHTML}
+`
+  );
+
+export const withStyledSlot = (): string => html`
+  <calcite-panel style="height: 100%;" heading="Heading">
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+  </calcite-panel>
+`;
+
 export const darkThemeRTL = (): string =>
   create(
     "calcite-panel",
@@ -148,3 +151,5 @@ export const darkThemeRTL = (): string =>
     ]),
     panelContent
   );
+
+darkThemeRTL.parameters = { themes: themesDarkDefault };

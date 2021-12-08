@@ -26,6 +26,13 @@ export function getThemeName(el: HTMLElement): "light" | "dark" {
   return closestElementCrossShadowBoundary(el, `.${CSS_UTILITY.darkTheme}`) ? "dark" : "light";
 }
 
+export function getElementStyleDir(el: HTMLElement): Direction {
+  return (window.getComputedStyle(el).direction as Direction) || "ltr";
+}
+
+/**
+ * @deprecated use getElementStyleDir instead.
+ */
 export function getElementDir(el: HTMLElement): Direction {
   const prop = "dir";
   const selector = `[${prop}]`;
@@ -190,10 +197,6 @@ function querySingle<T extends Element = Element>(
 
 export function filterDirectChildren<T extends Element>(el: Element, selector: string): T[] {
   return Array.from(el.children).filter((child): child is T => child.matches(selector));
-}
-
-export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
-  return labelEl.contains(el);
 }
 
 // set a default icon from a defined set or allow an override with an icon name string

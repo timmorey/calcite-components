@@ -76,6 +76,7 @@ export const create: () => Config = () => ({
   outputTargets: [
     { type: "dist-hydrate-script" },
     { type: "dist-custom-elements-bundle" },
+    { type: "dist-custom-elements", autoDefineCustomElements: true },
     { type: "dist" },
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
@@ -121,6 +122,7 @@ export const create: () => Config = () => ({
     selector: "attribute",
     name: "calcite-hydrated"
   },
+  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.`,
   extras: {
     scriptDataOpts: true
   }

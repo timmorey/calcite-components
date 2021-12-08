@@ -5,7 +5,6 @@ import {
   Host,
   Event,
   EventEmitter,
-  State,
   Listen,
   Watch,
   h,
@@ -14,11 +13,15 @@ import {
 import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../calcite-tree/interfaces";
 import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { Scale } from "../interfaces";
-import { CSS } from "./resources";
+import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot - A slot for adding content to the item.
+ * @slot children - A slot for adding nested `calcite-tree` elements.
+ */
 @Component({
   tag: "calcite-tree-item",
   styleUrl: "calcite-tree-item.scss",
@@ -47,12 +50,7 @@ export class CalciteTreeItem {
 
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
-    const items = getSlotted<HTMLCalciteTreeItemElement>(this.el, "children", {
-      all: true,
-      selector: "calcite-tree-item"
-    });
-
-    items.forEach((item) => (item.parentExpanded = newValue));
+    this.updateParentIsExpanded(this.el, newValue);
   }
 
   /** @internal Is the parent of this item expanded? */
@@ -67,18 +65,24 @@ export class CalciteTreeItem {
   /** @internal Draw lines (set on parent) */
   @Prop({ reflect: true, mutable: true }) lines: boolean;
 
-  /** @internal Display checkboxes (set on parent) */
-  @Prop({ reflect: true, mutable: true }) inputEnabled: boolean;
+  /** Display checkboxes (set on parent)
+   * @internal
+   * @deprecated set "ancestors" selection-mode on parent tree for checkboxes
+   */
+  @Prop() inputEnabled: boolean;
 
   /** @internal Scale of the parent tree, defaults to m */
   @Prop({ reflect: true, mutable: true }) scale: Scale;
 
   /**
    * @internal
-   * In ancestor selection mode using inputEnabled,
+   * In ancestor selection mode,
    * show as indeterminate when only some children are selected
    **/
   @Prop({ reflect: true }) indeterminate: boolean;
+
+  /** @internal Tree selection-mode (set on parent) */
+  @Prop({ mutable: true }) selectionMode: TreeSelectionMode;
 
   //--------------------------------------------------------------------------
   //
@@ -87,7 +91,11 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.expandedHandler(this.expanded);
+    this.parentTreeItem = this.el.parentElement.closest("calcite-tree-item");
+    if (this.parentTreeItem) {
+      const { expanded } = this.parentTreeItem;
+      this.updateParentIsExpanded(this.parentTreeItem, expanded);
+    }
   }
 
   componentWillRender(): void {
@@ -103,7 +111,6 @@ export class CalciteTreeItem {
     this.selectionMode = parentTree.selectionMode;
     this.scale = parentTree.scale || "m";
     this.lines = parentTree.lines;
-    this.inputEnabled = parentTree.inputEnabled;
 
     let nextParentTree;
     while (parentTree) {
@@ -117,32 +124,59 @@ export class CalciteTreeItem {
     }
   }
 
+  componentDidLoad(): void {
+    this.updateAncestorTree();
+  }
+
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
-    const icon = this.hasChildren ? (
+    const showBulletPoint =
+      this.selectionMode === TreeSelectionMode.Single ||
+      this.selectionMode === TreeSelectionMode.Children;
+    const showCheckmark =
+      this.selectionMode === TreeSelectionMode.Multi ||
+      this.selectionMode === TreeSelectionMode.MultiChildren;
+    const chevron = this.hasChildren ? (
       <calcite-icon
         class={{
           [CSS.chevron]: true,
           [CSS_UTILITY.rtl]: rtl
         }}
         data-test-id="icon"
-        icon="chevron-right"
+        icon={ICONS.chevronRight}
         onClick={this.iconClickHandler}
         scale="s"
       />
     ) : null;
-    const checkbox = this.inputEnabled ? (
-      <label class={CSS.checkboxLabel}>
-        <calcite-checkbox
-          checked={this.selected}
-          class={CSS.checkbox}
-          data-test-id="checkbox"
-          indeterminate={this.hasChildren && this.indeterminate}
-          scale={this.scale}
-          tabIndex={-1}
-        />
-        <slot />
-      </label>
+    const checkbox =
+      this.selectionMode === TreeSelectionMode.Ancestors ? (
+        <label class={CSS.checkboxLabel}>
+          <calcite-checkbox
+            checked={this.selected}
+            class={CSS.checkbox}
+            data-test-id="checkbox"
+            indeterminate={this.hasChildren && this.indeterminate}
+            scale={this.scale}
+            tabIndex={-1}
+          />
+          <slot />
+        </label>
+      ) : null;
+    const selectedIcon = showBulletPoint
+      ? ICONS.bulletPoint
+      : showCheckmark
+      ? ICONS.checkmark
+      : null;
+    const bulletOrCheckIcon = selectedIcon ? (
+      <calcite-icon
+        class={{
+          [CSS.bulletPointIcon]: selectedIcon === ICONS.bulletPoint,
+          [CSS.checkmarkIcon]: selectedIcon === ICONS.checkmark,
+          [CSS_UTILITY.rtl]: rtl
+        }}
+        icon={selectedIcon}
+        scale="s"
+      />
     ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
@@ -151,14 +185,7 @@ export class CalciteTreeItem {
       <Host
         aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
         aria-hidden={hidden.toString()}
-        aria-selected={
-          this.selected
-            ? "true"
-            : this.selectionMode === TreeSelectionMode.Multi ||
-              this.selectionMode === TreeSelectionMode.MultiChildren
-            ? "false"
-            : undefined
-        }
+        aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
         calcite-hydrated-hidden={hidden}
         role="treeitem"
         tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
@@ -168,9 +195,11 @@ export class CalciteTreeItem {
             [CSS.nodeContainer]: true,
             [CSS_UTILITY.rtl]: rtl
           }}
+          data-selection-mode={this.selectionMode}
           ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
         >
-          {icon}
+          {chevron}
+          {bulletOrCheckIcon}
           {checkbox ? checkbox : <slot />}
         </div>
         <div
@@ -183,7 +212,7 @@ export class CalciteTreeItem {
           ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
           role={this.hasChildren ? "group" : undefined}
         >
-          <slot name="children" />
+          <slot name={SLOTS.children} />
         </div>
       </Host>
     );
@@ -205,7 +234,8 @@ export class CalciteTreeItem {
     }
     this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
-      modifyCurrentSelection: (e as any).shiftKey || this.inputEnabled,
+      modifyCurrentSelection:
+        (e as any).shiftKey || this.selectionMode === TreeSelectionMode.Ancestors,
       forceToggle: false
     });
   }
@@ -213,7 +243,7 @@ export class CalciteTreeItem {
   iconClickHandler = (event: MouseEvent): void => {
     event.stopPropagation();
     this.expanded = !this.expanded;
-    if (!this.inputEnabled) {
+    if (this.selectionMode !== TreeSelectionMode.Ancestors) {
       this.calciteTreeItemSelect.emit({
         modifyCurrentSelection: event.shiftKey,
         forceToggle: true
@@ -226,7 +256,7 @@ export class CalciteTreeItem {
   @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     let root;
 
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case " ":
         this.calciteTreeItemSelect.emit({
           modifyCurrentSelection: e.shiftKey,
@@ -266,7 +296,7 @@ export class CalciteTreeItem {
         }
 
         // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-        const parentItem = this.el.parentElement.closest("calcite-tree-item");
+        const parentItem = this.parentTreeItem;
 
         if (parentItem && (!this.hasChildren || this.expanded === false)) {
           parentItem.focus();
@@ -356,15 +386,36 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
-  @State() private selectionMode: TreeSelectionMode;
-
   childrenSlotWrapper!: HTMLElement;
 
   defaultSlotWrapper!: HTMLElement;
+
+  private parentTreeItem?: HTMLCalciteTreeItemElement;
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private updateParentIsExpanded = (el: HTMLCalciteTreeItemElement, expanded: boolean): void => {
+    const items = getSlotted<HTMLCalciteTreeItemElement>(el, SLOTS.children, {
+      all: true,
+      selector: "calcite-tree-item"
+    });
+    items.forEach((item) => (item.parentExpanded = expanded));
+  };
+
+  private updateAncestorTree = (): void => {
+    if (this.selected && this.selectionMode === TreeSelectionMode.Ancestors) {
+      const ancestors: HTMLCalciteTreeItemElement[] = [];
+      let parent = this.parentTreeItem;
+      while (parent) {
+        ancestors.push(parent);
+        parent = parent.parentElement.closest("calcite-tree-item");
+      }
+      ancestors.forEach((item) => (item.indeterminate = true));
+      return;
+    }
+  };
 }

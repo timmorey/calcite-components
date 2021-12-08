@@ -2,7 +2,6 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../tests/utils";
-import { CSS_UTILITY } from "../../utils/resources";
 
 describe("calcite-action-pad", () => {
   it("renders", async () => renders("calcite-action-pad", { display: "block" }));
@@ -22,6 +21,10 @@ describe("calcite-action-pad", () => {
       {
         propertyName: "layout",
         defaultValue: "vertical"
+      },
+      {
+        propertyName: "scale",
+        defaultValue: undefined
       }
     ]));
 
@@ -110,22 +113,6 @@ describe("calcite-action-pad", () => {
       const textEnabled = await button.getProperty("textEnabled");
 
       expect(textEnabled).toBe(true);
-    });
-  });
-
-  describe("when el direction is 'rtl'", () => {
-    it("should render child action expand toggle with correct class", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <calcite-action-pad dir='rtl'>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-        </calcite-action-pad>
-      `);
-      const buttonGroup = await page.find(`calcite-action-pad >>> .${CSS.actionGroupBottom}`);
-      const actionEl = await buttonGroup.find("calcite-action");
-      await actionEl.click();
-      const button = await actionEl.shadowRoot.querySelector("button");
-      expect(button).toHaveClass(CSS_UTILITY.rtl);
     });
   });
 
@@ -246,5 +233,15 @@ describe("calcite-action-pad", () => {
 
     expect(await groups[0].getProperty("menuOpen")).toBe(true);
     expect(await groups[1].getProperty("menuOpen")).toBe(false);
+  });
+
+  it("should honor scale of expand icon", async () => {
+    const page = await newE2EPage({ html: `<calcite-action-pad scale="l"></calcite-action-pad>` });
+
+    const buttonGroup = await page.find(`calcite-action-pad >>> .${CSS.actionGroupBottom}`);
+
+    const button = await buttonGroup.find("calcite-action");
+
+    expect(await button.getProperty("scale")).toBe("l");
   });
 });

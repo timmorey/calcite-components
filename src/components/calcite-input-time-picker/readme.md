@@ -2,6 +2,20 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-input-time-picker
+  hour-display-format="12"
+  name="light"
+  scale="m"
+  step="1"
+  value="12:21"
+></calcite-input-time-picker>
+```
+
 ## Properties
 
 | Property            | Attribute             | Description                                                                                | Type                | Default     |
@@ -23,8 +37,8 @@
 | `intlSecondUp`      | `intl-second-up`      | aria-label for the second up button                                                        | `string`            | `undefined` |
 | `name`              | `name`                | The name of the time input                                                                 | `string`            | `undefined` |
 | `scale`             | `scale`               | The scale (size) of the time input                                                         | `"l" \| "m" \| "s"` | `"m"`       |
-| `step`              | `step`                | number that specifies the granularity that the value must adhere to                        | `number`            | `60`        |
-| `value`             | `value`               | The selected time                                                                          | `string`            | `null`      |
+| `step`              | `step`                | number (seconds) that specifies the granularity that the value must adhere to              | `number`            | `60`        |
+| `value`             | `value`               | The selected time (always 24-hour format)                                                  | `string`            | `null`      |
 
 ## Events
 
@@ -35,6 +49,8 @@
 ## Methods
 
 ### `setFocus() => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 

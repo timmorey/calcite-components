@@ -1,24 +1,15 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import {
-  Attribute,
-  filterComponentAttributes,
-  Attributes,
-  createComponentHTML as create,
-  darkBackground
-} from "../../../.storybook/utils";
+import { filterComponentAttributes, Attributes, createComponentHTML as create } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import panelReadme from "../calcite-shell-panel/readme.md";
+import centerRowReadme from "../calcite-shell-center-row/readme.md";
 import { html, placeholderImage } from "../../tests/utils";
 
 export default {
   title: "Components/Shell",
   parameters: {
-    backgrounds: darkBackground,
-    notes: {
-      shell: readme,
-      panel: panelReadme
-    }
+    notes: [readme, panelReadme, centerRowReadme]
   }
 };
 
@@ -26,32 +17,13 @@ const createAttributes: (group: string, options?: { exceptions: string[] }) => A
   group,
   { exceptions } = { exceptions: [] }
 ) => {
-  const { dir, theme } = ATTRIBUTES;
-
-  return filterComponentAttributes(
-    [
-      {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue, group);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue, group);
-          delete this.build;
-          return this;
-        }
-      }
-    ],
-    exceptions
-  );
+  return filterComponentAttributes([], exceptions);
 };
 
-const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") => Attributes = (group) => {
+const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", resizable?: boolean) => Attributes = (
+  group,
+  resizable = false
+) => {
   const { position } = ATTRIBUTES;
 
   return [
@@ -75,6 +47,10 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") =>
         group === "Leading Panel" ? position.values[0] : position.values[1],
         group
       )
+    },
+    {
+      name: "resizable",
+      value: boolean("resizable", resizable, group)
     }
   ];
 };
@@ -127,9 +103,7 @@ const actionBarPrimaryHTML = html`
 `;
 
 const actionBarContextualHTML = html`
-  <calcite-action-bar class="calcite-theme-light" slot="action-bar">
-    ${actionBarContextualContentHTML}
-  </calcite-action-bar>
+  <calcite-action-bar slot="action-bar"> ${actionBarContextualContentHTML} </calcite-action-bar>
 `;
 
 const leadingPanelHTML = html`
@@ -347,9 +321,9 @@ export const advanced = (): string =>
     createAttributes("Shell"),
     html`
       ${headerHTML}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel", true), advancedLeadingPanelHTML)}
       ${contentHTML} ${centerRowAdvancedHTML}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel", true), advancedTrailingPanelHTMl)}
       ${footerHTML}
     `
   );

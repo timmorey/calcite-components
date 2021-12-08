@@ -1,5 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  focusable,
+  formAssociated,
+  hidden,
+  labelable,
+  reflects,
+  renders
+} from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button", { display: "block" }));
@@ -15,6 +24,12 @@ describe("calcite-radio-button", () => {
   it("has defaults", async () => defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]));
 
   it("honors hidden attribute", async () => hidden("calcite-radio-button"));
+
+  it("is labelable", async () =>
+    labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
+      shadowFocusTargetSelector: ".container",
+      propertyToToggle: "checked"
+    }));
 
   it("focusing skips over hidden radio-buttons", async () => {
     const page = await newE2EPage();
@@ -36,7 +51,7 @@ describe("calcite-radio-button", () => {
 
   it("is focusable", () =>
     focusable("calcite-radio-button", {
-      focusTargetSelector: "input[type=radio]"
+      shadowFocusTargetSelector: ".container"
     }));
 
   it("reflects", async () =>
@@ -50,25 +65,6 @@ describe("calcite-radio-button", () => {
       { propertyName: "required", value: true },
       { propertyName: "scale", value: "m" }
     ]));
-
-  it("has a radio input for form compatibility", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-radio-button name="hidden-input" value="1"></calcite-radio-button>
-      <calcite-radio-button name="hidden-input" value="2" checked></calcite-radio-button>
-      <calcite-radio-button name="hidden-input" value="3"></calcite-radio-button>
-    `);
-
-    const radioInputs = await page.findAll('input[type="radio"]');
-    expect(radioInputs).toHaveLength(3);
-
-    for (let i = 0; i < radioInputs.length; i++) {
-      const name = radioInputs[i].getAttribute("name");
-      const value = radioInputs[i].getAttribute("value");
-      expect(name).toBe("hidden-input");
-      expect(value).toBe((i + 1).toString());
-    }
-  });
 
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();
@@ -249,22 +245,81 @@ describe("calcite-radio-button", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("triggers the custom change event just once when sibling calcite-label is clicked", async () => {
+  it("appropriately triggers the custom internal focus and blur events on click", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-label for="radio">Label</calcite-label><calcite-radio-button id="radio"></calcite-radio-button>`
+      `<calcite-radio-button></calcite-radio-button><calcite-radio-button id="two"></calcite-radio-button>`
     );
 
     const radio = await page.find("calcite-radio-button");
-    const label = await page.find("calcite-label");
+    const radio2 = await page.find("calcite-radio-button#two");
 
-    const changeEvent = await radio.spyOnEvent("calciteRadioButtonChange");
+    const focusEvent = await radio.spyOnEvent("calciteInternalRadioButtonFocus");
+    const blurEvent = await radio.spyOnEvent("calciteInternalRadioButtonBlur");
 
-    expect(changeEvent).toHaveReceivedEventTimes(0);
+    expect(focusEvent).toHaveReceivedEventTimes(0);
+    expect(blurEvent).toHaveReceivedEventTimes(0);
 
-    await label.click();
+    await radio.click();
 
-    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(focusEvent).toHaveReceivedEventTimes(1);
+    expect(blurEvent).toHaveReceivedEventTimes(0);
+
+    await radio2.click();
+
+    expect(focusEvent).toHaveReceivedEventTimes(1);
+    expect(blurEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("appropriately triggers the custom internal focus and blur events with keyboard", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button name="example"></calcite-radio-button>`
+    );
+
+    const radio = await page.find("calcite-radio-button");
+
+    const focusEvent = await radio.spyOnEvent("calciteInternalRadioButtonFocus");
+    const blurEvent = await radio.spyOnEvent("calciteInternalRadioButtonBlur");
+
+    expect(focusEvent).toHaveReceivedEventTimes(0);
+    expect(blurEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Tab");
+
+    expect(focusEvent).toHaveReceivedEventTimes(1);
+    expect(blurEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("ArrowRight");
+
+    expect(focusEvent).toHaveReceivedEventTimes(1);
+    expect(blurEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("round robins to the first or last radio when pressing right arrow on the last radio or left arrow on the first radio", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button id="two" name="example"></calcite-radio-button>`
+    );
+
+    const radio = await page.find("calcite-radio-button");
+    const radio2 = await page.find("calcite-radio-button#two");
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("ArrowRight");
+
+    expect(await radio.getProperty("checked")).toBe(false);
+    expect(await radio2.getProperty("checked")).toBe(true);
+
+    await page.keyboard.press("ArrowRight");
+
+    expect(await radio.getProperty("checked")).toBe(true);
+    expect(await radio2.getProperty("checked")).toBe(false);
+
+    await page.keyboard.press("ArrowLeft");
+
+    expect(await radio.getProperty("checked")).toBe(false);
+    expect(await radio2.getProperty("checked")).toBe(true);
   });
 
   it("doesn't emit when controlling checked attribute", async () => {
@@ -318,6 +373,7 @@ describe("calcite-radio-button", () => {
     expect(await checked.getProperty("checked")).toBe(true);
 
     await unchecked.click();
+    await page.waitForChanges();
     expect(await unchecked.getProperty("checked")).toBe(true);
     expect(await checked.getProperty("checked")).toBe(false);
 
@@ -366,47 +422,5 @@ describe("calcite-radio-button", () => {
     expect(await inputs[1].getProperty("checked")).toBe(true);
   });
 
-  it("selects properly when wrapped in a label", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <label>
-        Wrapping label
-        <calcite-radio-button id="one" name="wrapped" value="one"></calcite-radio-button>
-        <calcite-radio-button id="two" name="wrapped" value="two"></calcite-radio-button>
-      </label>
-    `);
-    const one = await page.find("#one");
-    const two = await page.find("#two calcite-radio");
-
-    await two.click();
-    await page.waitForChanges();
-
-    expect(await one.getProperty("checked")).toBe(false);
-    expect(await two.getProperty("checked")).toBe(true);
-  });
-
-  it("disallows !important style overrides on the hidden input", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <style>
-        input {
-          margin: unset !important;
-          opacity: unset !important;
-          padding: unset !important;
-          position: unset !important;
-          transform: unset !important;
-          z-index: unset !important;
-        }
-      </style>
-      <calcite-radio-button></calcite-radio-button>
-    `);
-    const input = await page.find("input");
-    const style = await input.getComputedStyle();
-    expect(style["margin"]).toBe("0px");
-    expect(style["opacity"]).toBe("0");
-    expect(style["padding"]).toBe("0px");
-    expect(style["position"]).toBe("absolute");
-    expect(style["transform"]).toBe("none");
-    expect(style["z-index"]).toBe("-1");
-  });
+  it("is form-associated", () => formAssociated("calcite-radio-button", { testValue: true }));
 });
