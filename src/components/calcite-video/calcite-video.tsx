@@ -10,7 +10,6 @@ import {
   State
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { getKey } from "../../utils/key";
 import { TEXT } from "./calcite-video.resources";
 import { Scale } from "../interfaces";
 
@@ -140,11 +139,11 @@ export class CalciteVideo {
     const playControl = (
       <div class="calcite-video-control-item">
         <calcite-action
+          icon={this.isComplete ? "reset" : this.isPlaying ? "pause" : "play"}
+          onClick={() => this.toggleVideo()}
           text={
             this.isComplete ? this.intlRestart : this.isPlaying ? this.intlPause : this.intlPlay
           }
-          icon={this.isComplete ? "reset" : this.isPlaying ? "pause" : "play"}
-          onClick={() => this.toggleVideo()}
         />
       </div>
     );
@@ -152,10 +151,10 @@ export class CalciteVideo {
     const volumeControl = (
       <div class="calcite-video-control-item calcite-video-volume-control-item">
         <calcite-action
-          text={!this.muted ? this.intlMute : this.intlUnmute}
-          icon-flip-rtl
           icon={this.muted ? "sound-unavailable" : this.volumeLevel < 0.5 ? "sound-low" : "sound"}
+          icon-flip-rtl
           onClick={() => this.toggleMuted()}
+          text={!this.muted ? this.intlMute : this.intlUnmute}
         />
         <calcite-slider
           max={1}
@@ -171,9 +170,9 @@ export class CalciteVideo {
     const fullscreenControl = (
       <div class="calcite-video-control-item calcite-video-fullscreen-control-item">
         <calcite-action
-          text={!this.isFullscreen ? this.intlEnterFullscreen : this.intlExitFullscreen}
           icon={!this.isFullscreen ? "extent" : "full-screen-exit"}
           onClick={() => this.toggleFullscreen()}
+          text={!this.isFullscreen ? this.intlEnterFullscreen : this.intlExitFullscreen}
         />
       </div>
     );
@@ -182,8 +181,8 @@ export class CalciteVideo {
       <div class="calcite-video-control-item calcite-video-subtitle-control-item">
         <calcite-action
           class={this.isSubtitleActive ? "calcite-video-subtitle-active" : ""}
-          icon-flip-rtl
           icon="speech-bubble"
+          icon-flip-rtl
           indicator={this.isSubtitleActive}
           onClick={() => this.handleSubtitleToggle()}
           text={this.isSubtitleActive ? `${this.subLang?.toUpperCase()}` : null}
@@ -196,10 +195,10 @@ export class CalciteVideo {
         <calcite-dropdown width="s">
           <calcite-action
             class={this.isSubtitleActive ? "calcite-video-subtitle-active" : ""}
-            icon-flip-rtl
             icon="speech-bubbles"
-            slot="dropdown-trigger"
+            icon-flip-rtl
             indicator={this.isSubtitleActive}
+            slot="dropdown-trigger"
             text={this.isSubtitleActive ? `${this.subLang?.toUpperCase()}` : null}
           />
           <calcite-dropdown-group selection-mode="single">
@@ -246,47 +245,49 @@ export class CalciteVideo {
     );
 
     return (
-      <Host dir={dir} tabIndex={0}>
-        <calcite-loader active={this.isLoading} label="video loading" type="indeterminate" />
-        <div
-          class={`calcite-video-wrapper ${this.isFullscreen ? " calcite-video-fullscreen" : ""}`}
-        >
-          <video
-            // ensure video is muted if autoplay is requested
-            autoplay={this.autoplay}
-            controls={false}
-            height={this.height}
-            loop={this.loop}
-            muted={this.muted || this.autoplay}
-            onCanPlay={() => this.videoLoadFinish()}
-            onEnded={() => this.handleVideoUpdate()}
-            onLoadStart={() => this.videoLoadStart()}
-            onLoadedMetaData={() => this.getVideoInfo()}
-            onTimeUpdate={() => this.handleVideoUpdate()}
-            preload={this.preload}
-            ref={(el) => (this.videoEl = el)}
-            width={this.width}
+      <Host>
+        <div class="container" dir={dir} tabIndex={0}>
+          <calcite-loader active={this.isLoading} label="video loading" type="indeterminate" />
+          <div
+            class={`calcite-video-wrapper ${this.isFullscreen ? " calcite-video-fullscreen" : ""}`}
           >
-            <slot />
-          </video>
-          {subtitleContainer}
-        </div>
-        {!this.disableControls ? (
-          <div class="calcite-video-footer">
-            {!this.disableProgress ? progress : null}
-            <div class="calcite-video-controls">
-              {playControl}
-              {this.hasAudio ? volumeControl : null}
-              {!this.disableTimestamp ? time : null}
-              {this.hasSubtitle && this.availableSubtitles?.length > 1
-                ? subtitleControlMultiple
-                : this.hasSubtitle
-                ? subtitleControlSingle
-                : null}
-              {!this.disableFullscreen ? fullscreenControl : null}
-            </div>
+            <video
+              // ensure video is muted if autoplay is requested
+              autoplay={this.autoplay}
+              controls={false}
+              height={this.height}
+              loop={this.loop}
+              muted={this.muted || this.autoplay}
+              onCanPlay={() => this.videoLoadFinish()}
+              onEnded={() => this.handleVideoUpdate()}
+              onLoadStart={() => this.videoLoadStart()}
+              onLoadedMetaData={() => this.getVideoInfo()}
+              onTimeUpdate={() => this.handleVideoUpdate()}
+              preload={this.preload}
+              ref={(el) => (this.videoEl = el)}
+              width={this.width}
+            >
+              <slot />
+            </video>
+            {subtitleContainer}
           </div>
-        ) : null}
+          {!this.disableControls ? (
+            <div class="calcite-video-footer">
+              {!this.disableProgress ? progress : null}
+              <div class="calcite-video-controls">
+                {playControl}
+                {this.hasAudio ? volumeControl : null}
+                {!this.disableTimestamp ? time : null}
+                {this.hasSubtitle && this.availableSubtitles?.length > 1
+                  ? subtitleControlMultiple
+                  : this.hasSubtitle
+                  ? subtitleControlSingle
+                  : null}
+                {!this.disableFullscreen ? fullscreenControl : null}
+              </div>
+            </div>
+          ) : null}
+        </div>
       </Host>
     );
   }
@@ -310,19 +311,15 @@ export class CalciteVideo {
   }
 
   @Listen("mouseenter") mouseEnterListener(): MouseEvent {
-    if (!this.isLoading && this.playOnHover && document.activeElement !== this.el) {
-      return this.playVideo();
-    } else {
-      return;
-    }
+    return !this.isLoading && this.playOnHover && document.activeElement !== this.el
+      ? this.playVideo()
+      : undefined;
   }
 
   @Listen("mouseleave") mouseLeaveListener(): MouseEvent {
-    if (!this.isLoading && this.playOnHover && document.activeElement !== this.el) {
-      return this.pauseVideo();
-    } else {
-      return;
-    }
+    return !this.isLoading && this.playOnHover && document.activeElement !== this.el
+      ? this.pauseVideo()
+      : undefined;
   }
 
   @Listen("focus") focusInListener(): FocusEvent {
@@ -339,7 +336,7 @@ export class CalciteVideo {
 
   @Listen("keydown") keydownListener(e: KeyboardEvent): void {
     if (!this.isLoading && !this.playOnHover && e.composedPath()[0] === this.el) {
-      const key = getKey(e.key);
+      const key = e.key;
       if (key === " " || key === "Enter") {
         e.preventDefault();
         this.toggleVideo();
@@ -541,7 +538,7 @@ export class CalciteVideo {
   }
 
   handleScrubberKeyDown(e: any): void {
-    const key = getKey(e.key);
+    const key = e.key;
     if (key === " " || key === "Enter") {
       e.preventDefault();
       this.toggleVideo();
@@ -549,7 +546,7 @@ export class CalciteVideo {
   }
 
   handleVolumeSliderKeyDown(e: any): void {
-    const key = getKey(e.key);
+    const key = e.key;
     if (key === " " || key === "Enter") {
       e.preventDefault();
       this.toggleMuted();
