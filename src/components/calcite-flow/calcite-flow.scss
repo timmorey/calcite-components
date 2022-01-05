@@ -1,21 +1,21 @@
 :host {
   @extend %component-host;
-  @apply flex 
+  @apply flex
     flex-auto
-    items-stretch 
-    bg-transparent 
+    items-stretch
+    bg-transparent
     w-full
-    overflow-hidden 
+    overflow-hidden
     relative;
 
   .frame {
     @apply flex
       flex-auto
-      items-stretch 
-      w-full 
-      p-0 
-      m-0 
-      flex-col 
+      items-stretch
+      w-full
+      p-0
+      m-0
+      flex-col
       relative;
   }
 
@@ -30,11 +30,11 @@
   }
 
   .frame--advancing {
-    animation: calcite-frame-advance $transition;
+    animation: calcite-frame-advance var(--calcite-animation-timing);
   }
 
   .frame--retreating {
-    animation: calcite-frame-retreat $transition;
+    animation: calcite-frame-retreat var(--calcite-animation-timing);
   }
 
   @keyframes calcite-frame-advance {
