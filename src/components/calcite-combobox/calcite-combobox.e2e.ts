@@ -772,6 +772,30 @@ describe("calcite-combobox", () => {
     });
   });
 
+  describe("hide list dropdown", () => {
+    it("does not render the chevron-down icon", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-combobox selection-mode="multi" allow-custom-values hide-list-dropdown></calcite-combobox>`
+      );
+      const chip = await page.find("calcite-combobox >>> calcite-icon");
+      expect(chip).toBeNull();
+    });
+    it("does not render the dropdown on click", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-combobox selection-mode="multi" allow-custom-values hide-list-dropdown></calcite-combobox>`
+      );
+      const element = await page.find("calcite-combobox");
+      console.log(element);
+      element.click();
+
+      const list = await page.find("calcite-combobox >>> .list");
+      const visible = await list.isVisible();
+      expect(visible).toBe(false);
+    });
+  });
+
   it("respects the constant item property", async () => {
     const page = await newE2EPage();
     await page.setContent(`

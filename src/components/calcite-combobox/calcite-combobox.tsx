@@ -103,6 +103,9 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   /** Disable combobox input */
   @Prop({ reflect: true }) disabled = false;
 
+  /** Optionally hide the list when in custom value mode */
+  @Prop() hideListDropdown = false;
+
   /** Aria label for combobox (required) */
   @Prop() label!: string;
 
@@ -987,7 +990,15 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   }
 
   renderPopperContainer(): VNode {
-    const { active, maxScrollerHeight, setMenuEl, setListContainerEl, hideList, open } = this;
+    const {
+      active,
+      maxScrollerHeight,
+      setMenuEl,
+      setListContainerEl,
+      hideList,
+      hideListDropdown,
+      open
+    } = this;
     const classes = {
       "list-container": true,
       [PopperCSS.animation]: true,
@@ -1008,7 +1019,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
           ref={setListContainerEl}
           style={style}
         >
-          <ul class={{ list: true, "list--hide": hideList }}>
+          <ul class={{ list: true, "list--hide": hideList || hideListDropdown === true }}>
             <slot />
           </ul>
         </div>
@@ -1072,7 +1083,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
             </label>
             {this.renderInput()}
           </div>
-          {this.renderIconEnd()}
+          {this.hideListDropdown !== true && this.renderIconEnd()}
         </div>
         <ul
           aria-labelledby={`${labelUidPrefix}${guid}`}
