@@ -6,6 +6,7 @@ The `calcite-action-bar` component is made up of multiple `calcite-action`s in t
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -19,6 +20,7 @@ Renders `calcite-action`s that stick to the top of the bar.
 </calcite-action-bar>
 ```
 
+
 ### Bottom-actions
 
 The bottom-actions slot renders `calcite-action`s that stick to the bottom of the bar above the expand/collapse icon.
@@ -30,6 +32,7 @@ The bottom-actions slot renders `calcite-action`s that stick to the bottom of th
 </calcite-action-bar>
 ```
 
+
 ### Tooltip
 
 Renders with a tooltip on the expand action.
@@ -40,6 +43,7 @@ Renders with a tooltip on the expand action.
   <calcite-action text="Add" icon="plus"></calcite-action>
 </calcite-action-bar>
 ```
+
 
 ### With-grouping
 
@@ -59,6 +63,8 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 </calcite-action-bar>
 ```
 
+
+
 ## Properties
 
 | Property                  | Attribute                   | Description                                                              | Type                | Default     |
@@ -71,11 +77,13 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 | `position`                | `position`                  | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`  | `undefined` |
 | `scale`                   | `scale`                     | Specifies the size of the expand action.                                 | `"l" \| "m" \| "s"` | `undefined` |
 
+
 ## Events
 
 | Event                    | Description                             | Type               |
 | ------------------------ | --------------------------------------- | ------------------ |
 | `calciteActionBarToggle` | Emitted when expanded has been toggled. | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -87,6 +95,9 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot               | Description                                                                                                             |
@@ -94,6 +105,7 @@ Type: `Promise<void>`
 |                    | A slot for adding `calcite-action`s that will appear at the top of the action bar.                                      |
 | `"bottom-actions"` | A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button. |
 | `"expand-tooltip"` | Used to set the tooltip for the expand toggle.                                                                          |
+
 
 ## Dependencies
 
@@ -104,7 +116,6 @@ Type: `Promise<void>`
 - [calcite-tooltip-manager](../tooltip-manager)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-action-bar --> calcite-action-group
@@ -122,6 +133,6 @@ graph TD;
   style calcite-action-bar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

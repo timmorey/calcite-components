@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -15,6 +16,8 @@
   value="12:21"
 ></calcite-input-time-picker>
 ```
+
+
 
 ## Properties
 
@@ -40,11 +43,13 @@
 | `step`             | `step`               | number (seconds) that specifies the granularity that the value must adhere to | `number`                                    | `60`        |
 | `value`            | `value`              | The selected time in UTC (always 24-hour format)                              | `string`                                    | `null`      |
 
+
 ## Events
 
 | Event                          | Description                                                     | Type                  |
 | ------------------------------ | --------------------------------------------------------------- | --------------------- |
 | `calciteInputTimePickerChange` | Fires when the time value is changed as a result of user input. | `CustomEvent<string>` |
+
 
 ## Methods
 
@@ -56,6 +61,9 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Dependencies
 
 ### Depends on
@@ -65,7 +73,6 @@ Type: `Promise<void>`
 - [calcite-time-picker](../time-picker)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-input-time-picker --> calcite-input
@@ -81,6 +88,6 @@ graph TD;
   style calcite-input-time-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

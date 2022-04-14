@@ -6,6 +6,7 @@ _note: calcite-shell supports tablet as the smallest screen size_
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Advanced
@@ -80,6 +81,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 </calcite-shell>
 ```
 
+
 ### Basic
 
 Renders a basic shell with a header and a footer.
@@ -97,6 +99,7 @@ Renders a basic shell with a header and a footer.
 </calcite-shell>
 ```
 
+
 ### With-panel-and-action-bar
 
 Renders a single panel with actions in an action bar.
@@ -113,6 +116,7 @@ Renders a single panel with actions in an action bar.
   </calcite-shell-panel>
 </calcite-shell>
 ```
+
 
 ### With-panels
 
@@ -137,11 +141,14 @@ Renders a shell with a header and panels on the left and right sides of the app.
 </calcite-shell>
 ```
 
+
+
 ## Properties
 
 | Property        | Attribute        | Description                                                   | Type      | Default |
 | --------------- | ---------------- | ------------------------------------------------------------- | --------- | ------- |
 | `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean` | `false` |
+
 
 ## Slots
 
@@ -154,12 +161,14 @@ Renders a shell with a header and panels on the left and right sides of the app.
 | `"header"`           | A slot for adding header content. This content will be positioned at the top of the shell.                                               |
 | `"primary-panel"`    | A slot for adding the leading `calcite-shell-panel`.                                                                                     |
 
+
 ## CSS Custom Properties
 
 | Name                          | Description                                                               |
 | ----------------------------- | ------------------------------------------------------------------------- |
 | `--calcite-shell-tip-spacing` | the left/right positioning of the tip-manager when slotted within a shell |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

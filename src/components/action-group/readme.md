@@ -4,6 +4,7 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property   | Attribute   | Description                                                          | Type                                   | Default      |
@@ -15,6 +16,7 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 | `menuOpen` | `menu-open` | Opens the action menu.                                               | `boolean`                              | `false`      |
 | `scale`    | `scale`     | Specifies the size of the action-menu.                               | `"l" \| "m" \| "s"`                    | `undefined`  |
 
+
 ## Slots
 
 | Slot             | Description                                                        |
@@ -23,18 +25,20 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 | `"menu-actions"` | a slot for adding an overflow menu with actions inside a dropdown. |
 | `"menu-tooltip"` | a slot for adding an tooltip for the menu.                         |
 
+
 ## CSS Custom Properties
 
 | Name                             | Description                                              |
 | -------------------------------- | -------------------------------------------------------- |
 | `--calcite-action-group-columns` | sets number of grid-template-columns when layout is grid |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-action-bar](../action-bar)
-- [calcite-action-pad](../action-pad)
+ - [calcite-action-bar](../action-bar)
+ - [calcite-action-pad](../action-pad)
 
 ### Depends on
 
@@ -42,7 +46,6 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 - [calcite-action](../action)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-action-group --> calcite-action-menu
@@ -59,6 +62,6 @@ graph TD;
   style calcite-action-group fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

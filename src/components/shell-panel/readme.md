@@ -4,6 +4,7 @@ The `calcite-shell-panel` is a child component of `calcite-shell` used as a cont
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -15,6 +16,7 @@ Renders a basic shell panel with text content.
   <p>Primary Content</p>
 </calcite-shell-panel>
 ```
+
 
 ### With-action-bar
 
@@ -29,6 +31,7 @@ Renders a panel with an action bar.
   </calcite-action-bar>
 </calcite-shell-panel>
 ```
+
 
 ### With-custom-element
 
@@ -47,6 +50,7 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 </calcite-shell-panel>
 ```
 
+
 ### With-flow
 
 ```html
@@ -63,6 +67,7 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 </calcite-shell-panel>
 ```
 
+
 ### With-panel
 
 ```html
@@ -76,6 +81,8 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 </calcite-shell-panel>
 ```
 
+
+
 ## Properties
 
 | Property              | Attribute               | Description                                                                                  | Type                | Default       |
@@ -88,11 +95,13 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 | `resizable`           | `resizable`             | This property makes the content area resizable if the calcite-shell-panel is not 'detached'. | `boolean`           | `false`       |
 | `widthScale`          | `width-scale`           | This sets width of the content area.                                                         | `"l" \| "m" \| "s"` | `"m"`         |
 
+
 ## Events
 
 | Event                     | Description                             | Type               |
 | ------------------------- | --------------------------------------- | ------------------ |
 | `calciteShellPanelToggle` | Emitted when collapse has been toggled. | `CustomEvent<any>` |
+
 
 ## Slots
 
@@ -101,6 +110,7 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 |                | A slot for adding content to the shell panel.          |
 | `"action-bar"` | A slot for adding a `calcite-action-bar` to the panel. |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

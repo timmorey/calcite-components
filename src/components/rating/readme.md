@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -18,6 +19,8 @@
 ></calcite-rating>
 ```
 
+
+
 ## Properties
 
 | Property     | Attribute     | Description                                                                                     | Type                | Default       |
@@ -33,11 +36,13 @@
 | `showChip`   | `show-chip`   | Show average and count data summary chip (if available)                                         | `boolean`           | `false`       |
 | `value`      | `value`       | the value of the rating component                                                               | `number`            | `0`           |
 
+
 ## Events
 
 | Event                 | Description                              | Type                              |
 | --------------------- | ---------------------------------------- | --------------------------------- |
 | `calciteRatingChange` | Fires when the rating value has changed. | `CustomEvent<{ value: number; }>` |
+
 
 ## Methods
 
@@ -49,11 +54,15 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## CSS Custom Properties
 
 | Name                            | Description                                              |
 | ------------------------------- | -------------------------------------------------------- |
 | `--calcite-rating-spacing-unit` | the amount of left/right margin between each rating star |
+
 
 ## Dependencies
 
@@ -63,7 +72,6 @@ Type: `Promise<void>`
 - [calcite-chip](../chip)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-rating --> calcite-icon
@@ -72,6 +80,6 @@ graph TD;
   style calcite-rating fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

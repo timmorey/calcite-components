@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property      | Attribute       | Description                                                                                | Type                         | Default     |
@@ -15,6 +16,7 @@
 | `rel`         | `rel`           | The rel attribute to apply to the hyperlink                                                | `string`                     | `undefined` |
 | `target`      | `target`        | The target attribute to apply to the hyperlink                                             | `string`                     | `undefined` |
 
+
 ## Methods
 
 ### `setFocus() => Promise<void>`
@@ -25,11 +27,15 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot | Description             |
 | ---- | ----------------------- |
 |      | A slot for adding text. |
+
 
 ## Dependencies
 
@@ -38,13 +44,12 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-dropdown-item --> calcite-icon
   style calcite-dropdown-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

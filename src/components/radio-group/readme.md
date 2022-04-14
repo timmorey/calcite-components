@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -15,24 +16,28 @@
 </calcite-radio-group>
 ```
 
+
+
 ## Properties
 
-| Property       | Attribute       | Description                                                         | Type                                   | Default        |
-| -------------- | --------------- | ------------------------------------------------------------------- | -------------------------------------- | -------------- |
-| `appearance`   | `appearance`    | specify the appearance style of the radio group, defaults to solid. | `"outline" \| "solid"`                 | `"solid"`      |
-| `disabled`     | `disabled`      | is the radio group disabled                                         | `boolean`                              | `false`        |
-| `layout`       | `layout`        | specify the layout of the radio group, defaults to horizontal       | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
-| `name`         | `name`          | The group's name. Gets submitted with the form.                     | `string`                               | `undefined`    |
-| `scale`        | `scale`         | The scale of the radio group                                        | `"l" \| "m" \| "s"`                    | `"m"`          |
-| `selectedItem` | `selected-item` | The group's selected item.                                          | `HTMLCalciteRadioGroupItemElement`     | `undefined`    |
-| `value`        | `value`         | The value of the selectedItem                                       | `string`                               | `null`         |
-| `width`        | `width`         | specify the width of the group, defaults to auto                    | `"auto" \| "full"`                     | `"auto"`       |
+| Property       | Attribute    | Description                                                         | Type                                   | Default        |
+| -------------- | ------------ | ------------------------------------------------------------------- | -------------------------------------- | -------------- |
+| `appearance`   | `appearance` | specify the appearance style of the radio group, defaults to solid. | `"outline" \| "solid"`                 | `"solid"`      |
+| `disabled`     | `disabled`   | is the radio group disabled                                         | `boolean`                              | `false`        |
+| `layout`       | `layout`     | specify the layout of the radio group, defaults to horizontal       | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
+| `name`         | `name`       | The group's name. Gets submitted with the form.                     | `string`                               | `undefined`    |
+| `scale`        | `scale`      | The scale of the radio group                                        | `"l" \| "m" \| "s"`                    | `"m"`          |
+| `selectedItem` | --           | The group's selected item.                                          | `HTMLCalciteRadioGroupItemElement`     | `undefined`    |
+| `value`        | `value`      | The value of the selectedItem                                       | `string`                               | `null`         |
+| `width`        | `width`      | specify the width of the group, defaults to auto                    | `"auto" \| "full"`                     | `"auto"`       |
+
 
 ## Events
 
 | Event                     | Description                                                           | Type                  |
 | ------------------------- | --------------------------------------------------------------------- | --------------------- |
 | `calciteRadioGroupChange` | Fired when the selected option changes, event detail is the new value | `CustomEvent<string>` |
+
 
 ## Methods
 
@@ -44,12 +49,16 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot | Description                                    |
 | ---- | ---------------------------------------------- |
 |      | A slot for adding `calcite-radio-group-item`s. |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

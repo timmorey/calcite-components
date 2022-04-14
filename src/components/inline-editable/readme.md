@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -14,6 +15,7 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
 </calcite-inline-editable>
 ```
 
+
 ### With-label
 
 ```html
@@ -25,6 +27,7 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
 </calcite-label>
 ```
 
+
 ### With-save-and-cancel-controls
 
 ```html
@@ -32,6 +35,8 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
   <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
 </calcite-inline-editable>
 ```
+
+
 
 ## Properties
 
@@ -47,6 +52,7 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
 | `loading`            | `loading`              | specify whether the confirm button should display a loading state, defaults to false                                                                                   | `boolean`             | `false`                    |
 | `scale`              | `scale`                | specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the scale of the closest wrapping component with a set scale | `"l" \| "m" \| "s"`   | `undefined`                |
 
+
 ## Events
 
 | Event                              | Description                                  | Type                |
@@ -54,19 +60,26 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
 | `calciteInlineEditableEditCancel`  | Emitted when the cancel button gets clicked. | `CustomEvent<void>` |
 | `calciteInlineEditableEditConfirm` | Emitted when the check button gets clicked.  | `CustomEvent<void>` |
 
+
 ## Methods
 
 ### `setFocus() => Promise<void>`
 
+
+
 #### Returns
 
 Type: `Promise<void>`
+
+
+
 
 ## Slots
 
 | Slot | Description                          |
 | ---- | ------------------------------------ |
 |      | A slot for adding a `calcite-input`. |
+
 
 ## Dependencies
 
@@ -75,7 +88,6 @@ Type: `Promise<void>`
 - [calcite-button](../button)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-inline-editable --> calcite-button
@@ -84,6 +96,6 @@ graph TD;
   style calcite-inline-editable fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

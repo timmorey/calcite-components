@@ -4,6 +4,7 @@ The `calcite-action-pad` component is made up of `calcite-action`s in the form o
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -16,6 +17,7 @@ Renders a basic action pad with `calcite-action`s.
   <calcite-action text="Redo" icon="redo"></calcite-action>
 </calcite-action-pad>
 ```
+
 
 ### Tooltip
 
@@ -33,6 +35,7 @@ Renders an action pad with a tooltip on the expand action.
 </script>
 ```
 
+
 ### With-grouping
 
 Renders a group of `calcite-action`s contained in a `calcite-action-group`. Actions in a group are visually separated from other groups or actions in the pad.
@@ -48,6 +51,8 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 </calcite-action-pad>
 ```
 
+
+
 ## Properties
 
 | Property         | Attribute         | Description                                                              | Type                                   | Default      |
@@ -60,11 +65,13 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 | `position`       | `position`        | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`                     | `undefined`  |
 | `scale`          | `scale`           | Specifies the size of the expand action.                                 | `"l" \| "m" \| "s"`                    | `undefined`  |
 
+
 ## Events
 
 | Event                    | Description                             | Type               |
 | ------------------------ | --------------------------------------- | ------------------ |
 | `calciteActionPadToggle` | Emitted when expanded has been toggled. | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -76,12 +83,16 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot               | Description                                            |
 | ------------------ | ------------------------------------------------------ |
 |                    | A slot for adding `calcite-action`s to the action pad. |
 | `"expand-tooltip"` | Used to set the tooltip for the expand toggle.         |
+
 
 ## Dependencies
 
@@ -92,7 +103,6 @@ Type: `Promise<void>`
 - [calcite-tooltip-manager](../tooltip-manager)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-action-pad --> calcite-action-group
@@ -110,6 +120,6 @@ graph TD;
   style calcite-action-pad fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

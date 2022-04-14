@@ -4,6 +4,7 @@ The `calcite-tip` component can comprise of an image, text and hyperlink to give
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -18,6 +19,8 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 </calcite-tip>
 ```
 
+
+
 ## Properties
 
 | Property         | Attribute         | Description                                                                       | Type                         | Default     |
@@ -29,11 +32,13 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 | `nonDismissible` | `non-dismissible` | Indicates whether the tip can be dismissed.                                       | `boolean`                    | `false`     |
 | `selected`       | `selected`        | The selected state of the tip if it is being used inside a `calcite-tip-manager`. | `boolean`                    | `false`     |
 
+
 ## Events
 
 | Event               | Description                                    | Type               |
 | ------------------- | ---------------------------------------------- | ------------------ |
 | `calciteTipDismiss` | Emitted when the component has been dismissed. | `CustomEvent<any>` |
+
 
 ## Slots
 
@@ -42,6 +47,7 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 |               | A slot for adding text and a hyperlink.             |
 | `"thumbnail"` | A slot for adding an HTML image element to the tip. |
 
+
 ## Dependencies
 
 ### Depends on
@@ -49,7 +55,6 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 - [calcite-action](../action)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-tip --> calcite-action
@@ -58,6 +63,6 @@ graph TD;
   style calcite-tip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

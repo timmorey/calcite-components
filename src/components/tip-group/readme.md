@@ -4,11 +4,13 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property     | Attribute     | Description                         | Type     | Default     |
 | ------------ | ------------- | ----------------------------------- | -------- | ----------- |
 | `groupTitle` | `group-title` | The title used for all nested tips. | `string` | `undefined` |
+
 
 ## Slots
 
@@ -16,6 +18,7 @@
 | ---- | --------------------------------- |
 |      | A slot for adding `calcite-tip`s. |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

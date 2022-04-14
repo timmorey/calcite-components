@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property       | Attribute | Description                                           | Type                | Default      |
@@ -15,6 +16,7 @@
 | `selectedDate` | --        | Already selected date.                                | `Date`              | `undefined`  |
 | `startDate`    | --        | Start date currently active.                          | `Date`              | `undefined`  |
 
+
 ## Events
 
 | Event                               | Description                               | Type               |
@@ -22,18 +24,18 @@
 | `calciteDatePickerActiveDateChange` | Active date for the user keyboard access. | `CustomEvent<any>` |
 | `calciteDatePickerSelect`           | Event emitted when user selects the date. | `CustomEvent<any>` |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-date-picker](../date-picker)
+ - [calcite-date-picker](../date-picker)
 
 ### Depends on
 
 - [calcite-date-picker-day](../date-picker-day)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-date-picker-month --> calcite-date-picker-day
@@ -41,6 +43,6 @@ graph TD;
   style calcite-date-picker-month fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

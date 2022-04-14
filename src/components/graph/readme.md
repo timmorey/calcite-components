@@ -4,6 +4,7 @@ The graph component is used to show small, lightweight graphs in places where a 
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property           | Attribute       | Description                                                                                                                  | Type          | Default     |
@@ -15,20 +16,20 @@ The graph component is used to show small, lightweight graphs in places where a 
 | `max` _(required)_ | `max`           | Highest point of the range                                                                                                   | `number`      | `undefined` |
 | `min` _(required)_ | `min`           | Lowest point of the range                                                                                                    | `number`      | `undefined` |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-slider](../slider)
+ - [calcite-slider](../slider)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-slider --> calcite-graph
   style calcite-graph fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

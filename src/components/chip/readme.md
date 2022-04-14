@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -9,6 +10,8 @@
 ```html
 <calcite-chip value="Global" dismissible icon="globe" appearance="clear" color="green">Global</calcite-chip>
 ```
+
+
 
 ## Properties
 
@@ -23,11 +26,13 @@
 | `scale`              | `scale`         | specify the scale of the chip, defaults to m                       | `"l" \| "m" \| "s"`                                | `"m"`        |
 | `value` _(required)_ | `value`         | The assigned value for the chip                                    | `any`                                              | `undefined`  |
 
+
 ## Events
 
 | Event                | Description                                | Type               |
 | -------------------- | ------------------------------------------ | ------------------ |
 | `calciteChipDismiss` | Emitted when the dismiss button is clicked | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -39,6 +44,9 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot      | Description                 |
@@ -46,20 +54,20 @@ Type: `Promise<void>`
 |           | A slot for adding text.     |
 | `"image"` | A slot for adding an image. |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-alert](../alert)
-- [calcite-combobox](../combobox)
-- [calcite-rating](../rating)
+ - [calcite-alert](../alert)
+ - [calcite-combobox](../combobox)
+ - [calcite-rating](../rating)
 
 ### Depends on
 
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-chip --> calcite-icon
@@ -69,6 +77,6 @@ graph TD;
   style calcite-chip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

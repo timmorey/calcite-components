@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -9,6 +10,7 @@
 ```html
 <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
 ```
+
 
 ### Clearable
 
@@ -18,6 +20,7 @@
   <calcite-input clearable value="My great name" placeholder="John Doe"></calcite-input>
 </calcite-label>
 ```
+
 
 ### Native-events
 
@@ -37,6 +40,7 @@ function logChange() {
 }
 ```
 
+
 ### With-label
 
 Using a wrapping `calcite-label` component lets consumers set the status attribute once and have it propagate to child `calcite-input` and `calcite-input-message` elements
@@ -49,6 +53,7 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 </calcite-label>
 ```
 
+
 ### With-message
 
 ```html
@@ -60,6 +65,8 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
   </calcite-input-message>
 </calcite-label>
 ```
+
+
 
 ## Properties
 
@@ -91,9 +98,10 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 | `scale`            | `scale`              | specify the scale of the input, defaults to m                                                                                                                                                                                                | `"l" \| "m" \| "s"`                                                                                                                                                                    | `"m"`                                     |
 | `status`           | `status`             | specify the status of the input field, determines message and icons                                                                                                                                                                          | `"idle" \| "invalid" \| "valid"`                                                                                                                                                       | `"idle"`                                  |
 | `step`             | `step`               | input step                                                                                                                                                                                                                                   | `"any" \| number`                                                                                                                                                                      | `undefined`                               |
-| `suffixText`       | `suffix-text`        | optionally add suffix \*                                                                                                                                                                                                                     | `string`                                                                                                                                                                               | `undefined`                               |
-| `type`             | `type`               | specify the input type Note that the following types add type-specific icons by default: `date`, `email`, `password`, `search`, `tel`, `time`                                                                                                | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"` | `"text"`                                  |
+| `suffixText`       | `suffix-text`        | optionally add suffix  *                                                                                                                                                                                                                     | `string`                                                                                                                                                                               | `undefined`                               |
+| `type`             | `type`               | specify the input type  Note that the following types add type-specific icons by default: `date`, `email`, `password`, `search`, `tel`, `time`                                                                                               | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"` | `"text"`                                  |
 | `value`            | `value`              | input value                                                                                                                                                                                                                                  | `string`                                                                                                                                                                               | `""`                                      |
+
 
 ## Events
 
@@ -101,6 +109,7 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 | -------------------- | -------------------------------------------------------------- | ------------------- |
 | `calciteInputChange` | This event fires each time a new value is typed and committed. | `CustomEvent<void>` |
 | `calciteInputInput`  | This event fires each time a new value is typed.               | `CustomEvent<any>`  |
+
 
 ## Methods
 
@@ -112,21 +121,25 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot       | Description                                      |
 | ---------- | ------------------------------------------------ |
 | `"action"` | A slot for positioning a button next to an input |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-color-picker](../color-picker)
-- [calcite-color-picker-hex-input](../color-picker-hex-input)
-- [calcite-filter](../filter)
-- [calcite-input-date-picker](../input-date-picker)
-- [calcite-input-time-picker](../input-time-picker)
+ - [calcite-color-picker](../color-picker)
+ - [calcite-color-picker-hex-input](../color-picker-hex-input)
+ - [calcite-filter](../filter)
+ - [calcite-input-date-picker](../input-date-picker)
+ - [calcite-input-time-picker](../input-time-picker)
 
 ### Depends on
 
@@ -134,7 +147,6 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-input --> calcite-progress
@@ -147,6 +159,6 @@ graph TD;
   style calcite-input fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

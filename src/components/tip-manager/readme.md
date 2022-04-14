@@ -4,6 +4,7 @@ The `calcite-tip-manager` component contains multiple `calcite-tip`s that a user
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -54,6 +55,8 @@ Renders a tip manager using a group of tips as well as a single tip.
 </calcite-tip-manager>
 ```
 
+
+
 ## Properties
 
 | Property              | Attribute               | Description                                                       | Type                         | Default     |
@@ -66,11 +69,13 @@ Renders a tip manager using a group of tips as well as a single tip.
 | `intlPaginationLabel` | `intl-pagination-label` | Label that appears on hover of pagination icon.                   | `string`                     | `undefined` |
 | `intlPrevious`        | `intl-previous`         | Alternate text for navigating to the previous tip.                | `string`                     | `undefined` |
 
+
 ## Events
 
 | Event                     | Description                                                             | Type               |
 | ------------------------- | ----------------------------------------------------------------------- | ------------------ |
 | `calciteTipManagerToggle` | Emitted when the `calcite-tip-manager` has been toggled open or closed. | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -82,6 +87,8 @@ Selects the next tip to display
 
 Type: `Promise<void>`
 
+
+
 ### `previousTip() => Promise<void>`
 
 Selects the previous tip to display
@@ -90,11 +97,15 @@ Selects the previous tip to display
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot | Description                       |
 | ---- | --------------------------------- |
 |      | A slot for adding `calcite-tip`s. |
+
 
 ## CSS Custom Properties
 
@@ -102,6 +113,7 @@ Type: `Promise<void>`
 | ------------------------------ | ----------------------------------------------------- |
 | `--calcite-tip-manager-height` | the maximum height of the tip-manager                 |
 | `--calcite-tip-max-width`      | the maximum width of a slotted tip within tip-manager |
+
 
 ## Dependencies
 
@@ -111,7 +123,6 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-tip-manager --> calcite-action
@@ -121,6 +132,6 @@ graph TD;
   style calcite-tip-manager fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

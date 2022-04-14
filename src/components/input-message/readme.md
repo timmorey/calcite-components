@@ -4,6 +4,7 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -19,6 +20,8 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 </calcite-label>
 ```
 
+
+
 ## Properties
 
 | Property | Attribute | Description                                                                                                                                                                                                                      | Type                             | Default     |
@@ -29,17 +32,20 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 | `status` | `status`  | specify the status of the input field, determines message and icons                                                                                                                                                              | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
 | `type`   | `type`    | <span style="color:red">**[DEPRECATED]**</span> "floating" type is no longer supported<br/><br/>specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) | `"default"`                      | `undefined` |
 
+
 ## Slots
 
 | Slot | Description             |
 | ---- | ----------------------- |
 |      | A slot for adding text. |
 
+
 ## CSS Custom Properties
 
 | Name                                    | Description                             |
 | --------------------------------------- | --------------------------------------- |
 | `--calcite-input-message-spacing-value` | the top margin above the input-message. |
+
 
 ## Dependencies
 
@@ -48,13 +54,12 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-input-message --> calcite-icon
   style calcite-input-message fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

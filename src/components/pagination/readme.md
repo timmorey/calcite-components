@@ -4,6 +4,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -25,6 +26,8 @@ For example, after querying the search API, you'll get back a response similar t
 <calcite-pagination start="1" num="100" total="2021"></calcite-pagination>
 ```
 
+
+
 ## Properties
 
 | Property            | Attribute             | Description                                                     | Type                | Default              |
@@ -36,12 +39,14 @@ For example, after querying the search API, you'll get back a response similar t
 | `textLabelPrevious` | `text-label-previous` | Used as an accessible label (aria-label) of the previous button | `string`            | `TEXT.previousLabel` |
 | `total`             | `total`               | total number of items                                           | `number`            | `0`                  |
 
+
 ## Events
 
 | Event                     | Description                                                                                                                              | Type                            |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
 | `calcitePaginationChange` | Emitted whenever the selected page changes.                                                                                              | `CustomEvent<PaginationDetail>` |
 | `calcitePaginationUpdate` | <span style="color:red">**[DEPRECATED]**</span> use calcitePaginationChange instead<br/><br/>Emitted whenever the selected page changes. | `CustomEvent<PaginationDetail>` |
+
 
 ## Methods
 
@@ -53,6 +58,8 @@ Go to the next page of results
 
 Type: `Promise<void>`
 
+
+
 ### `previousPage() => Promise<void>`
 
 Go to the previous page of results
@@ -61,11 +68,15 @@ Go to the previous page of results
 
 Type: `Promise<void>`
 
+
+
+
 ## CSS Custom Properties
 
 | Name                           | Description                                       |
 | ------------------------------ | ------------------------------------------------- |
 | `--calcite-pagination-spacing` | the amount of padding around each pagination item |
+
 
 ## Dependencies
 
@@ -74,13 +85,12 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-pagination --> calcite-icon
   style calcite-pagination fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

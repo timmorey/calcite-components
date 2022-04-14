@@ -2,11 +2,13 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
-| Property   | Attribute  | Description                                                                                                                                              | Type     | Default                  |
-| ---------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------ |
-| `selector` | `selector` | CSS Selector to match reference elements for tooltips. Reference elements will be identified by this selector in order to open their associated tooltip. | `string` | `[${TOOLTIP_REFERENCE}]` |
+| Property   | Attribute  | Description                                                                                                                                              | Type     | Default                    |
+| ---------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------------------------- |
+| `selector` | `selector` | CSS Selector to match reference elements for tooltips. Reference elements will be identified by this selector in order to open their associated tooltip. | `string` | ``[${TOOLTIP_REFERENCE}]`` |
+
 
 ## Slots
 
@@ -14,16 +16,16 @@
 | ---- | ----------------------------------------------------------------------------------------- |
 |      | A slot for adding elements that reference a 'calcite-tooltip' by the 'selector' property. |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-action-bar](../action-bar)
-- [calcite-action-menu](../action-menu)
-- [calcite-action-pad](../action-pad)
+ - [calcite-action-bar](../action-bar)
+ - [calcite-action-menu](../action-menu)
+ - [calcite-action-pad](../action-pad)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-action-bar --> calcite-tooltip-manager
@@ -32,6 +34,6 @@ graph TD;
   style calcite-tooltip-manager fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

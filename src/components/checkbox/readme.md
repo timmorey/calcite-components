@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -9,6 +10,7 @@
 ```html
 <calcite-checkbox id="first-name" name="first-name"></calcite-checkbox>
 ```
+
 
 ### Checked-with-calcite-label
 
@@ -19,6 +21,7 @@
 </calcite-label>
 ```
 
+
 ### Hovered-with-calcite-label
 
 ```html
@@ -27,6 +30,7 @@
   To do
 </calcite-label>
 ```
+
 
 ### Indeterminate-with-native-label
 
@@ -37,23 +41,27 @@
 </label>
 ```
 
+
+
 ## Properties
 
 | Property        | Attribute       | Description                                                                                                                                   | Type                | Default     |
 | --------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
 | `checked`       | `checked`       | The checked state of the checkbox.                                                                                                            | `boolean`           | `false`     |
 | `disabled`      | `disabled`      | True if the checkbox is disabled                                                                                                              | `boolean`           | `false`     |
-| `guid`          | `guid`          | The id attribute of the checkbox. When omitted, a globally unique identifier is used.                                                         | `string`            | `undefined` |
+| `guid`          | `guid`          | The id attribute of the checkbox.  When omitted, a globally unique identifier is used.                                                        | `string`            | `undefined` |
 | `indeterminate` | `indeterminate` | True if the checkbox is initially indeterminate, which is independent from its checked state https://css-tricks.com/indeterminate-checkboxes/ | `boolean`           | `false`     |
 | `name`          | `name`          | The name of the checkbox input                                                                                                                | `any`               | `undefined` |
 | `scale`         | `scale`         | specify the scale of the checkbox, defaults to m                                                                                              | `"l" \| "m" \| "s"` | `"m"`       |
 | `value`         | `value`         | The value of the checkbox input                                                                                                               | `any`               | `undefined` |
+
 
 ## Events
 
 | Event                   | Description                                      | Type               |
 | ----------------------- | ------------------------------------------------ | ------------------ |
 | `calciteCheckboxChange` | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -65,21 +73,24 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## CSS Custom Properties
 
 | Name                      | Description                          |
 | ------------------------- | ------------------------------------ |
 | `--calcite-checkbox-size` | the width and height of the checkbox |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-card](../card)
-- [calcite-tree-item](../tree-item)
+ - [calcite-card](../card)
+ - [calcite-tree-item](../tree-item)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-card --> calcite-checkbox
@@ -87,6 +98,6 @@ graph TD;
   style calcite-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

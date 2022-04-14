@@ -4,6 +4,7 @@ This component represents a menu of options.
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -16,6 +17,7 @@ This component represents a menu of options.
 </calcite-select>
 ```
 
+
 ### Content
 
 Specify the underlying value and content for each option.
@@ -27,6 +29,7 @@ Specify the underlying value and content for each option.
   <calcite-option label="low">3</calcite-option>
 </calcite-select>
 ```
+
 
 ### Disable
 
@@ -54,6 +57,7 @@ Disable specific items or groups.
 </calcite-select>
 ```
 
+
 ### Grouped
 
 Separate the options into groups.
@@ -72,6 +76,7 @@ Separate the options into groups.
   </calcite-option-group>
 </calcite-select>
 ```
+
 
 ### Side-by-side
 
@@ -92,6 +97,7 @@ Separate the options side by side using a flex-box container.
 </div>
 ```
 
+
 ### Value
 
 Specify the underlying value for each option.
@@ -104,23 +110,27 @@ Specify the underlying value for each option.
 </calcite-select>
 ```
 
+
+
 ## Properties
 
-| Property             | Attribute         | Description                                                         | Type                         | Default     |
-| -------------------- | ----------------- | ------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `disabled`           | `disabled`        | When true, it prevents the option from being selected.              | `boolean`                    | `false`     |
-| `label` _(required)_ | `label`           | The component's label. This is required for accessibility purposes. | `string`                     | `undefined` |
-| `name`               | `name`            | The select's name. Gets submitted with the form.                    | `string`                     | `undefined` |
-| `scale`              | `scale`           | The component scale.                                                | `"l" \| "m" \| "s"`          | `"m"`       |
-| `selectedOption`     | `selected-option` | The currently selected option.                                      | `HTMLCalciteOptionElement`   | `undefined` |
-| `value`              | `value`           | The value of the selectedOption                                     | `string`                     | `null`      |
-| `width`              | `width`           | The component width.                                                | `"auto" \| "full" \| "half"` | `"auto"`    |
+| Property             | Attribute  | Description                                                         | Type                         | Default     |
+| -------------------- | ---------- | ------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `disabled`           | `disabled` | When true, it prevents the option from being selected.              | `boolean`                    | `false`     |
+| `label` _(required)_ | `label`    | The component's label. This is required for accessibility purposes. | `string`                     | `undefined` |
+| `name`               | `name`     | The select's name. Gets submitted with the form.                    | `string`                     | `undefined` |
+| `scale`              | `scale`    | The component scale.                                                | `"l" \| "m" \| "s"`          | `"m"`       |
+| `selectedOption`     | --         | The currently selected option.                                      | `HTMLCalciteOptionElement`   | `undefined` |
+| `value`              | `value`    | The value of the selectedOption                                     | `string`                     | `null`      |
+| `width`              | `width`    | The component width.                                                | `"auto" \| "full" \| "half"` | `"auto"`    |
+
 
 ## Events
 
 | Event                 | Description                                                | Type                |
 | --------------------- | ---------------------------------------------------------- | ------------------- |
 | `calciteSelectChange` | This event will fire whenever the selected option changes. | `CustomEvent<void>` |
+
 
 ## Methods
 
@@ -132,11 +142,15 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot | Description                          |
 | ---- | ------------------------------------ |
 |      | A slot for adding `calcite-option`s. |
+
 
 ## CSS Custom Properties
 
@@ -145,6 +159,7 @@ Type: `Promise<void>`
 | `--calcite-select-font-size` | the font-size of items in the select        |
 | `--calcite-select-spacing`   | the padding around the selected option text |
 
+
 ## Dependencies
 
 ### Depends on
@@ -152,13 +167,12 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-select --> calcite-icon
   style calcite-select fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

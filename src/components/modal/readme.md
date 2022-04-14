@@ -9,6 +9,7 @@
 </style>
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -27,6 +28,7 @@ Customize the modal by passing your content into multiple named slots: `header` 
 </calcite-modal>
 ```
 
+
 ### Open
 
 To open a modal, add the `active` prop. Once the opening animation is complete, the `calciteModalOpen` event will be fired.
@@ -36,6 +38,7 @@ To close the modal, simply remove the attribute. This will run your before close
 ```html
 <calcite-modal active></calcite-modal>
 ```
+
 
 ### Reacting-before-close
 
@@ -52,6 +55,8 @@ function beforeClose() {
 const modal = document.getElementById("my-modal");
 modal.beforeClose = beforeClose;
 ```
+
+
 
 ## Properties
 
@@ -72,12 +77,14 @@ modal.beforeClose = beforeClose;
 | `scale`               | `scale`                 | specify the scale of modal, defaults to m                                                                   | `"l" \| "m" \| "s"`                  | `"m"`                     |
 | `width`               | `width`                 | Set the width of the modal. Can use stock sizes or pass a number (in pixels)                                | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
 
+
 ## Events
 
 | Event               | Description                                       | Type               |
 | ------------------- | ------------------------------------------------- | ------------------ |
 | `calciteModalClose` | Fired when the modal finishes the close animation | `CustomEvent<any>` |
 | `calciteModalOpen`  | Fired when the modal finishes the open animation  | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -89,6 +96,8 @@ modal.beforeClose = beforeClose;
 
 Type: `Promise<void>`
 
+
+
 ### `scrollContent(top?: number, left?: number) => Promise<void>`
 
 Set the scroll top of the modal content
@@ -96,6 +105,8 @@ Set the scroll top of the modal content
 #### Returns
 
 Type: `Promise<void>`
+
+
 
 ### `setFocus(focusId?: "close-button") => Promise<void>`
 
@@ -108,6 +119,9 @@ If you want to focus on the close button, you can use the `close-button` focus I
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot          | Description                          |
@@ -117,6 +131,7 @@ Type: `Promise<void>`
 | `"header"`    | a slot for adding a modal header     |
 | `"primary"`   | a slot for adding a primary button   |
 | `"secondary"` | a slot for adding a secondary button |
+
 
 ## CSS Custom Properties
 
@@ -128,6 +143,7 @@ Type: `Promise<void>`
 | `--calcite-modal-title-text`    | the font-size of the modal title                   |
 | `--calcite-scrim-background`    | the semi-transparent background color behind modal |
 
+
 ## Dependencies
 
 ### Depends on
@@ -136,7 +152,6 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-modal --> calcite-scrim
@@ -145,6 +160,6 @@ graph TD;
   style calcite-modal fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

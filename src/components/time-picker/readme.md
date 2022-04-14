@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property           | Attribute            | Description                                                                   | Type                | Default             |
@@ -22,6 +23,7 @@
 | `step`             | `step`               | number (seconds) that specifies the granularity that the value must adhere to | `number`            | `60`                |
 | `value`            | `value`              | The selected time in UTC (always 24-hour format)                              | `string`            | `null`              |
 
+
 ## Methods
 
 ### `setFocus(target: TimePart) => Promise<void>`
@@ -32,18 +34,20 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-input-time-picker](../input-time-picker)
+ - [calcite-input-time-picker](../input-time-picker)
 
 ### Depends on
 
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-time-picker --> calcite-icon
@@ -51,6 +55,6 @@ graph TD;
   style calcite-time-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

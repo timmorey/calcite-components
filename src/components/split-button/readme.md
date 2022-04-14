@@ -4,6 +4,7 @@ The calcite-split-button control is one that combines a button with a dropdown m
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -17,6 +18,8 @@ The calcite-split-button control is one that combines a button with a dropdown m
   </calcite-dropdown-group>
 </calcite-split-button>
 ```
+
+
 
 ## Properties
 
@@ -37,6 +40,7 @@ The calcite-split-button control is one that combines a button with a dropdown m
 | `scale`              | `scale`                 | specify the scale of the control, defaults to m                                                                            | `"l" \| "m" \| "s"`                                | `"m"`        |
 | `width`              | `width`                 | specify the width of the button, defaults to auto                                                                          | `"auto" \| "full" \| "half"`                       | `"auto"`     |
 
+
 ## Events
 
 | Event                              | Description                                | Type               |
@@ -44,11 +48,13 @@ The calcite-split-button control is one that combines a button with a dropdown m
 | `calciteSplitButtonPrimaryClick`   | fired when the primary button is clicked   | `CustomEvent<any>` |
 | `calciteSplitButtonSecondaryClick` | fired when the secondary button is clicked | `CustomEvent<any>` |
 
+
 ## Slots
 
 | Slot | Description                                   |
 | ---- | --------------------------------------------- |
 |      | A slot for adding `calcite-dropdown` content. |
+
 
 ## Dependencies
 
@@ -58,7 +64,6 @@ The calcite-split-button control is one that combines a button with a dropdown m
 - [calcite-dropdown](../dropdown)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-split-button --> calcite-button
@@ -68,6 +73,6 @@ graph TD;
   style calcite-split-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

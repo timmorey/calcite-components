@@ -2,24 +2,27 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
-| Property        | Attribute     | Description                                                                                                                                                                                                     | Type                | Default     |
-| --------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
-| `disabled`      | `disabled`    | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                                                                                                     | `boolean`           | `false`     |
-| `filteredItems` | --            | The resulting items after filtering.                                                                                                                                                                            | `object[]`          | `[]`        |
-| `intlClear`     | `intl-clear`  | A text label that will appear on the clear button.                                                                                                                                                              | `string`            | `undefined` |
-| `intlLabel`     | `intl-label`  | A text label that will appear next to the input field.                                                                                                                                                          | `string`            | `undefined` |
-| `items`         | --            | The items to filter through. The filter uses this as the starting point, and returns items that contain the string entered in the input, using a partial match and recursive search. This property is required. | `object[]`          | `[]`        |
-| `placeholder`   | `placeholder` | Placeholder text for the input element's placeholder attribute                                                                                                                                                  | `string`            | `undefined` |
-| `scale`         | `scale`       | specify the scale of filter, defaults to m                                                                                                                                                                      | `"l" \| "m" \| "s"` | `"m"`       |
-| `value`         | `value`       | Filter value.                                                                                                                                                                                                   | `string`            | `""`        |
+| Property        | Attribute     | Description                                                                                                                                                                                                      | Type                | Default     |
+| --------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `disabled`      | `disabled`    | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                                                                                                      | `boolean`           | `false`     |
+| `filteredItems` | --            | The resulting items after filtering.                                                                                                                                                                             | `object[]`          | `[]`        |
+| `intlClear`     | `intl-clear`  | A text label that will appear on the clear button.                                                                                                                                                               | `string`            | `undefined` |
+| `intlLabel`     | `intl-label`  | A text label that will appear next to the input field.                                                                                                                                                           | `string`            | `undefined` |
+| `items`         | --            | The items to filter through. The filter uses this as the starting point, and returns items that contain the string entered in the input, using a partial match and recursive search.  This property is required. | `object[]`          | `[]`        |
+| `placeholder`   | `placeholder` | Placeholder text for the input element's placeholder attribute                                                                                                                                                   | `string`            | `undefined` |
+| `scale`         | `scale`       | specify the scale of filter, defaults to m                                                                                                                                                                       | `"l" \| "m" \| "s"` | `"m"`       |
+| `value`         | `value`       | Filter value.                                                                                                                                                                                                    | `string`            | `""`        |
+
 
 ## Events
 
 | Event                 | Description                                    | Type                |
 | --------------------- | ---------------------------------------------- | ------------------- |
 | `calciteFilterChange` | This event fires when the filter text changes. | `CustomEvent<void>` |
+
 
 ## Methods
 
@@ -31,12 +34,15 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-pick-list](../pick-list)
-- [calcite-value-list](../value-list)
+ - [calcite-pick-list](../pick-list)
+ - [calcite-value-list](../value-list)
 
 ### Depends on
 
@@ -44,7 +50,6 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-filter --> calcite-input
@@ -56,6 +61,6 @@ graph TD;
   style calcite-filter fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

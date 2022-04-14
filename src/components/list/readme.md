@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Advanced
@@ -52,6 +53,7 @@
 </calcite-list>
 ```
 
+
 ### Basic
 
 ```html
@@ -72,6 +74,7 @@
   ></calcite-list-item>
 </calcite-list>
 ```
+
 
 ### Grouped
 
@@ -99,6 +102,7 @@
 </calcite-list>
 ```
 
+
 ### Nested
 
 ```html
@@ -116,12 +120,15 @@
 </calcite-list>
 ```
 
+
+
 ## Properties
 
 | Property       | Attribute       | Description                                                       | Type                         | Default     |
 | -------------- | --------------- | ----------------------------------------------------------------- | ---------------------------- | ----------- |
 | `disabled`     | `disabled`      | When true, disabled prevents user interaction.                    | `boolean`                    | `false`     |
 | `headingLevel` | `heading-level` | Number at which section headings should start for this component. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+
 
 ## Methods
 
@@ -133,12 +140,16 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot | Description                                     |
 | ---- | ----------------------------------------------- |
 |      | A slot for adding `calcite-list-item` elements. |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

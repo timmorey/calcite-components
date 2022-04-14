@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property       | Attribute        | Description                                        | Type                | Default     |
@@ -20,26 +21,27 @@
 | `startOfRange` | `start-of-range` | Date is the start of date range                    | `boolean`           | `false`     |
 | `value`        | --               | Date value for the day.                            | `Date`              | `undefined` |
 
+
 ## Events
 
 | Event              | Description                   | Type               |
 | ------------------ | ----------------------------- | ------------------ |
 | `calciteDaySelect` | Emitted when user selects day | `CustomEvent<any>` |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-date-picker-month](../date-picker-month)
+ - [calcite-date-picker-month](../date-picker-month)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-date-picker-month --> calcite-date-picker-day
   style calcite-date-picker-day fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

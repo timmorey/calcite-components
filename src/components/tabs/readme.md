@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -20,6 +21,7 @@
 </calcite-tabs>
 ```
 
+
 ### Bordered
 
 ```html
@@ -37,6 +39,8 @@
 </calcite-tabs>
 ```
 
+
+
 ## Properties
 
 | Property   | Attribute  | Description                                                                           | Type                   | Default    |
@@ -46,6 +50,7 @@
 | `position` | `position` | Display the tabs above (default) or below the tab content                             | `"above" \| "below"`   | `"above"`  |
 | `scale`    | `scale`    | Specify the scale of the tabs component, defaults to m                                | `"l" \| "m" \| "s"`    | `"m"`      |
 
+
 ## Slots
 
 | Slot        | Description                                   |
@@ -53,20 +58,20 @@
 |             | A slot for adding `calcite-tab`s.             |
 | `"tab-nav"` | A slot for adding a tab navigation component. |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-color-picker](../color-picker)
+ - [calcite-color-picker](../color-picker)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-color-picker --> calcite-tabs
   style calcite-tabs fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

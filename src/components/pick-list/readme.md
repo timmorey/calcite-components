@@ -4,6 +4,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -24,6 +25,7 @@ Renders a basic pick list with radio buttons on the left and actions on the righ
 </calcite-pick-list>
 ```
 
+
 ### Multi-select-and-filter-enabled
 
 Renders a pick list with a sticky filter and checkboxes for multiple selection of items.
@@ -41,6 +43,7 @@ Renders a pick list with a sticky filter and checkboxes for multiple selection o
   </calcite-pick-list-item>
 </calcite-pick-list>
 ```
+
 
 ### Sub-groups
 
@@ -67,6 +70,8 @@ Renders groups of pick list items that are visually separated.
 </calcite-pick-list>
 ```
 
+
+
 ## Properties
 
 | Property                | Attribute                 | Description                                                                                                                                                                                                                                       | Type                         | Default     |
@@ -79,11 +84,13 @@ Renders groups of pick list items that are visually separated.
 | `multiple`              | `multiple`                | Multiple works similar to standard radio buttons and checkboxes. When true, a user can select multiple items at a time. When false, only a single item can be selected at a time and selecting a new item will deselect any other selected items. | `boolean`                    | `false`     |
 | `selectionFollowsFocus` | `selection-follows-focus` | When true and single-selection is enabled, the selection will change when navigating items via the keyboard.                                                                                                                                      | `boolean`                    | `false`     |
 
+
 ## Events
 
 | Event               | Description                                           | Type                                                       |
 | ------------------- | ----------------------------------------------------- | ---------------------------------------------------------- |
 | `calciteListChange` | Emitted when any of the item selections have changed. | `CustomEvent<Map<string, HTMLCalcitePickListItemElement>>` |
+
 
 ## Methods
 
@@ -95,6 +102,8 @@ Returns the currently selected items
 
 Type: `Promise<Map<string, HTMLCalcitePickListItemElement>>`
 
+
+
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
 Sets focus on the component.
@@ -103,12 +112,16 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot             | Description                                                                                                                        |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 |                  | A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list. |
 | `"menu-actions"` | A slot for adding a button + menu combo for performing actions like sorting.                                                       |
+
 
 ## Dependencies
 
@@ -118,7 +131,6 @@ Type: `Promise<void>`
 - [calcite-scrim](../scrim)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-pick-list --> calcite-filter
@@ -131,6 +143,6 @@ graph TD;
   style calcite-pick-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

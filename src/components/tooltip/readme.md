@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -18,6 +19,8 @@
 </calcite-tooltip-manager>
 ```
 
+
+
 ## Properties
 
 | Property             | Attribute             | Description                                                                                                                                                                                                                                                                                                     | Type                                        | Default                 |
@@ -30,6 +33,7 @@
 | `placement`          | `placement`           | Determines where the component will be positioned relative to the referenceElement.                                                                                                                                                                                                                             | `Placement \| PlacementRtl \| VariationRtl` | `"auto"`                |
 | `referenceElement`   | `reference-element`   | Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement. | `HTMLElement \| string`                     | `undefined`             |
 
+
 ## Methods
 
 ### `reposition() => Promise<void>`
@@ -40,12 +44,16 @@ Updates the position of the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot | Description             |
 | ---- | ----------------------- |
 |      | A slot for adding text. |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

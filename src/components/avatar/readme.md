@@ -5,6 +5,7 @@ to work with users returned from the ArcGIS REST API.
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -37,6 +38,8 @@ When no thumbnail is provided, the avatar component will construct a useful plac
 </calcite-avatar>
 ```
 
+
+
 ## Properties
 
 | Property    | Attribute   | Description                                                      | Type                | Default     |
@@ -47,6 +50,7 @@ When no thumbnail is provided, the avatar component will construct a useful plac
 | `userId`    | `user-id`   | unique id for user                                               | `string`            | `undefined` |
 | `username`  | `username`  | user name                                                        | `string`            | `undefined` |
 
+
 ## Dependencies
 
 ### Depends on
@@ -54,13 +58,12 @@ When no thumbnail is provided, the avatar component will construct a useful plac
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-avatar --> calcite-icon
   style calcite-avatar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

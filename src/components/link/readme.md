@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -14,6 +15,7 @@
 </div>
 ```
 
+
 ### Focusing
 
 You can programmatically focus a `calcite-link` with the `setFocus()` method:
@@ -21,6 +23,8 @@ You can programmatically focus a `calcite-link` with the `setFocus()` method:
 ```html
 <div onclick=document.querySelector('#my-link').setFocus()>Focus!</div>
 ```
+
+
 
 ## Properties
 
@@ -35,6 +39,7 @@ You can programmatically focus a `calcite-link` with the `setFocus()` method:
 | `rel`         | `rel`           | The rel attribute to apply to the hyperlink                                                                                                                                                                                                             | `string`                     | `undefined` |
 | `target`      | `target`        | The target attribute to apply to the hyperlink                                                                                                                                                                                                          | `string`                     | `undefined` |
 
+
 ## Methods
 
 ### `setFocus() => Promise<void>`
@@ -45,24 +50,27 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot | Description             |
 | ---- | ----------------------- |
 |      | A slot for adding text. |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-tile](../tile)
+ - [calcite-tile](../tile)
 
 ### Depends on
 
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-link --> calcite-icon
@@ -70,6 +78,6 @@ graph TD;
   style calcite-link fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

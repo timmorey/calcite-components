@@ -4,6 +4,7 @@ A `calcite-dropdown` can be used to provide an absolutely positioned set of sele
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -19,6 +20,7 @@ A `calcite-dropdown` can be used to provide an absolutely positioned set of sele
 </calcite-dropdown>
 ```
 
+
 ### Disabling-close-on-select
 
 You can choose to leave the dropdown open when an item is selected with the `disable-close-on-select` attribute. Note that this will only apply when the `calcite-dropdown-group` selection mode is set to `single` or `multi` - dropdowns will always close when an item in `none` selection mode is selected.
@@ -33,6 +35,7 @@ You can choose to leave the dropdown open when an item is selected with the `dis
   </calcite-dropdown-group>
 </calcite-dropdown>
 ```
+
 
 ### Groups
 
@@ -58,6 +61,8 @@ You can combine groups in a single dropdown, with varying selection modes:
 </calcite-dropdown>
 ```
 
+
+
 ## Properties
 
 | Property               | Attribute                 | Description                                                                                                                                                                                    | Type                                                                                                                                                          | Default                |
@@ -74,13 +79,15 @@ You can combine groups in a single dropdown, with varying selection modes:
 | `type`                 | `type`                    | specify whether the dropdown is opened by hover or click of a trigger element                                                                                                                  | `"click" \| "hover"`                                                                                                                                          | `"click"`              |
 | `width`                | `width`                   | specify the width of dropdown, defaults to m                                                                                                                                                   | `"l" \| "m" \| "s"`                                                                                                                                           | `"m"`                  |
 
+
 ## Events
 
-| Event                   | Description                                                   | Type                |
-| ----------------------- | ------------------------------------------------------------- | ------------------- |
-| `calciteDropdownClose`  | fires when a dropdown has been closed \*                      | `CustomEvent<void>` |
-| `calciteDropdownOpen`   | fires when a dropdown has been opened \*                      | `CustomEvent<void>` |
-| `calciteDropdownSelect` | fires when a dropdown item has been selected or deselected \* | `CustomEvent<void>` |
+| Event                   | Description                                                  | Type                |
+| ----------------------- | ------------------------------------------------------------ | ------------------- |
+| `calciteDropdownClose`  | fires when a dropdown has been closed *                      | `CustomEvent<void>` |
+| `calciteDropdownOpen`   | fires when a dropdown has been opened *                      | `CustomEvent<void>` |
+| `calciteDropdownSelect` | fires when a dropdown item has been selected or deselected * | `CustomEvent<void>` |
+
 
 ## Methods
 
@@ -92,6 +99,9 @@ Updates the position of the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot                 | Description                                                              |
@@ -99,26 +109,27 @@ Type: `Promise<void>`
 |                      | A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s. |
 | `"dropdown-trigger"` | A slot for the element that triggers the dropdown.                       |
 
+
 ## CSS Custom Properties
 
 | Name                       | Description                       |
 | -------------------------- | --------------------------------- |
 | `--calcite-dropdown-width` | the width of the dropdown wrapper |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-split-button](../split-button)
+ - [calcite-split-button](../split-button)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-split-button --> calcite-dropdown
   style calcite-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

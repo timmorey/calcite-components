@@ -4,6 +4,7 @@ The `calcite-flow` component is a series of panels that provides a user with a w
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -21,6 +22,7 @@ Renders a basic flow with a couple `calcite-panel`s.
 </calcite-flow>
 ```
 
+
 ### Menu-actions-and-footer-actions
 
 Renders a flow with menu-actions and footer-actions in the form of buttons.
@@ -36,6 +38,8 @@ Renders a flow with menu-actions and footer-actions in the form of buttons.
 </calcite-flow>
 ```
 
+
+
 ## Methods
 
 ### `back() => Promise<HTMLCalcitePanelElement>`
@@ -46,12 +50,16 @@ Removes the currently active `calcite-panel`.
 
 Type: `Promise<HTMLCalcitePanelElement>`
 
+
+
+
 ## Slots
 
 | Slot | Description                                     |
 | ---- | ----------------------------------------------- |
 |      | A slot for adding `calcite-panel`s to the flow. |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

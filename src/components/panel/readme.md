@@ -4,6 +4,7 @@ The `calcite-panel` component is a container for a header, content and optional 
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -17,6 +18,7 @@ Renders a basic panel with a header.
 </calcite-panel>
 ```
 
+
 ### Dismissible
 
 Renders a panel that is dismissible with a click of the "x".
@@ -27,6 +29,7 @@ Renders a panel that is dismissible with a click of the "x".
   <p>Click the X and I go away!</p>
 </calcite-panel>
 ```
+
 
 ### Header-with-actions
 
@@ -53,6 +56,7 @@ Renders a panel with leading and trailing `calcite-action`s.
 </calcite-panel>
 ```
 
+
 ### With-footer
 
 Renders a panel with a header and a footer.
@@ -64,6 +68,8 @@ Renders a panel with a header and a footer.
   <div slot="footer">Footer!</div>
 </calcite-panel>
 ```
+
+
 
 ## Properties
 
@@ -85,6 +91,7 @@ Renders a panel with a header and a footer.
 | `summary`        | `summary`          | Summary text. A description displayed underneath the heading.                                             | `string`                     | `undefined` |
 | `widthScale`     | `width-scale`      | This sets width of the panel.                                                                             | `"l" \| "m" \| "s"`          | `undefined` |
 
+
 ## Events
 
 | Event                         | Description                                     | Type               |
@@ -92,6 +99,7 @@ Renders a panel with a header and a footer.
 | `calcitePanelBackClick`       | Emitted when the back button has been clicked.  | `CustomEvent<any>` |
 | `calcitePanelDismissedChange` | Emitted when the close button has been clicked. | `CustomEvent<any>` |
 | `calcitePanelScroll`          | Emitted when the content has been scrolled.     | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -111,6 +119,8 @@ Scrolls panel content to a particular set of coordinates.
 
 Type: `Promise<void>`
 
+
+
 ### `setFocus(focusId?: "dismiss-button" | "back-button") => Promise<void>`
 
 Sets focus on the component.
@@ -118,6 +128,9 @@ Sets focus on the component.
 #### Returns
 
 Type: `Promise<void>`
+
+
+
 
 ## Slots
 
@@ -132,6 +145,7 @@ Type: `Promise<void>`
 | `"header-content"`       | A slot for adding custom content to the header.                                  |
 | `"header-menu-actions"`  | A slot for adding an overflow menu with actions inside a dropdown.               |
 
+
 ## CSS Custom Properties
 
 | Name                         | Description                     |
@@ -139,6 +153,7 @@ Type: `Promise<void>`
 | `--calcite-panel-max-height` | the maximum height of the panel |
 | `--calcite-panel-max-width`  | the maximum width of the panel  |
 | `--calcite-panel-min-width`  | the minimum width of the panel  |
+
 
 ## Dependencies
 
@@ -149,7 +164,6 @@ Type: `Promise<void>`
 - [calcite-scrim](../scrim)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-panel --> calcite-action
@@ -166,6 +180,6 @@ graph TD;
   style calcite-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

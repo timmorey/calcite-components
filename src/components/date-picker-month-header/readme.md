@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property        | Attribute         | Description                                                              | Type                         | Default     |
@@ -18,24 +19,25 @@
 | `scale`         | `scale`           | specify the scale of the date picker                                     | `"l" \| "m" \| "s"`          | `undefined` |
 | `selectedDate`  | --                | Already selected date.                                                   | `Date`                       | `undefined` |
 
+
 ## Events
 
 | Event                     | Description            | Type                |
 | ------------------------- | ---------------------- | ------------------- |
 | `calciteDatePickerSelect` | Changes to active date | `CustomEvent<Date>` |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-date-picker](../date-picker)
+ - [calcite-date-picker](../date-picker)
 
 ### Depends on
 
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-date-picker-month-header --> calcite-icon
@@ -43,6 +45,6 @@ graph TD;
   style calcite-date-picker-month-header fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

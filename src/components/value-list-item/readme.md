@@ -4,6 +4,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property             | Attribute         | Description                                                                                       | Type                                                        | Default     |
@@ -18,11 +19,13 @@
 | `selected`           | `selected`        | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.                | `boolean`                                                   | `false`     |
 | `value` _(required)_ | `value`           | The item's associated value.                                                                      | `any`                                                       | `undefined` |
 
+
 ## Events
 
 | Event                   | Description                                    | Type                |
 | ----------------------- | ---------------------------------------------- | ------------------- |
 | `calciteListItemRemove` | Emitted whenever the remove button is pressed. | `CustomEvent<void>` |
+
 
 ## Methods
 
@@ -34,6 +37,8 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
 ### `toggleSelected(coerce?: boolean) => Promise<void>`
 
 Used to toggle the selection state. By default this won't trigger an event.
@@ -43,12 +48,16 @@ The first argument allows the value to be coerced, rather than swapping values.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot              | Description                                                         |
 | ----------------- | ------------------------------------------------------------------- |
 | `"actions-end"`   | A slot for adding actions or content to the end side of the item.   |
 | `"actions-start"` | A slot for adding actions or content to the start side of the item. |
+
 
 ## Dependencies
 
@@ -58,7 +67,6 @@ Type: `Promise<void>`
 - [calcite-pick-list-item](../pick-list-item)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-value-list-item --> calcite-icon
@@ -70,6 +78,6 @@ graph TD;
   style calcite-value-list-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -4,6 +4,7 @@ The `calcite-block` component is intended for displaying a heading and content. 
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Always-open
@@ -16,6 +17,7 @@ Renders a header and content that remains open - no collapsible option.
 </calcite-block>
 ```
 
+
 ### Basic
 
 Renders a basic, non-collapsible block.
@@ -23,6 +25,7 @@ Renders a basic, non-collapsible block.
 ```html
 <calcite-block heading="Fruit" summary="It's nature's candy"> </calcite-block>
 ```
+
 
 ### Collapsible
 
@@ -34,6 +37,7 @@ Renders a header with a clickable icon to toggle the block open and closed.
 </calcite-block>
 ```
 
+
 ### Header-with-control
 
 Renders a header and control with a slot for adding a single HTML element (in the header).
@@ -44,6 +48,7 @@ Renders a header and control with a slot for adding a single HTML element (in th
 </calcite-block>
 ```
 
+
 ### Header-with-icon
 
 Renders a header and icon with the icon.
@@ -53,6 +58,8 @@ Renders a header and icon with the icon.
   <div slot="icon">🤯</div>
 </calcite-block>
 ```
+
+
 
 ## Properties
 
@@ -72,11 +79,13 @@ Renders a header and icon with the icon.
 | `status`               | `status`        | Block status. Updates or adds icon to show related icon and color.                          | `"idle" \| "invalid" \| "valid"` | `undefined`    |
 | `summary`              | `summary`       | Block summary.                                                                              | `string`                         | `undefined`    |
 
+
 ## Events
 
 | Event                | Description                               | Type               |
 | -------------------- | ----------------------------------------- | ------------------ |
 | `calciteBlockToggle` | Emitted when the header has been clicked. | `CustomEvent<any>` |
+
 
 ## Slots
 
@@ -86,6 +95,7 @@ Renders a header and icon with the icon.
 | `"control"`             | A slot for adding a single HTML input element in a header.         |
 | `"header-menu-actions"` | a slot for adding an overflow menu with actions inside a dropdown. |
 | `"icon"`                | A slot for adding a leading header icon.                           |
+
 
 ## Dependencies
 
@@ -98,7 +108,6 @@ Renders a header and icon with the icon.
 - [calcite-action-menu](../action-menu)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-block --> calcite-scrim
@@ -118,6 +127,6 @@ graph TD;
   style calcite-block fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -4,6 +4,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -11,6 +12,8 @@
 ```html
 <label> <calcite-switch checked></calcite-switch> Switch is on </label>
 ```
+
+
 
 ## Properties
 
@@ -24,11 +27,13 @@
 | `switched` | `switched` | <span style="color:red">**[DEPRECATED]**</span> use 'checked' instead.<br/><br/>True if the switch is initially on | `boolean`           | `false`     |
 | `value`    | `value`    | The value of the switch input                                                                                      | `any`               | `undefined` |
 
+
 ## Events
 
 | Event                 | Description                               | Type               |
 | --------------------- | ----------------------------------------- | ------------------ |
 | `calciteSwitchChange` | Fires when the checked value has changed. | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -40,20 +45,22 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-block-section](../block-section)
+ - [calcite-block-section](../block-section)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-block-section --> calcite-switch
   style calcite-switch fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

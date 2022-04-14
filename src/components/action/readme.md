@@ -4,6 +4,7 @@ The `calcite-action` component lives in either a `calcite-action-bar` or `calcit
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Clear-appearance
@@ -14,6 +15,7 @@ Renders a `calcite-action` that has a clear background.
 <calcite-action appearance="clear" text="Layers" icon="layers"></calcite-action>
 ```
 
+
 ### With-text-displayed
 
 Renders a `calcite-action` that displays text along side an icon and a tooltip label.
@@ -22,6 +24,7 @@ Renders a `calcite-action` that displays text along side an icon and a tooltip l
 <calcite-action label="Performs my custom action" text="Perform Action!" text-enabled icon="save"></calcite-action>
 ```
 
+
 ### Without-text-displayed
 
 Renders a `calcite-action` that displays only an icon and a tooltip label.
@@ -29,6 +32,8 @@ Renders a `calcite-action` that displays only an icon and a tooltip label.
 ```html
 <calcite-action label="Performs my custom action" text="My Custom Action" icon="plus"></calcite-action>
 ```
+
+
 
 ## Properties
 
@@ -48,11 +53,13 @@ Renders a `calcite-action` that displays only an icon and a tooltip label.
 | `text` _(required)_ | `text`         | Text that accompanies the action icon.                                                                                              | `string`                       | `undefined`    |
 | `textEnabled`       | `text-enabled` | Indicates whether the text is displayed.                                                                                            | `boolean`                      | `false`        |
 
+
 ## Events
 
 | Event                | Description                                                                                                             | Type               |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------ |
 | `calciteActionClick` | <span style="color:red">**[DEPRECATED]**</span> use onClick instead.<br/><br/>Emitted when the action has been clicked. | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -64,25 +71,29 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot | Description                         |
 | ---- | ----------------------------------- |
 |      | A slot for adding a `calcite-icon`. |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-action-bar](../action-bar)
-- [calcite-action-group](../action-group)
-- [calcite-action-menu](../action-menu)
-- [calcite-action-pad](../action-pad)
-- [calcite-panel](../panel)
-- [calcite-pick-list-item](../pick-list-item)
-- [calcite-popover](../popover)
-- [calcite-tip](../tip)
-- [calcite-tip-manager](../tip-manager)
+ - [calcite-action-bar](../action-bar)
+ - [calcite-action-group](../action-group)
+ - [calcite-action-menu](../action-menu)
+ - [calcite-action-pad](../action-pad)
+ - [calcite-panel](../panel)
+ - [calcite-pick-list-item](../pick-list-item)
+ - [calcite-popover](../popover)
+ - [calcite-tip](../tip)
+ - [calcite-tip-manager](../tip-manager)
 
 ### Depends on
 
@@ -90,7 +101,6 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-action --> calcite-loader
@@ -107,6 +117,6 @@ graph TD;
   style calcite-action fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

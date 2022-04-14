@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -22,6 +23,8 @@
   </calcite-label>
 </div>
 ```
+
+
 
 ## Properties
 
@@ -53,6 +56,7 @@
 | `value`                      | `value`                        | Selected date                                                                                                                      | `string \| string[]`                                                                                                                                          | `undefined`                               |
 | `valueAsDate`                | --                             | Selected date as full date object                                                                                                  | `Date \| Date[]`                                                                                                                                              | `undefined`                               |
 
+
 ## Events
 
 | Event                          | Description                                                                                                                                                          | Type                           |
@@ -60,6 +64,7 @@
 | `calciteDatePickerChange`      | <span style="color:red">**[DEPRECATED]**</span> use `calciteInputDatePickerChange` instead.<br/><br/>Trigger calcite date change when a user changes the date.       | `CustomEvent<Date>`            |
 | `calciteDatePickerRangeChange` | <span style="color:red">**[DEPRECATED]**</span> use `calciteInputDatePickerChange` instead.<br/><br/>Trigger calcite date change when a user changes the date range. | `CustomEvent<DateRangeChange>` |
 | `calciteInputDatePickerChange` | This event fires when the input date picker value changes.                                                                                                           | `CustomEvent<void>`            |
+
 
 ## Methods
 
@@ -71,6 +76,8 @@ Updates the position of the component.
 
 Type: `Promise<void>`
 
+
+
 ### `setFocus() => Promise<void>`
 
 Updates the position of the component.
@@ -78,6 +85,9 @@ Updates the position of the component.
 #### Returns
 
 Type: `Promise<void>`
+
+
+
 
 ## Dependencies
 
@@ -88,7 +98,6 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-input-date-picker --> calcite-input
@@ -103,6 +112,6 @@ graph TD;
   style calcite-input-date-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

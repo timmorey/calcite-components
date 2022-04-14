@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Ancestors
@@ -20,6 +21,7 @@
 </calcite-combobox>
 ```
 
+
 ### Multi
 
 ```html
@@ -35,6 +37,7 @@
   </calcite-combobox-item>
 </calcite-combobox>
 ```
+
 
 ### Single
 
@@ -52,6 +55,8 @@
   <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
 </calcite-combobox>
 ```
+
+
 
 ## Properties
 
@@ -71,14 +76,16 @@
 | `selectionMode`      | `selection-mode`      | specify the selection mode - multi: allow any number of selected items (default) - single: only one selection) - ancestors: like multi, but show ancestors of selected items as selected, only deepest children shown in chips | `"ancestors" \| "multi" \| "single"` | `"multi"`        |
 | `value`              | `value`               | The value(s) of the selectedItem(s)                                                                                                                                                                                            | `string \| string[]`                 | `null`           |
 
+
 ## Events
 
 | Event                         | Description                                                                                                                           | Type                                                                             |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | `calciteComboboxChange`       | Called when the selected item(s) changes.                                                                                             | `CustomEvent<{ selectedItems: HTMLCalciteComboboxItemElement[]; }>`              |
-| `calciteComboboxChipDismiss`  | Called when a selected item in the combobox is dismissed via its chip \*                                                              | `CustomEvent<any>`                                                               |
+| `calciteComboboxChipDismiss`  | Called when a selected item in the combobox is dismissed via its chip *                                                               | `CustomEvent<any>`                                                               |
 | `calciteComboboxFilterChange` | Called when the user has entered text to filter the options list                                                                      | `CustomEvent<{ visibleItems: HTMLCalciteComboboxItemElement[]; text: string; }>` |
 | `calciteLookupChange`         | <span style="color:red">**[DEPRECATED]**</span> use calciteComboboxChange instead<br/><br/>Called when the selected items set changes | `CustomEvent<HTMLCalciteComboboxItemElement[]>`                                  |
+
 
 ## Methods
 
@@ -90,6 +97,8 @@ Updates the position of the component.
 
 Type: `Promise<void>`
 
+
+
 ### `setFocus() => Promise<void>`
 
 Sets focus on the component.
@@ -98,17 +107,22 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot | Description                                 |
 | ---- | ------------------------------------------- |
 |      | A slot for adding `calcite-combobox-item`s. |
 
+
 ## CSS Custom Properties
 
 | Name                              | Description                      |
 | --------------------------------- | -------------------------------- |
 | `--calcite-combobox-input-height` | the height of the combobox input |
+
 
 ## Dependencies
 
@@ -118,7 +132,6 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-combobox --> calcite-chip
@@ -127,6 +140,6 @@ graph TD;
   style calcite-combobox fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -10,6 +11,7 @@
 <calcite-button icon-start="plus" color="red">Go!</calcite-button>
 ```
 
+
 ### Focusing
 
 You can programmatically focus a `calcite-button` with the `setFocus()` method:
@@ -17,6 +19,7 @@ You can programmatically focus a `calcite-button` with the `setFocus()` method:
 ```html
 <div onclick="document.querySelector('#my-button').setFocus()">Focus!</div>
 ```
+
 
 ### Internals
 
@@ -30,6 +33,7 @@ Any additional attributes set on `<calcite-button>` are passed to the internal `
   <calcite-button type="submit">Submit</calcite-button>
   ```
 
+
 ### With-icons
 
 ```html
@@ -38,12 +42,14 @@ Any additional attributes set on `<calcite-button>` are passed to the internal `
 <calcite-button icon-end="plus" appearance="outline" color="inverse">Add to favorites</calcite-button>
 ```
 
+
 ### With-loader-disabled
 
 ```html
 <calcite-button loading color="neutral">Fetching data...</calcite-button>
 <calcite-button disabled>Can't touch this</calcite-button>
 ```
+
 
 ### Within-form
 
@@ -58,6 +64,8 @@ Any additional attributes set on `<calcite-button>` are passed to the internal `
   <calcite-button>Submit</calcite-button>
 </form>
 ```
+
+
 
 ## Properties
 
@@ -84,6 +92,7 @@ Any additional attributes set on `<calcite-button>` are passed to the internal `
 | `type`        | `type`          | The type attribute to apply to the button                                                                                                                         | `string`                                                                                                    | `"button"`     |
 | `width`       | `width`         | specify the width of the button, defaults to auto                                                                                                                 | `"auto" \| "full" \| "half"`                                                                                | `"auto"`       |
 
+
 ## Methods
 
 ### `setFocus() => Promise<void>`
@@ -94,20 +103,24 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot | Description             |
 | ---- | ----------------------- |
 |      | A slot for adding text. |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-color-picker](../color-picker)
-- [calcite-fab](../fab)
-- [calcite-inline-editable](../inline-editable)
-- [calcite-split-button](../split-button)
+ - [calcite-color-picker](../color-picker)
+ - [calcite-fab](../fab)
+ - [calcite-inline-editable](../inline-editable)
+ - [calcite-split-button](../split-button)
 
 ### Depends on
 
@@ -115,7 +128,6 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-button --> calcite-loader
@@ -127,6 +139,6 @@ graph TD;
   style calcite-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

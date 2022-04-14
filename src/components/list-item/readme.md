@@ -6,14 +6,16 @@ If you are looking for a list that handles more advanced usage like selection, s
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
-| Property         | Attribute         | Description                                                                   | Type      | Default     |
-| ---------------- | ----------------- | ----------------------------------------------------------------------------- | --------- | ----------- |
-| `description`    | `description`     | An optional description for this item. This will appear below the label text. | `string`  | `undefined` |
-| `disabled`       | `disabled`        | When true, disabled prevents interaction.                                     | `boolean` | `false`     |
-| `label`          | `label`           | The label text of the list item. This will appear above the description text. | `string`  | `undefined` |
-| `nonInteractive` | `non-interactive` | When true, prevents the content of the list item from user interaction.       | `boolean` | `false`     |
+| Property         | Attribute         | Description                                                                    | Type      | Default     |
+| ---------------- | ----------------- | ------------------------------------------------------------------------------ | --------- | ----------- |
+| `description`    | `description`     | An optional description for this item.  This will appear below the label text. | `string`  | `undefined` |
+| `disabled`       | `disabled`        | When true, disabled prevents interaction.                                      | `boolean` | `false`     |
+| `label`          | `label`           | The label text of the list item. This will appear above the description text.  | `string`  | `undefined` |
+| `nonInteractive` | `non-interactive` | When true, prevents the content of the list item from user interaction.        | `boolean` | `false`     |
+
 
 ## Methods
 
@@ -25,6 +27,9 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot              | Description                                                                                  |
@@ -35,6 +40,7 @@ Type: `Promise<void>`
 | `"content-end"`   | A slot for adding non-actionable elements after the label and description of the list item.  |
 | `"content-start"` | A slot for adding non-actionable elements before the label and description of the list item. |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

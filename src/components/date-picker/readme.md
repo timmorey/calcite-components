@@ -4,6 +4,7 @@ The `calcite-date-picker` component allows for selecting a date via a calendar o
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -14,6 +15,7 @@ You can set a min and max range, as well as an initial value with ISO 8601 forma
 <calcite-date-picker value="2020-03-27" min="2020-02-01" max="2021-01-01"></calcite-date-picker>
 ```
 
+
 ### Range
 
 You can also add range property to activate date range mode. In this mode, you can specify start and end instead of the single value property.
@@ -21,6 +23,8 @@ You can also add range property to activate date range mode. In this mode, you c
 ```html
 <calcite-date-picker range start="2020-03-15" end="2020-03-27" min="2020-02-01" max="2021-01-01" />
 ```
+
+
 
 ## Properties
 
@@ -46,6 +50,7 @@ You can also add range property to activate date range mode. In this mode, you c
 | `value`                      | `value`                        | Selected date                                                                                                            | `string \| string[]`         | `undefined`                               |
 | `valueAsDate`                | --                             | Selected date as full date object                                                                                        | `Date \| Date[]`             | `undefined`                               |
 
+
 ## Events
 
 | Event                          | Description                                                     | Type                           |
@@ -53,11 +58,12 @@ You can also add range property to activate date range mode. In this mode, you c
 | `calciteDatePickerChange`      | Trigger calcite date change when a user changes the date.       | `CustomEvent<Date>`            |
 | `calciteDatePickerRangeChange` | Trigger calcite date change when a user changes the date range. | `CustomEvent<DateRangeChange>` |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-input-date-picker](../input-date-picker)
+ - [calcite-input-date-picker](../input-date-picker)
 
 ### Depends on
 
@@ -65,7 +71,6 @@ You can also add range property to activate date range mode. In this mode, you c
 - [calcite-date-picker-month](../date-picker-month)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-date-picker --> calcite-date-picker-month-header
@@ -76,6 +81,6 @@ graph TD;
   style calcite-date-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

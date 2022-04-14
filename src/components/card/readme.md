@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -17,6 +18,8 @@
 </div>
 ```
 
+
+
 ## Properties
 
 | Property       | Attribute       | Description                                                                              | Type      | Default         |
@@ -28,11 +31,13 @@
 | `selectable`   | `selectable`    | Indicates whether the card is selectable.                                                | `boolean` | `false`         |
 | `selected`     | `selected`      | Indicates whether the card is selected.                                                  | `boolean` | `false`         |
 
+
 ## Events
 
 | Event               | Description                              | Type               |
 | ------------------- | ---------------------------------------- | ------------------ |
 | `calciteCardSelect` | Fired when a selectable card is selected | `CustomEvent<any>` |
+
 
 ## Slots
 
@@ -45,6 +50,7 @@
 | `"thumbnail"`       | A slot for adding a thumbnail to the card.          |
 | `"title"`           | A slot for adding a card title.                     |
 
+
 ## Dependencies
 
 ### Depends on
@@ -54,7 +60,6 @@
 - [calcite-checkbox](../checkbox)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-card --> calcite-loader
@@ -63,6 +68,6 @@ graph TD;
   style calcite-card fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

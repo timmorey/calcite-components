@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -19,6 +20,7 @@
 </div>
 ```
 
+
 ### Loading-scrim-panel
 
 ```html
@@ -34,6 +36,8 @@
 </div>
 ```
 
+
+
 ## Properties
 
 | Property      | Attribute      | Description                                                                                             | Type      | Default        |
@@ -41,28 +45,29 @@
 | `intlLoading` | `intl-loading` | string to override English loading text                                                                 | `string`  | `TEXT.loading` |
 | `loading`     | `loading`      | Determines if the component will have the loader overlay. Otherwise, will render opaque disabled state. | `boolean` | `false`        |
 
+
 ## Slots
 
 | Slot | Description                                                      |
 | ---- | ---------------------------------------------------------------- |
 |      | A slot for adding custom content, primarily loading information. |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-block](../block)
-- [calcite-modal](../modal)
-- [calcite-panel](../panel)
-- [calcite-pick-list](../pick-list)
-- [calcite-value-list](../value-list)
+ - [calcite-block](../block)
+ - [calcite-modal](../modal)
+ - [calcite-panel](../panel)
+ - [calcite-pick-list](../pick-list)
+ - [calcite-value-list](../value-list)
 
 ### Depends on
 
 - [calcite-loader](../loader)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-scrim --> calcite-loader
@@ -74,6 +79,6 @@ graph TD;
   style calcite-scrim fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

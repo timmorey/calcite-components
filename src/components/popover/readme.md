@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Manager
@@ -13,6 +14,8 @@
   ><calcite-button id="popover-button">Clickable popover</calcite-button></calcite-popover-manager
 >
 ```
+
+
 
 ## Properties
 
@@ -34,12 +37,14 @@
 | `placement`                     | `placement`           | Determines where the component will be positioned relative to the referenceElement.                                                                                                                                                                                                                             | `Placement \| PlacementRtl \| VariationRtl` | `defaultPopoverPlacement` |
 | `referenceElement` _(required)_ | `reference-element`   | Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement. | `HTMLElement \| string`                     | `undefined`               |
 
+
 ## Events
 
 | Event                 | Description                      | Type               |
 | --------------------- | -------------------------------- | ------------------ |
 | `calcitePopoverClose` | Fired when the popover is closed | `CustomEvent<any>` |
 | `calcitePopoverOpen`  | Fired when the popover is opened | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -51,6 +56,8 @@ Updates the position of the component.
 
 Type: `Promise<void>`
 
+
+
 ### `setFocus(focusId?: "close-button") => Promise<void>`
 
 Sets focus on the component.
@@ -58,6 +65,8 @@ Sets focus on the component.
 #### Returns
 
 Type: `Promise<void>`
+
+
 
 ### `toggle(value?: boolean) => Promise<void>`
 
@@ -67,18 +76,22 @@ Toggles the popover's open property.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot | Description                       |
 | ---- | --------------------------------- |
 |      | A slot for adding custom content. |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-action-menu](../action-menu)
-- [calcite-input-time-picker](../input-time-picker)
+ - [calcite-action-menu](../action-menu)
+ - [calcite-input-time-picker](../input-time-picker)
 
 ### Depends on
 
@@ -86,7 +99,6 @@ Type: `Promise<void>`
 - [calcite-icon](../icon)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-popover --> calcite-action
@@ -98,6 +110,6 @@ graph TD;
   style calcite-popover fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

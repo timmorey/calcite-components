@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -29,6 +30,7 @@ Renders the radio button group with default horizontal layout
 </calcite-radio-button-group>
 ```
 
+
 ### Disabled-checked
 
 Renders all radio button inputs disabled, first one checked
@@ -49,6 +51,7 @@ Renders all radio button inputs disabled, first one checked
   </calcite-label>
 </calcite-radio-button-group>
 ```
+
 
 ### With-vertical-layout
 
@@ -73,16 +76,19 @@ Renders all radio button inputs disabled, first one checked
 </calcite-radio-button-group>
 ```
 
+
+
 ## Properties
 
-| Property            | Attribute  | Description                                                                                                                 | Type                                   | Default        |
-| ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | -------------- |
-| `disabled`          | `disabled` | The disabled state of the radio button group.                                                                               | `boolean`                              | `false`        |
-| `hidden`            | `hidden`   | The radio button group's hidden status. When a radio button group is hidden none of its options are focusable or checkable. | `boolean`                              | `false`        |
-| `layout`            | `layout`   | The layout direction of the radio buttons in a group.                                                                       | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
-| `name` _(required)_ | `name`     | The name of the radio button group. `name` must be unique to other radio button group instances.                            | `string`                               | `undefined`    |
-| `required`          | `required` | Requires that a value is selected for the radio button group before the parent form will submit.                            | `boolean`                              | `false`        |
-| `scale`             | `scale`    | The scale (size) of the radio button group.                                                                                 | `"l" \| "m" \| "s"`                    | `"m"`          |
+| Property            | Attribute  | Description                                                                                                                  | Type                                   | Default        |
+| ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | -------------- |
+| `disabled`          | `disabled` | The disabled state of the radio button group.                                                                                | `boolean`                              | `false`        |
+| `hidden`            | `hidden`   | The radio button group's hidden status.  When a radio button group is hidden none of its options are focusable or checkable. | `boolean`                              | `false`        |
+| `layout`            | `layout`   | The layout direction of the radio buttons in a group.                                                                        | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
+| `name` _(required)_ | `name`     | The name of the radio button group. `name` must be unique to other radio button group instances.                             | `string`                               | `undefined`    |
+| `required`          | `required` | Requires that a value is selected for the radio button group before the parent form will submit.                             | `boolean`                              | `false`        |
+| `scale`             | `scale`    | The scale (size) of the radio button group.                                                                                  | `"l" \| "m" \| "s"`                    | `"m"`          |
+
 
 ## Events
 
@@ -90,12 +96,14 @@ Renders all radio button inputs disabled, first one checked
 | ------------------------------- | ------------------------------------------------ | ------------------ |
 | `calciteRadioButtonGroupChange` | Emitted when the radio button group has changed. | `CustomEvent<any>` |
 
+
 ## Slots
 
 | Slot | Description                                |
 | ---- | ------------------------------------------ |
 |      | A slot for adding `calcite-radio-button`s. |
 
----
 
-_Built with [StencilJS](https://stenciljs.com/)_
+----------------------------------------------
+
+*Built with [StencilJS](https://stenciljs.com/)*

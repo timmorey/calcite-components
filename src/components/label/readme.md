@@ -4,6 +4,7 @@ Renders a `<label>` around its children and can be used with any [labelable nati
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -18,6 +19,7 @@ It also allows consumers to set a `status` attribute for child `calcite-input` a
 </calcite-label>
 ```
 
+
 ### Browser-caveat
 
 When using the `default`, `inline` or `inline-space-between` layout option with [browsers that do not support the CSS `gap` property when used with flexbox](https://caniuse.com/flexbox-gap), you will need to use the `disable-spacing` attribute and apply spacing manually to the label by wrapping it in a styled span like so:
@@ -28,6 +30,8 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
   <calcite-checkbox></calcite-checkbox>
 </calcite-label>
 ```
+
+
 
 ## Properties
 
@@ -41,26 +45,27 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 | `scale`          | `scale`           | specify the scale of the label, defaults to m                                                                                                                       | `"l" \| "m" \| "s"`                               | `"m"`       |
 | `status`         | `status`          | <span style="color:red">**[DEPRECATED]**</span> set directly on child element instead<br/><br/>specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
 
+
 ## Slots
 
 | Slot | Description                                                 |
 | ---- | ----------------------------------------------------------- |
 |      | A slot for adding text and a component that can be labeled. |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-card](../card)
+ - [calcite-card](../card)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-card --> calcite-label
   style calcite-label fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

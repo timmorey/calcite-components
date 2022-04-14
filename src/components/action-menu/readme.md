@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property             | Attribute             | Description                                                                                                                        | Type                                        | Default      |
@@ -14,11 +15,13 @@
 | `placement`          | `placement`           | Determines where the component will be positioned relative to the referenceElement.                                                | `Placement \| PlacementRtl \| VariationRtl` | `"auto"`     |
 | `scale`              | `scale`               | Specifies the size of the menu trigger action.                                                                                     | `"l" \| "m" \| "s"`                         | `undefined`  |
 
+
 ## Events
 
 | Event                         | Description                                 | Type               |
 | ----------------------------- | ------------------------------------------- | ------------------ |
 | `calciteActionMenuOpenChange` | Emitted when the open property has changed. | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -30,6 +33,9 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot        | Description                                                       |
@@ -38,13 +44,14 @@ Type: `Promise<void>`
 | `"tooltip"` | A slot for adding an tooltip for the menu.                        |
 | `"trigger"` | A slot for adding a `calcite-action` to trigger opening the menu. |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-action-group](../action-group)
-- [calcite-block](../block)
-- [calcite-panel](../panel)
+ - [calcite-action-group](../action-group)
+ - [calcite-block](../block)
+ - [calcite-panel](../panel)
 
 ### Depends on
 
@@ -53,7 +60,6 @@ Type: `Promise<void>`
 - [calcite-popover](../popover)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-action-menu --> calcite-action
@@ -69,6 +75,6 @@ graph TD;
   style calcite-action-menu fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

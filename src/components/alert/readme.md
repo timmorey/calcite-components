@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -15,6 +16,8 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
   <a slot="link" href="#">Retry</a>
 </calcite-alert>
 ```
+
+
 
 ## Properties
 
@@ -30,12 +33,14 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 | `placement`           | `placement`             | specify the placement of the alert                                                                                                                     | `"bottom" \| "bottom-end" \| "bottom-start" \| "top" \| "top-end" \| "top-start"` | `"bottom"`                           |
 | `scale`               | `scale`                 | specify the scale of the alert, defaults to m                                                                                                          | `"l" \| "m" \| "s"`                                                               | `"m"`                                |
 
+
 ## Events
 
 | Event               | Description                   | Type               |
 | ------------------- | ----------------------------- | ------------------ |
 | `calciteAlertClose` | Fired when an alert is closed | `CustomEvent<any>` |
 | `calciteAlertOpen`  | Fired when an alert is opened | `CustomEvent<any>` |
+
 
 ## Methods
 
@@ -47,6 +52,9 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot        | Description                                                                  |
@@ -55,11 +63,13 @@ Type: `Promise<void>`
 | `"message"` | Main text of the alert                                                       |
 | `"title"`   | Title of the alert (optional)                                                |
 
+
 ## CSS Custom Properties
 
 | Name                    | Description            |
 | ----------------------- | ---------------------- |
 | `--calcite-alert-width` | the width of the alert |
+
 
 ## Dependencies
 
@@ -69,7 +79,6 @@ Type: `Promise<void>`
 - [calcite-chip](../chip)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-alert --> calcite-icon
@@ -78,6 +87,6 @@ graph TD;
   style calcite-alert fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

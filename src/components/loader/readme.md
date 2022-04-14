@@ -4,6 +4,7 @@ The `calcite-loader` component can act as a determinate or indeterminate loading
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -14,6 +15,7 @@ You can use the `active` attribute to toggle visibility:
 <calcite-loader text="Fetching data..." active></calcite-loader>
 ```
 
+
 ### Compact
 
 For instances when you don't have room for the full loader, you can use the smaller `inline` version of the loader. The inline version is meant to sit to the left of text:
@@ -22,6 +24,7 @@ For instances when you don't have room for the full loader, you can use the smal
 <p><calcite-loader active inline></calcite-loader> Inline loader</p>
 ```
 
+
 ### Determinate
 
 If you can calculate your progress, it's best to use the determinate version of the loader. Update the `value` of the element when progress is made. This will display a progress bar along the perimeter of the loader showing 32% complete:
@@ -29,6 +32,8 @@ If you can calculate your progress, it's best to use the determinate version of 
 ```html
 <calcite-loader type="determinate" value="32" active></calcite-loader>
 ```
+
+
 
 ## Properties
 
@@ -43,6 +48,7 @@ If you can calculate your progress, it's best to use the determinate version of 
 | `type`               | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" \| "indeterminate"` | `undefined` |
 | `value`              | `value`      | Percent complete of 100, only valid for determinate indicators     | `number`                           | `0`         |
 
+
 ## CSS Custom Properties
 
 | Name                           | Description                                                      |
@@ -51,18 +57,18 @@ If you can calculate your progress, it's best to use the determinate version of 
 | `--calcite-loader-size`        | the width and height of a non-inline loader                      |
 | `--calcite-loader-size-inline` | the width and height of an inline loader                         |
 
+
 ## Dependencies
 
 ### Used by
 
-- [calcite-action](../action)
-- [calcite-block](../block)
-- [calcite-button](../button)
-- [calcite-card](../card)
-- [calcite-scrim](../scrim)
+ - [calcite-action](../action)
+ - [calcite-block](../block)
+ - [calcite-button](../button)
+ - [calcite-card](../card)
+ - [calcite-scrim](../scrim)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-action --> calcite-loader
@@ -73,6 +79,6 @@ graph TD;
   style calcite-loader fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

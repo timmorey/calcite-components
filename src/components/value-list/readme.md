@@ -4,6 +4,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Basic
@@ -28,6 +29,7 @@ Renders a value list with multiple items able to be selected and a filter.
 </calcite-value-list>
 ```
 
+
 ### Drag-and-drop
 
 Renders a value list with drag and drop capability between the items.
@@ -41,6 +43,7 @@ Renders a value list with drag and drop capability between the items.
   </calcite-value-list-item>
 </calcite-value-list>
 ```
+
 
 ### Label-editing-and-single-select
 
@@ -69,6 +72,8 @@ Renders a value list with label editing and single select.
 </calcite-value-list>
 ```
 
+
+
 ## Properties
 
 | Property                | Attribute                 | Description                                                                                                                                                                                                                                       | Type      | Default     |
@@ -77,10 +82,11 @@ Renders a value list with label editing and single select.
 | `dragEnabled`           | `drag-enabled`            | When true, the items will be sortable via drag and drop.                                                                                                                                                                                          | `boolean` | `false`     |
 | `filterEnabled`         | `filter-enabled`          | When true, an input appears at the top of the list that can be used by end users to filter items in the list.                                                                                                                                     | `boolean` | `false`     |
 | `filterPlaceholder`     | `filter-placeholder`      | Placeholder text for the filter input field.                                                                                                                                                                                                      | `string`  | `undefined` |
-| `group`                 | `group`                   | The list's group identifier. To drag elements from one list into another, both lists must have the same group value.                                                                                                                              | `string`  | `undefined` |
+| `group`                 | `group`                   | The list's group identifier.  To drag elements from one list into another, both lists must have the same group value.                                                                                                                             | `string`  | `undefined` |
 | `loading`               | `loading`                 | When true, content is waiting to be loaded. This state shows a busy indicator.                                                                                                                                                                    | `boolean` | `false`     |
 | `multiple`              | `multiple`                | Multiple Works similar to standard radio buttons and checkboxes. When true, a user can select multiple items at a time. When false, only a single item can be selected at a time and selecting a new item will deselect any other selected items. | `boolean` | `false`     |
 | `selectionFollowsFocus` | `selection-follows-focus` | When true and single-selection is enabled, the selection will change when navigating items via the keyboard.                                                                                                                                      | `boolean` | `false`     |
+
 
 ## Events
 
@@ -88,6 +94,7 @@ Renders a value list with label editing and single select.
 | ------------------------ | ----------------------------------------------------- | ----------------------------------------------------------- |
 | `calciteListChange`      | Emitted when any of the item selections have changed. | `CustomEvent<Map<string, HTMLCalciteValueListItemElement>>` |
 | `calciteListOrderChange` | Emitted when the order of the list has changed.       | `CustomEvent<any[]>`                                        |
+
 
 ## Methods
 
@@ -99,6 +106,8 @@ Returns the currently selected items
 
 Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
+
+
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
 Sets focus on the component.
@@ -107,12 +116,16 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+
+
+
 ## Slots
 
 | Slot             | Description                                                                                   |
 | ---------------- | --------------------------------------------------------------------------------------------- |
 |                  | A slot for adding `calcite-value-list-item` elements. Items are displayed as a vertical list. |
 | `"menu-actions"` | A slot for adding a button + menu combo for performing actions like sorting.                  |
+
 
 ## Dependencies
 
@@ -122,7 +135,6 @@ Type: `Promise<void>`
 - [calcite-scrim](../scrim)
 
 ### Graph
-
 ```mermaid
 graph TD;
   calcite-value-list --> calcite-filter
@@ -135,6 +147,6 @@ graph TD;
   style calcite-value-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*
